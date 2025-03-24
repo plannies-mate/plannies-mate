@@ -1,0 +1,51 @@
+# HTTP Cache Entries fixtures
+
+# == Schema Information
+#
+# Table name: http_cache_entries
+#
+#  id                     :integer          not null, primary key
+#  etag                   :string
+#  last_modified          :datetime
+#  last_not_modified_at   :datetime
+#  last_other_response_at :datetime
+#  last_success_at        :datetime
+#  url                    :string           not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#
+# Indexes
+#
+#  index_http_cache_entries_on_url  (url) UNIQUE
+#
+planningalerts_authorities:
+  url: https://www.planningalerts.org.au/authorities
+  etag: "W/\"94d3b5c4e5f6a7b8c9d0e1f2a3b4c5d6\""
+  last_modified: 2025-03-15 12:00:00
+  last_success_at: 2025-03-15 12:00:00
+  last_not_modified_at: 2025-03-20 12:00:00
+  last_other_response_at:
+
+sydney_authority:
+  url: https://www.planningalerts.org.au/authorities/sydney
+  etag: "W/\"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6\""
+  last_modified: 2025-03-14 14:30:00
+  last_success_at: 2025-03-14 14:30:00
+  last_not_modified_at: 2025-03-20 14:30:00
+  last_other_response_at:
+
+brisbane_authority:
+  url: https://www.planningalerts.org.au/authorities/brisbane
+  etag: "W/\"1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d\""
+  last_modified: 2025-03-12 09:15:00
+  last_success_at: 2025-03-12 09:15:00
+  last_not_modified_at: 2025-03-20 09:15:00
+  last_other_response_at: 2025-01-01 01:00:00
+
+stale_entry:
+  url: https://www.planningalerts.org.au/authorities/stale
+  etag: "W/\"abcdef1234567890\""
+  last_modified: 2025-02-01 10:00:00
+  last_success_at: 2025-02-01 10:00:00
+  last_not_modified_at: 2025-02-11 10:00:00
+  last_other_response_at:

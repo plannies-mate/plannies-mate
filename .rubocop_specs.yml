@@ -1,0 +1,7 @@
+---
+
+
+Metrics/BlockLength:
+  Max: 200
+  Exclude:
+    - 'spec/**/*'

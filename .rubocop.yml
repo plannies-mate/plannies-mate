@@ -1,0 +1,146 @@
+inherit_from:
+  - .rubocop_specs.yml
+
+AllCops:
+  Exclude:
+    - 'db/**/*'
+  NewCops: enable
+
+# Bumping max line length to something a little more reasonable (RubyMine default)
+
+Layout/LineLength:
+  Max: 120
+
+Style/StringLiterals:
+  #  EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: true
+
+# Matthew: This one I disagree with. Putting separators in large numbers makes sense
+# in some circumstances but in others (an example id in a database table)
+# it's just nonsensical. Also, I think this one might also be a bit US centric.
+
+Style/NumericLiterals:
+  Enabled: false
+
+# Avoid dumping everything in a Kitchen Sink! Each file should have a single clear responsibility
+
+Metrics/ClassLength:
+  Enabled: true
+  Max: 200
+
+Metrics/ModuleLength:
+  Enabled: true
+  Max: 200
+
+# Keep Methods and blocks readable without scrolling
+
+Metrics/MethodLength:
+  Enabled: true
+  Max: 30
+  Exclude:
+    #- 'spec/**/*'
+    - 'db/migrate/*'
+
+Metrics/BlockLength:
+  Max: 20
+  Exclude:
+    - 'spec/**/*'
+    - 'config/routes.rb'
+
+# Keep code complexity down - we are never as smart as we think we are - simpler is easier to get right!
+# Each method should have a single clear responsibility
+
+Metrics/AbcSize:
+  Enabled: true
+  Max: 25
+  CountRepeatedAttributes: false  # Less penalizing for repeated attribute assignments
+
+Metrics/CyclomaticComplexity:
+  Enabled: true
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Enabled: true
+  Max: 10
+
+Metrics/BlockNesting:
+  Enabled: true
+  Max: 3
+
+# Long lists are easy to make mistakes in calls - use keyword arguments for any args that are optional or numerous
+Metrics/ParameterLists:
+  Enabled: true
+  Max: 5
+
+# Match RubyMine's formatting
+Layout/IndentationWidth:
+  Width: 2
+
+Layout/ParameterAlignment:
+  EnforcedStyle: with_first_parameter
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: aligned
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+# RubyMine and Rubocop disagree on exact indentation
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: false
+
+# Valuable StandardRB additions
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+
+Style/Documentation:
+  Enabled: true
+  Exclude:
+    - db/migrate/*
+
+Style/SafeNavigation:
+  Enabled: true
+
+Style/RedundantReturn:
+  Enabled: true
+
+Naming/MethodParameterName:
+  MinNameLength: 2
+  AllowedNames: ['id', 'ip', 'by']
+
+# Good style
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true
+

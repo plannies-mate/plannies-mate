@@ -1,0 +1,38 @@
+# == Schema Information
+#
+# Table name: pull_requests
+#
+#  id                  :integer          not null, primary key
+#  accepted            :boolean          default(FALSE)
+#  closed_at_date      :date
+#  github_owner        :string
+#  github_repo         :string
+#  last_checked_at     :datetime
+#  needs_github_update :boolean          default(TRUE)
+#  pr_number           :integer
+#  title               :string
+#  url                 :string           not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  scraper_id          :integer
+#
+# Indexes
+#
+#  index_pull_requests_on_scraper_id  (scraper_id)
+#  index_pull_requests_on_url         (url) UNIQUE
+#
+
+---
+pr18:
+  pr_number: 18
+  title: "Fix many broken authorities, add debugging tools and reports, update to heroku-18 platform, and much more"
+  url: "https://github.com/planningalerts-scrapers/multiple_masterview/pull/18"
+  created_at: "2025-02-11"
+  updated_at: "2025-02-11"
+
+pr9:
+  title: "Updated to reflect changed css classes and move of pdf href to separate link"
+  url: "https://github.com/planningalerts-scrapers/clarence/pull/9"
+  created_at: "2025-02-19"
+  updated_at: "2025-02-19"
+

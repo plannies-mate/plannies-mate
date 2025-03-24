@@ -1,0 +1,59 @@
+# Issues fixtures
+
+# == Schema Information
+#
+# Table name: issues
+#
+#  id           :integer          not null, primary key
+#  closed_at    :datetime
+#  html_url     :string
+#  locked       :boolean          default(FALSE)
+#  milestone    :string
+#  state        :string
+#  title        :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  assignee_id  :integer
+#  authority_id :integer
+#  user_id      :integer
+#
+# Indexes
+#
+#  index_issues_on_assignee_id   (assignee_id)
+#  index_issues_on_authority_id  (authority_id)
+#  index_issues_on_user_id       (user_id)
+#
+# Foreign Keys
+#
+#  assignee_id   (assignee_id => github_users.id)
+#  authority_id  (authority_id => authorities.id)
+#  user_id       (user_id => github_users.id)
+#
+issue_1:
+
+  html_url: https://github.com/planningalerts-scrapers/issues/issues/1
+  title: Brimbank City Council
+  authority: brimbank
+  state: open
+  locked: false
+  milestone: March 2025
+  created_at: 2025-03-01T10:30:00Z
+  updated_at: 2025-03-15T15:45:00Z
+  closed_at: 
+  user: ianheggie
+  assignee: ianheggie_oaf
+
+
+issue_2:
+
+  html_url: https://github.com/planningalerts-scrapers/issues/issues/2
+  title: Update Brisbane scraper to new website format
+  state: open
+  locked: false
+  milestone: April 2025
+  created_at: 2025-03-10T09:15:00Z
+  updated_at: 2025-03-18T14:20:00Z
+  closed_at: 
+  user: planningalerts_bot
+  assignee: ianheggie_oaf
+

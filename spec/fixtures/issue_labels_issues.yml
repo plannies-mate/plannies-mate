@@ -1,0 +1,17 @@
+# GitHub Labels/Issues join table fixtures
+
+bug_issue_2:
+  issue_label: bug
+  issue: issue_2
+
+enhancement_issue_1:
+  issue_label: enhancement
+  issue: issue_1
+
+council_website_good_issue_1:
+  issue_label: council_website_good
+  issue: issue_1
+
+pdf_issue_2:
+  issue_label: pdf
+  issue: issue_2

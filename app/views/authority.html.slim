@@ -1,0 +1,104 @@
+main.container
+  section.content-section
+    .section-header
+      h2
+        i.fas.fa-building
+        |  #{authority.name}
+      p.subtitle #{authority.state} Planning Authority
+    
+    .authority-details
+      .details-card
+        h3 Basic Information
+        table.details-table
+          tr
+            th Short Name
+            td #{authority.short_name}
+          tr
+            th State
+            td #{authority.state}
+          tr
+            th Population
+            td #{number_with_delimiter(authority.population) if authority.population}
+          tr
+            th Planning Alerts URL
+            td
+              a href="#{authority.url}" target="_blank" #{authority.url}
+          tr
+            th Possibly Broken
+            td #{authority.possibly_broken ? 'Yes' : 'No'}
+      
+      .details-card
+        h3 Scraper Details
+        table.details-table
+          tr
+            th Morph URL
+            td
+              a href="#{authority.scraper.morph_url}" target="_blank" #{authority.scraper.morph_url}
+          tr
+            th GitHub URL
+            td
+              a href="#{authority.scraper.github_url}" target="_blank" #{authority.scraper.github_url}
+          tr
+            th Application Count
+            td #{number_with_delimiter(authority.total_count) if authority.total_count}
+          tr
+            th Last Log
+            td
+              pre #{authority.last_log}
+      
+      .details-card
+        h3 Statistics
+        table.details-table
+          tr
+            th Last Received
+            td #{format_date(authority.last_received) if authority.last_received}
+          tr
+            th Applications (Last Week)
+            td #{number_with_delimiter(authority.week_count) if authority.week_count}
+          tr
+            th Applications (Last Month)
+            td #{number_with_delimiter(authority.month_count) if authority.month_count}
+          tr
+            th Total Applications
+            td #{number_with_delimiter(authority.total_count) if authority.total_count}
+          tr
+            th Added
+            td #{format_date(authority.added_on) if authority.added_on}
+          tr
+            th Median Per Week
+            td #{authority.median_per_week}
+
+      .details-card
+        h3 Issues
+        table.details-table
+          thead
+            tr
+              th Ident
+              th Name
+              th Assignee
+              th Labels
+          tbody
+            - authority.issues.sort_by { |i| i.title }.each do |iss|
+              - iss_title = authority.issues.size > 1 ? "##{iss.to_param} " : ''
+              tr
+                td
+                  a href="#{iss.html_url}" title="#{iss.title}" target="_blank"
+                    = "##{iss.to_param}"
+                td = iss.title
+                td
+                  - if (user = iss.assignee)
+                    a href="#{user.html_url}" target="_blank"
+                      - if user.avatar_url.present?
+                        img.user-avatar src="#{user.avatar_url}&s=40" title="#{user.login}"
+                      - else
+                        = user.login
+                td
+                  - iss.labels.sort_by { |l| l.name }.each do |label|
+                    span.issue-label class="#{css_class_for_label(label, authority.month_count.zero?)}" style="background-color: ##{label.color};" title="#{iss_title}#{label.description}"
+                      = label.name
+                    '
+                  - if suggest_close_issue?(authority, iss)
+                    span.issue-label class="issue-label-dark-text issue-label-light-border" style="background-color: #ededed;" title="#{iss_title} records have been received this week and month, but missing 'probably fixed' label"
+                      ' Add probably fixed?
+
+

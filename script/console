@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Set up the load path
+APP_ROOT = File.expand_path('..', __dir__)
+$LOAD_PATH.unshift(File.join(APP_ROOT, 'lib'))
+
+# Sinatra App
+require_relative '../app'
+
+# Everything Rake requires
+require_relative '../tasks'
+
+# Show a welcome message
+puts 'PlanniesMate app console loaded! All web app and processing classes are available.'
+puts 'Example: Authority.all'
+puts
+
+require 'irb'
+IRB.start

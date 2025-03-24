@@ -1,0 +1,132 @@
+# == Schema Information
+#
+# Table name: coverage_histories
+#
+#  id                     :integer          not null, primary key
+#  authority_count        :integer          default(0), not null
+#  broken_authority_count :integer          default(0), not null
+#  broken_population      :integer          default(0), not null
+#  fixed_count            :integer          default(0), not null
+#  fixed_population       :integer          default(0), not null
+#  pr_count               :integer          default(0), not null
+#  pr_population          :integer          default(0), not null
+#  recorded_on            :date             not null
+#  rejected_count         :integer          default(0), not null
+#  rejected_population    :integer          default(0), not null
+#  total_population       :integer          default(0), not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#
+# Indexes
+#
+#  index_coverage_histories_on_recorded_on  (recorded_on) UNIQUE
+#
+
+# Recent history
+recent:
+  recorded_on: 2025-03-15
+  authority_count: 150
+  broken_authority_count: 32
+  total_population: 23450000
+  broken_population: 4560000
+  pr_count: 10
+  pr_population: 1500000
+  fixed_count: 5
+  fixed_population: 750000
+  rejected_count: 2
+  rejected_population: 250000
+  created_at: 2025-03-15 00:00:00
+  updated_at: 2025-03-15 00:00:00
+
+previous:
+  recorded_on: 2025-03-08
+  authority_count: 150
+  broken_authority_count: 35
+  total_population: 23450000
+  broken_population: 5100000
+  pr_count: 8
+  pr_population: 1200000
+  fixed_count: 3
+  fixed_population: 500000
+  rejected_count: 2
+  rejected_population: 250000
+  created_at: 2025-03-08 00:00:00
+  updated_at: 2025-03-08 00:00:00
+
+# Older data
+older:
+  recorded_on: 2025-02-01
+  authority_count: 148
+  broken_authority_count: 40
+  total_population: 23200000
+  broken_population: 6300000
+  pr_count: 6
+  pr_population: 900000
+  fixed_count: 1
+  fixed_population: 150000
+  rejected_count: 1
+  rejected_population: 100000
+  created_at: 2025-02-01 00:00:00
+  updated_at: 2025-02-01 00:00:00
+
+# Historical data
+historical:
+  recorded_on: 2024-03-15
+  authority_count: 145
+  broken_authority_count: 38
+  total_population: 22900000
+  broken_population: 5900000
+  pr_count: 0
+  pr_population: 0
+  fixed_count: 0
+  fixed_population: 0
+  rejected_count: 0
+  rejected_population: 0
+  created_at: 2024-03-15 00:00:00
+  updated_at: 2024-03-15 00:00:00
+
+# Consecutive identical records for testing optimization
+identical1:
+  recorded_on: 2024-01-01
+  authority_count: 140
+  broken_authority_count: 30
+  total_population: 22500000
+  broken_population: 4800000
+  pr_count: 0
+  pr_population: 0
+  fixed_count: 0
+  fixed_population: 0
+  rejected_count: 0
+  rejected_population: 0
+  created_at: 2024-01-01 00:00:00
+  updated_at: 2024-01-01 00:00:00
+
+identical2:
+  recorded_on: 2024-01-02
+  authority_count: 140
+  broken_authority_count: 30
+  total_population: 22500000
+  broken_population: 4800000
+  pr_count: 0
+  pr_population: 0
+  fixed_count: 0
+  fixed_population: 0
+  rejected_count: 0
+  rejected_population: 0
+  created_at: 2024-01-02 00:00:00
+  updated_at: 2024-01-02 00:00:00
+
+identical3:
+  recorded_on: 2024-01-03
+  authority_count: 140
+  broken_authority_count: 30
+  total_population: 22500000
+  broken_population: 4800000
+  pr_count: 0
+  pr_population: 0
+  fixed_count: 0
+  fixed_population: 0
+  rejected_count: 0
+  rejected_population: 0
+  created_at: 2024-01-03 00:00:00
+  updated_at: 2024-01-03 00:00:00

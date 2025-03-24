@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# script/update: Update application to run for its current checkout.
+
+set -e
+error_report() {
+  if [ "$1" != "0" ]; then
+    echo "$0: Error $1 on line #$2" >&2
+  fi
+  return "$1"
+}
+trap 'error_report $? $LINENO' ERR
+
+cd "$(dirname "$0")/.."
+
+exec echo TODO - refactor $0 for sinatra
+
+script/bootstrap
+in_db=/tmp/migrations_in_db_$$
+on_disk=/tmp/migrations_on_disk_$$
+differences=/tmp/migrations_differ_$$
+trap "rm -f $in_db $on_disk $differences" EXIT
+
+echo "==> Checking DB is up to date..."
+echo 'select * from schema_migrations' | bin/rails db -p 2>&1 | sort | egrep '^[0-9][0-9]*$' > $in_db || true
+(cd db/migrate ; ls | sed -n -e 's/^\([0-9][0-9]*\)_.*rb/\1/p') > $on_disk
+diff --color=always /tmp/migrations_in_db_$$ /tmp/migrations_on_disk_$$ > /tmp/migrations_differ_$$ || true
+if [ -s /tmp/migrations_differ_$$ ]; then
+  echo "==> Migrating DB..."
+  if ! bin/rake db:migrate; then
+    echo Failure in migrating database ... calling setup
+    exec script/setup
+  fi
+  echo 'select * from schema_migrations' | bin/rails db -p 2>&1 | sort | egrep '^[0-9][0-9]*$' > /tmp/migrations_in_db_$$
+fi
+diff --color=always /tmp/migrations_in_db_$$ /tmp/migrations_on_disk_$$ > /tmp/migrations_differ_$$ || true
+if [ -s /tmp/migrations_differ_$$ ]; then
+  echo 'Migrations are mismatched <on disk, >in db - setting up database from scratch'
+  grep -E '[<>]' /tmp/migrations_differ_$$ || true
+  echo
+  script/setup
+else
+  echo 'OK: Migrations on db match those in db/migrate!'
+fi

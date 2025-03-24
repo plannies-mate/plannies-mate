@@ -1,0 +1,168 @@
+main.container
+  section.content-section
+    .section-header
+      h2
+        i.fas.fa-chart-line
+        |  Coverage History
+      p.subtitle Historical tracking of planning authority coverage
+    
+    .coverage-summary
+      .stats-card
+        h3 Current Coverage (#{recent.recorded_on.strftime('%d %b %Y')})
+        .stats-grid
+          .stat-item
+            h4 Population Coverage
+            .stat-value #{recent.coverage_percentage}%
+            .stat-desc #{number_with_delimiter(recent.total_population - recent.broken_population)} of #{number_with_delimiter(recent.total_population)} people covered
+          
+          .stat-item
+            h4 Working Authorities
+            .stat-value #{(100 - recent.broken_authority_percentage).round(1)}%
+            .stat-desc #{recent.authority_count - recent.broken_authority_count} of #{recent.authority_count} authorities
+          
+          .stat-item
+            h4 PRs in Progress
+            .stat-value #{recent.pr_count}
+            .stat-desc Covering #{number_with_delimiter(recent.pr_population)} people
+          
+          .stat-item
+            h4 Fixed by PRs
+            .stat-value #{recent.fixed_count}
+            .stat-desc Covering #{number_with_delimiter(recent.fixed_population)} people
+    
+    .chart-container
+      h3 Historical Coverage Trends
+      canvas#coverageChart
+      
+    .chart-container
+      h3 Contribution Impact
+      canvas#contributionChart
+      
+    .historical-table
+      h3 Historical Data
+      table.data-table
+        thead
+          tr
+            th Date
+            th Authorities
+            th Broken
+            th % Working
+            th Population
+            th Broken Population
+            th % Coverage
+            th PRs
+            th PR Impact
+            th Fixed
+            th Fixed Impact
+        tbody
+          - histories.sort_by(&:recorded_on).reverse.each do |history|
+            tr
+              td= history.recorded_on.strftime('%Y-%m-%d')
+              td= history.authority_count
+              td= history.broken_authority_count
+              td= (100 - history.broken_authority_percentage).round(1)
+              td= number_with_delimiter(history.total_population)
+              td= number_with_delimiter(history.broken_population)
+              td= history.coverage_percentage
+              td= history.pr_count
+              td= number_with_delimiter(history.pr_population)
+              td= history.fixed_count
+              td= number_with_delimiter(history.fixed_population)
+  
+  // JavaScript for Charts
+  javascript:
+    document.addEventListener('DOMContentLoaded', function() {
+      // Coverage Chart
+      const ctxCoverage = document.getElementById('coverageChart').getContext('2d');
+      const coverageData = #{chart_data.html_safe};
+      
+      new Chart(ctxCoverage, {
+        type: 'line',
+        data: coverageData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Historical Coverage Over Time'
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false
+            }
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+      
+      // Contribution Impact Chart
+      const ctxContribution = document.getElementById('contributionChart').getContext('2d');
+      const contributionData = {
+        labels: #{histories.map { |h| h.recorded_on.strftime('%Y-%m-%d') }.to_json.html_safe},
+        datasets: [
+          {
+            label: 'PRs in Progress',
+            data: #{histories.map { |h| h.pr_count }.to_json.html_safe},
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Fixed by PRs',
+            data: #{histories.map { |h| h.fixed_count }.to_json.html_safe},
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Rejected PRs',
+            data: #{histories.map { |h| h.rejected_count }.to_json.html_safe},
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          }
+        ]
+      };
+      
+      new Chart(ctxContribution, {
+        type: 'bar',
+        data: contributionData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'PR Contributions Over Time'
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false
+            }
+          },
+          scales: {
+            x: {
+              stacked: true
+            },
+            y: {
+              stacked: true,
+              title: {
+                display: true,
+                text: 'Number of Authorities'
+              }
+            }
+          }
+        }
+      });
+    });

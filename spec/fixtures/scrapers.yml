@@ -1,0 +1,53 @@
+# == Schema Information
+#
+# Table name: scrapers
+#
+#  id           :integer          not null, primary key
+#  github_url   :string           not null
+#  morph_url    :string           not null
+#  scraper_file :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_scrapers_on_morph_url  (morph_url) UNIQUE
+#
+---
+# Fixtures for scrapers
+
+act:
+  github_url: https://github.com/planningalerts-scrapers/act
+  morph_url: https://morph.io/planningalerts-scrapers/act
+
+'multiple_atdis':
+  github_url: https://github.com/planningalerts-scrapers/multiple_atdis
+  morph_url: https://morph.io/planningalerts-scrapers/multiple_atdis
+
+bankstown:
+  github_url: https://github.com/planningalerts-scrapers/bankstown
+  morph_url: https://morph.io/planningalerts-scrapers/bankstown
+
+burdekin:
+  github_url: https://github.com/planningalerts-scrapers/BurdekinShire_DAs
+  morph_url: https://morph.io/planningalerts-scrapers/BurdekinShire_DAs
+
+banyule:
+  github_url: https://github.com/planningalerts-scrapers/banyule
+  morph_url: https://morph.io/planningalerts-scrapers/banyule
+
+baw_baw:
+  github_url: https://github.com/planningalerts-scrapers/bawbaw
+  morph_url: https://morph.io/planningalerts-scrapers/bawbaw
+
+'multiple_civica':
+  github_url: https://github.com/planningalerts-scrapers/multiple_civica
+  morph_url: https://morph.io/planningalerts-scrapers/multiple_civica
+
+brimbank:
+  github_url: https://github.com/planningalerts-scrapers/Brimbank_City_Council
+  morph_url: https://morph.io/planningalerts-scrapers/Brimbank_City_Council
+
+busselton:
+  github_url: https://github.com/planningalerts-scrapers/city_of_busselton_development_applications
+  morph_url: https://morph.io/planningalerts-scrapers/city_of_busselton_development_applications
