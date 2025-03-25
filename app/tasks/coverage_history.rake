@@ -1,22 +1,6 @@
 # frozen_string_literal: true
 
 namespace :coverage_history do
-  desc 'Import current coverage history'
-  task :import_current do
-    puts 'Importing current coverage history...'
-    importer = CoverageHistoryImporter.new
-    record = importer.import_current
-
-    if record
-      puts "Successfully imported coverage history for #{record.recorded_on}"
-      puts "  Authority Count: #{record.authority_count}"
-      puts "  Broken Authorities: #{record.broken_authority_count} (#{record.broken_authority_percentage}%)"
-      puts "  Population Coverage: #{record.coverage_percentage}% of #{app_helpers.number_with_delimiter(record.total_population)}"
-    else
-      puts 'No data available to import coverage history'
-    end
-  end
-
   desc 'Import historical coverage data from Wayback Machine'
   task :import_historical, [:limit, :start_date, :end_date] do |_t, args|
     limit = args[:limit] ? args[:limit].to_i : nil
@@ -43,18 +27,5 @@ namespace :coverage_history do
     importer = CoverageHistoryImporter.new
     removed = importer.optimize_storage
     puts "Optimization complete. Removed #{removed} redundant records."
-  end
-
-  desc 'Generate coverage history report'
-  task :generate do
-    puts 'Generating coverage history report...'
-    result = CoverageHistoryGenerator.generate
-
-    if result
-      puts "Successfully generated coverage history report with #{result[:histories].size} data points"
-      puts "Output file: #{result[:output_file]}"
-    else
-      puts 'No coverage history data available to generate report'
-    end
   end
 end

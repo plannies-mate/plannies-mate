@@ -9,51 +9,6 @@ RSpec.describe CoverageHistoryImporter do
     @importer = described_class.new
   end
 
-  describe '#import_current' do
-    context 'when there is no record for today' do
-      it 'creates a new record based on fetched authorities', vcr: { cassette_name: cassette_name('creates_new_record') } do
-        expect do
-          @importer.import_current
-        end.to change(CoverageHistory, :count).by(1)
-
-        record = CoverageHistory.find_by(recorded_on: Date.today)
-        expect(record).not_to be_nil
-        expect(record.authority_count).to be > 0
-      end
-    end
-
-    context 'when there is already a record for today' do
-      it 'does not create a duplicate record', vcr: { cassette_name: cassette_name('no_duplicate_records') } do
-        travel_to Time.now do
-          # Create record for today
-          CoverageHistory.create!(
-            recorded_on: Date.today,
-            authority_count: 100,
-            broken_authority_count: 20,
-            total_population: 1_000_000,
-            broken_population: 200_000
-          )
-
-          expect do
-            result = @importer.import_current
-            expect(result).not_to be_nil
-          end.not_to change(CoverageHistory, :count)
-        end
-      end
-    end
-
-    context 'when fetcher returns no data' do
-      it 'does not create a record' do
-        allow_any_instance_of(AuthoritiesFetcher).to receive(:fetch).and_return(nil)
-
-        expect do
-          result = @importer.import_current
-          expect(result).to be_nil
-        end.not_to change(CoverageHistory, :count)
-      end
-    end
-  end
-
   describe '.update_from_authorities' do
     it 'creates a record from provided authorities' do
       authorities = [

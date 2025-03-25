@@ -2,6 +2,10 @@
 
 require 'rubygems'
 require 'bundler/setup'
+
+deploy_env = File.expand_path('deploy_env.rb', __dir__)
+require_relative 'deploy_env' if File.exist?(deploy_env)
+
 ENV['RACK_ENV'] ||= ENV['APP_ENV'] || ENV['RAILS_ENV'] || 'development'
 ENV['APP_ENV'] = nil
 ENV['RAILS_ENV'] = nil

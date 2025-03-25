@@ -130,12 +130,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_175000) do
     t.string "url", null: false
     t.string "title"
     t.integer "scraper_id"
+    t.integer "github_user_id"
     t.date "closed_at_date"
-    t.boolean "accepted", default: false
+    t.boolean "merged", default: false
     t.datetime "last_checked_at"
     t.boolean "needs_github_update", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["github_user_id"], name: "index_pull_requests_on_github_user_id"
     t.index ["scraper_id"], name: "index_pull_requests_on_scraper_id"
     t.index ["url"], name: "index_pull_requests_on_url", unique: true
   end

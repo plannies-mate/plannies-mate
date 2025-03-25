@@ -47,7 +47,7 @@ class PrMetricsService
 
       if pr.closed_at_date && pr.closed_at_date <= date
         # PR is closed for this date
-        if pr.accepted
+        if pr.merged?
           # It was accepted and merged
           metrics[:fixed_count] += authorities_impacted
           metrics[:fixed_population] += population_impacted

@@ -22,15 +22,7 @@ class WaybackAuthoritiesImporter
   # @param end_date [Date, nil] Optional end date to limit historical data
   # @return [Integer] The number of records created
   def import_historical_data(limit: nil, start_date: nil, end_date: nil)
-    timestamps = @fetcher.fetch_available_timestamps
-
-    # Filter by date range if provided
-    if start_date || end_date
-      timestamps = timestamps.select do |ts|
-        date = Date.parse(ts[0..7])
-        (start_date.nil? || date >= start_date) && (end_date.nil? || date <= end_date)
-      end
-    end
+    timestamps = @fetcher.fetch_available_timestamps(from: start_date, to: end_date)
 
     timestamps = timestamps.take(limit) if limit
 

@@ -8,10 +8,11 @@ class CreatePullRequests < ActiveRecord::Migration[8.0]
       t.string :url, null: false, index: { unique: true }
       t.string :title
       t.references :scraper
+      t.references :github_user
 
       # Status information
       t.date :closed_at_date
-      t.boolean :accepted, default: false
+      t.boolean :merged, default: false
       t.datetime :last_checked_at
 
       # Cache control

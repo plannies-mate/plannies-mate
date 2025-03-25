@@ -27,12 +27,15 @@ class WaybackAuthoritiesFetcher
 
   # Get a list of available timestamps from the Wayback Machine
   # @return [Array<String>] List of timestamps in format YYYYMMDDHHMMSS
-  def fetch_available_timestamps
+  def fetch_available_timestamps(from: nil, to: nil)
     params = {
       url: AuthoritiesFetcher::AUTHORITIES_URL,
       output: 'json',
       collapse: 'timestamp:8', # Group by day to reduce results
     }
+    # inclusive ranges are specified in 8 digit format: YYYYMMDD
+    params[:from] = from.strftime('%Y%m%d') if from
+    params[:to] = to.strftime('%Y%m%d') if to
 
     url = "#{WAYBACK_CDX_URL}?#{URI.encode_www_form(params)}"
     self.class.log "Fetching available timestamps from #{url}"

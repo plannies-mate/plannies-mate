@@ -3,20 +3,22 @@
 # Table name: pull_requests
 #
 #  id                  :integer          not null, primary key
-#  accepted            :boolean          default(FALSE)
 #  closed_at_date      :date
 #  last_checked_at     :datetime
+#  merged              :boolean          default(FALSE)
 #  needs_github_update :boolean          default(TRUE)
 #  title               :string
 #  url                 :string           not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  github_user_id      :integer
 #  scraper_id          :integer
 #
 # Indexes
 #
-#  index_pull_requests_on_scraper_id  (scraper_id)
-#  index_pull_requests_on_url         (url) UNIQUE
+#  index_pull_requests_on_github_user_id  (github_user_id)
+#  index_pull_requests_on_scraper_id      (scraper_id)
+#  index_pull_requests_on_url             (url) UNIQUE
 #
 
 ---

@@ -16,7 +16,7 @@ class GithubPrService
     request['User-Agent'] = 'PlanniesApp'
 
     # Add token if available
-    request['Authorization'] = "token #{ENV['GITHUB_TOKEN']}" if ENV['GITHUB_TOKEN']
+    request['Authorization'] = "token #{ENV['GITHUB_PERSONAL_TOKEN']}" if ENV['GITHUB_PERSONAL_TOKEN']
 
     response = http.request(request)
 
@@ -24,7 +24,7 @@ class GithubPrService
 
     error_message = "Error querying GitHub API: #{response.code} #{response.message}"
     if response.code == '403' && response.body.include?('rate limit')
-      error_message += "\nRate limit exceeded. Consider using a GitHub token by setting GITHUB_TOKEN env variable."
+      error_message += "\nRate limit exceeded. Consider using a GitHub token by setting GITHUB_PERSONAL_TOKEN env variable."
     end
     raise StandardError, error_message
   end

@@ -1,0 +1,58 @@
+main.wide-container
+  section.content-section
+    .section-header
+      h2
+        i.fas.fa-code-pull-request
+        |  Pull Requests
+      p.subtitle GitHub pull requests for planningalerts-scrapers
+
+    .table-container
+      table.data-table
+        thead
+          tr
+            th ID
+            th Title
+            th Repo
+            th Author
+            th Status
+            th.right Authorities
+            th Created
+            th.right Actions
+        tbody
+          - pull_requests.each do |pr|
+            tr class="#{pr.github_state == 'closed' ? (pr.merged? ? 'status-ok' : 'status-warning') : ''}"
+              td = pr.id
+              td
+                a href="#{pr.url}" target="_blank" title="#{pr.title}"
+                  = pr.title
+              td = pr.github_repo
+              td
+                - if pr.github_user
+                  a href="#{pr.github_user.html_url}" target="_blank"
+                    - if pr.github_user.avatar_url.present?
+                      img.user-avatar src="#{pr.github_user.avatar_url}&s=40" title="#{pr.github_user.login}"
+                    - else
+                      = pr.github_user.login
+              td
+                - if pr.github_state == 'closed'
+                  - if pr.merged?
+                    span.status-ok
+                      i.fas.fa-check
+                      |  Merged
+                  - else
+                    span.status-warning
+                      i.fas.fa-times
+                      |  Closed
+                - else
+                  span
+                    i.fas.fa-clock
+                    |  Open
+              td.right
+                span class="#{pr.authorities.count == 0 ? 'status-warning' : ''}"
+                  = pr.authorities.count
+              td = format_date(pr.created_at)
+              td.right
+                a.button href="/app/pull_requests/#{pr.id}" Edit
+
+    .section-footer
+      p Total: #{pull_requests.size} pull requests, #{pull_requests.count { |pr| pr.authorities.empty? }} with no authorities assigned

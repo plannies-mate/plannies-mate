@@ -1,60 +1,69 @@
 # frozen_string_literal: true
 
-require 'yaml'
-
 namespace :pull_requests do
+  desc 'Import pull requests from GitHub'
+  task :import, [:since_days] => :singleton do |_t, args|
+    days_ago = args[:since_days] ? args[:since_days].to_i : 30
+    since = Time.now - days_ago * 24 * 60 * 60
+    
+    puts "Importing pull requests from GitHub updated in the last #{days_ago} days..."
+    
+    importer = PullRequestsImporter.new
+    result = importer.import(since: since)
+    
+    puts "Successfully imported pull requests from GitHub:"
+    puts "  - Imported/Created: #{result[:imported]}"
+    puts "  - Updated: #{result[:updated]}"
+    puts "  - Errors: #{result[:errors]}"
+    
+    if result[:imported] > 0 || result[:updated] > 0
+      Rake::Task['pull_requests:update_metrics'].invoke
+    end
+  end
+  
+  desc 'Import all pull requests from GitHub since 2024-10-01'
+  task :import_all => :singleton do
+    puts "Importing all pull requests from GitHub since 2024-10-01..."
+    
+    since = Date.parse('2024-10-01').to_time
+    
+    importer = PullRequestsImporter.new
+    result = importer.import(since: since)
+    
+    puts "Successfully imported all pull requests from GitHub:"
+    puts "  - Imported/Created: #{result[:imported]}"
+    puts "  - Updated: #{result[:updated]}"
+    puts "  - Errors: #{result[:errors]}"
+    
+    if result[:imported] > 0 || result[:updated] > 0
+      Rake::Task['pull_requests:update_metrics'].invoke
+    end
+  end
+  
   desc 'Update coverage history with PR metrics'
-  task :update_metrics do
+  task :update_metrics => :singleton do
     puts 'Updating coverage history with PR metrics...'
-    updated = CoverageHistory.update_pr_metrics
+    
+    updated = PrMetricsService.update_coverage_history_metrics
+    
     puts "Updated #{updated} coverage history records with PR metrics"
   end
-
-  desc 'Import pull requests from YAML to database'
-  task :import do
-    puts 'Importing pull requests from YAML to database...'
-
-    result = PullRequest.import_from_file
-
-    if result[:imported] > 0 || result[:updated] > 0
-      puts 'Successfully imported pull requests from YAML to database.'
-      puts "  - Imported: #{result[:imported]}"
-      puts "  - Updated: #{result[:updated]}"
+  
+  desc 'Generate static pages for pull requests'
+  task :generate => :singleton do
+    puts 'Generating static pages for pull requests...'
+    
+    # Generate index page
+    index_result = PullRequestsGenerator.generate
+    
+    if index_result
+      puts "Generated pull requests index page with #{index_result[:pull_requests].size} pull requests"
+      
+      # Generate individual pages
+      detail_result = PullRequestGenerator.generate
+      puts "Generated #{detail_result[:count]} individual pull request pages"
     else
-      puts 'No changes detected in YAML file.'
-    end
-  end
-
-  desc 'Update PR status by checking GitHub API'
-  task :update_status do
-    puts 'Checking GitHub for PR status updates...'
-
-    # First import from YAML to make sure DB has latest manual additions
-    import_result = PullRequest.import_from_file
-
-    if import_result[:imported] > 0 || import_result[:updated] > 0
-      puts "Imported from YAML: #{import_result[:imported]} new, #{import_result[:updated]} updated"
-    end
-
-    # Now update from GitHub
-    limit = ENV['LIMIT'] ? ENV['LIMIT'].to_i : nil
-    limit_desc = limit ? "up to #{limit} PRs" : 'all open PRs'
-    puts "Checking GitHub for #{limit_desc}..."
-
-    github_service = GithubPrService.new
-    result = github_service.update_open_prs(limit)
-
-    puts 'GitHub check complete:'
-    puts "  - Checked: #{result[:checked]} PRs"
-    puts "  - Updated: #{result[:updated]} PRs"
-    puts "  - Not found: #{result[:not_found]} PRs"
-    puts "  - Errors: #{result[:errors]} PRs"
-
-    if result[:updated] > 0
-      # Update metrics
-      Rake::Task['pull_requests:update_metrics'].invoke
-    else
-      puts 'No PR status changes found'
+      puts "No pull requests found to generate pages"
     end
   end
 end
