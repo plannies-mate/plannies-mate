@@ -5,7 +5,8 @@
 /coverage
 /spec/examples.txt
 *.sqlite*
-/var
+
+
 
 # Dev tools
 /.aider*
@@ -14,8 +15,13 @@
 
 # Temp and log
 
+/var/*
+!/var/.keep
+
+/tmp/*
 !/tmp/.keep
-/log
+
+/log/*
 !/log/.keep
 
 # GitHub suggested ignores
