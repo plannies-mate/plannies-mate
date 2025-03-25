@@ -33,7 +33,7 @@ module ScraperBase
     # Fetch a page with conditional GET using HTTP cache entries
     # @param url [String] URL to fetch
     # @param agent [Mechanize] Mechanize Agent
-    # @param force [Boolean] Force page to be retrieved
+    # @param force [Boolean, :historical] Force page to be retrieved (:historical does not save cache info)
     # @return [Mechanize::Page, nil] The page if modified, nil if not modified
     def fetch_page_with_cache(url, agent: nil, force: false)
       agent ||= create_agent
@@ -63,7 +63,7 @@ module ScraperBase
           raise("ERROR: Empty response for #{url}")
         else
           # Update the cache entry with the new response
-          cache_entry.update_from_response(page)
+          cache_entry.update_from_response(page) unless force == :historical
           page
         end
       rescue StandardError => e

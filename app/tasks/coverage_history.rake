@@ -31,8 +31,8 @@ namespace :coverage_history do
 
     puts "Importing historical coverage data (#{limit_desc}) #{date_range}..."
 
-    fetcher = WaybackAuthoritiesFetcher.new
-    count = fetcher.import_historical_data(limit: limit, start_date: start_date, end_date: end_date)
+    importer = WaybackAuthoritiesImporter.new
+    count = importer.import_historical_data(limit: limit, start_date: start_date, end_date: end_date)
 
     puts "Successfully imported #{count} historical coverage records"
   end
