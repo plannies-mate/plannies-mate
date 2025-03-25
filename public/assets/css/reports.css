@@ -1,0 +1,267 @@
+/* Additional styles for report pages */
+
+.content-section {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1rem;
+}
+
+.section-header h2 {
+  margin: 0;
+  color: #00843D;
+}
+
+.section-header .subtitle {
+  margin: 0.5rem 0 0;
+  color: #666;
+}
+
+.section-footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  font-style: italic;
+  color: #666;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto; /* Allows columns to size based on content */
+}
+
+.data-table th, 
+.data-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.data-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Prevent excessively long text from breaking layout */
+.data-table td.limit-width {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.status-ok {
+  color: #00843D;
+}
+
+.status-warning {
+  color: #ff9900;
+}
+
+.details-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.details-card h3 {
+  margin-top: 0;
+  color: #00843D;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.details-table {
+  width: 100%;
+}
+
+.details-table th, 
+.details-table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.details-table th {
+  width: 30%;
+  font-weight: 600;
+}
+
+.scraper-section {
+  margin-bottom: 2rem;
+}
+
+.scraper-section h4 {
+  background-color: #f5f5f5;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+@media (max-width: 768px) {
+  .details-table th {
+    width: 40%;
+  }
+  
+  /* Make table headers more clear on small screens */
+  .data-table th {
+    background-color: #00843D;
+    color: white;
+  }
+}
+
+.data-table th.right,
+.data-table td.right,
+.right {
+  text-align: right;
+  margin-right: 1em;
+}
+
+/* For the section headings */
+h3 {
+  position: relative;
+  padding-top: 15px; /* Add some space above for the bar */
+  margin-top: 30px; /* Add space between sections */
+}
+
+h3::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width of the heading */
+  height: 4px; /* About 1/4 of a line height */
+  background-color: #00843D; /* The same green as the hero section */
+}
+
+/* For individual scraper headings within multi-authority section */
+.scraper-section h4 {
+  position: relative;
+  padding-top: 12px;
+  margin-top: 25px;
+}
+
+.scraper-section h4::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px; /* Slightly thinner than the main section headings */
+  background-color: #00843D;
+}
+
+/*From default pages*/
+
+.message {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.footer {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  font-style: italic;
+  border-left: 4px solid #00843D;
+}
+
+.footer p {
+  margin: 0.5rem 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Icon styles for the application */
+
+/* Morph.io icon - orange circle */
+.morph-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: #FEB71A; /* Morph orange color */
+  border-radius: 50%;
+  position: relative;
+  top: 0.125em; /* Slight adjustment to align with text */
+  margin: 0 0.25em;
+}
+
+/* When the morph icon is inside a link */
+a .morph-icon {
+  transition: opacity 0.2s ease;
+}
+
+/* Hover effect */
+a:hover .morph-icon {
+  opacity: 0.8;
+}
+
+.user-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+/* GitHub-style issue labels */
+.issue-label {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  margin: 0.1em 0.2em 0.1em 0;
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1.5;
+  border-radius: 1em;
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Determine text color based on background brightness */
+.issue-label-dark-text {
+  color: #24292e; /* GitHub's dark text color */
+}
+
+.issue-label-light-text {
+  color: #ffffff; /* White text for dark backgrounds */
+}
+
+/* Add a subtle border to very light labels */
+.issue-label-light-border {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.issue-label-strikethrough {
+  text-decoration: line-through;
+  opacity: 0.7; /* Optional: slightly fade out the label to indicate it's less relevant */
+}

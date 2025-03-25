@@ -1,0 +1,74 @@
+/* Additional styles for mini navigation bar */
+
+.mini-hero {
+  background-color: #00843D;
+  color: white;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.mini-hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://images.unsplash.com/photo-1523482580672-f109ba8cb9be');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.7;
+  z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+.mini-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.mini-hero h1 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.mini-hero .subtitle {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.main-nav {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 1.5rem;
+  font-weight: 500;
+}
+
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
+/* Hero navigation for Crikey What's That page */
+.hero-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.home-link, .logout-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  z-index: 2;
+  position: relative;
+  padding-left: 2em;
+  padding-right: 2em;
+}

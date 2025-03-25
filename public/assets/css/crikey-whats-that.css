@@ -1,0 +1,88 @@
+/* Styles for related tools section */
+.related-tools {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.related-tools h2 {
+    color: #00843D;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.tool-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.tool-card i {
+    font-size: 2rem;
+    color: #00843D;
+    margin-bottom: 1rem;
+}
+
+.tool-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.tool-card p {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+/* Style for the toggle source button */
+.tool-button {
+    white-space: nowrap;
+    padding: 0.8rem 1.5rem;
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tool-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.hero-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.home-link, .logout-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    z-index: 2;
+    position: relative;
+    padding-left: 2em;
+    padding-right: 2em;
+}

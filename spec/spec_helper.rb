@@ -37,6 +37,8 @@ require 'webmock/rspec'
 require 'sinatra/activerecord'
 require_relative '../config/boot'
 require_relative '../app'
+require_relative '../tasks'
+require_gems_for(:app, :tasks)
 
 # Configure settings
 App.configure_sinatra_options(Sinatra::Base)
