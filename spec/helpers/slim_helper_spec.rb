@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'fileutils'
 require_relative '../spec_helper'
 
 RSpec.describe SlimHelper do

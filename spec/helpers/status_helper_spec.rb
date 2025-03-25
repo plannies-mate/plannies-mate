@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'fileutils'
 require_relative '../spec_helper'
 require_relative '../../app/helpers/status_helper'
 

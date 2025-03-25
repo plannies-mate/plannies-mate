@@ -17,7 +17,7 @@ RSpec.describe ScraperGenerator do
   describe '.generate' do
     it 'generates a page for a single scraper' do
       # Use a fixture scraper
-      scraper = Fixture.find(Scraper, :multiple_atdis)
+      scraper = FixtureHelper.find(Scraper, :multiple_atdis)
       
       # Call the actual generator
       result = described_class.generate(scraper)

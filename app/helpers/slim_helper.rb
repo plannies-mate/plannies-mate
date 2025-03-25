@@ -6,12 +6,12 @@ module SlimHelper
   def render(view, locals = {})
     # Add default locals that all templates need
     locals[:title] ||= view.capitalize
-    layout = (locals[:layout] || 'layout').to_s
+    layout = (locals[:layout] || 'with-menu').to_s
     pretty = locals.fetch(:pretty, true)
 
     # Get the template paths
     template_path = add_slim_extensions File.join(views_dir, view)
-    layout_path = add_slim_extensions File.join(views_dir, layout)
+    layout_path = add_slim_extensions File.join(views_dir, 'layouts', layout)
 
     # Render the template with the layout
     template = Slim::Template.new(template_path, pretty: pretty)
@@ -25,7 +25,7 @@ module SlimHelper
   def render_partial(partial, locals = {})
     partial = partial.to_s.sub(/^:/, '')
 
-    template_path = add_slim_extensions File.join(views_dir, partial)
+    template_path = add_slim_extensions File.join(views_dir, 'partials', partial)
     template = Slim::Template.new(template_path, pretty: true)
 
     template.render(self, locals)

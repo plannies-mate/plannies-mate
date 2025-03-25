@@ -7,27 +7,7 @@ require_relative '../../app/services/github_pr_service'
 RSpec.describe GithubPrService do
   let(:service) { described_class.new }
 
-  describe '#parse_github_url' do
-    it 'correctly parses GitHub URLs' do
-      url = 'https://github.com/planningalerts-scrapers/Brimbank_City_Council/pull/5'
-      result = service.parse_github_url(url)
-
-      expect(result).to eq({
-                             owner: 'planningalerts-scrapers',
-                             repo: 'Brimbank_City_Council',
-                             pr_number: '5',
-                           })
-    end
-
-    it 'returns nil for non-GitHub URLs' do
-      url = 'https://example.com/not-github'
-      result = service.parse_github_url(url)
-
-      expect(result).to be_nil
-    end
-  end
-
-  describe '#check_pr_status' do
+    describe '#check_pr_status' do
     let(:mock_response) do
       instance_double(
         Net::HTTPResponse,

@@ -2,6 +2,9 @@
 
 ENV['RACK_ENV'] = 'test'
 
+require_relative '../config/boot'
+require_gems_for(:app, :tasks, 'Specs')
+
 require 'simplecov'
 require 'simplecov-console'
 
@@ -11,6 +14,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
     SimpleCov::Formatter::Console,
   ]
 )
+
 SimpleCov.start do
   add_filter '/spec/'
   add_filter '/vendor/'
@@ -35,14 +39,12 @@ require 'webmock/rspec'
 
 # Setup ActiveRecord connection for tests
 require 'sinatra/activerecord'
-require_relative '../config/boot'
 require_relative '../app'
 require_relative '../tasks'
-require_gems_for(:app, :tasks)
 
 # Configure settings
 App.configure_sinatra_options(Sinatra::Base)
-# We don't setup routes as that is much harder
+# NOTE: We don't setup routes as that is much harder
 
 # Database configuration
 database_config = YAML.load_file(File.expand_path('../config/database.yml', __dir__), aliases: true)
@@ -70,9 +72,40 @@ VCR.configure do |config|
   }
 end
 
-# Configure RSpec
+# Load all support files
+Dir[File.expand_path('./support/**/*.rb', __dir__)].each { |f| require f }
+
+# Load all files so they appear in coverage
+Dir.glob(File.expand_path('../app/**/*.rb', __dir__)).each { |r| require r }
+Dir.glob(File.expand_path('../lib/**/*.rb', __dir__)).each { |r| require r }
+
+# Ensure test database is prepared before tests
+begin
+  # Only load and run the task if the database needs updating
+  Rake.application.load_rakefile
+  Rake::Task['db:test:prepare'].invoke
+rescue StandardError => e
+  puts "Warning: Failed to prepare test database: #{e.message}"
+end
+
 RSpec.configure do |config|
+  config.extend VcrHelper
+  config.include TimeHelper # Include our time helpers
   config.include AppHelpersAccessor
+
+  config.before(:suite) do
+    FixtureHelper.clear_database
+    FixtureHelper.load_fixtures
+  end
+
+  # Use transactions for each test
+  config.around(:each) do |example|
+    ActiveRecord::Base.transaction do
+      example.run
+      # puts "ROLLBACK ----------------------"
+      raise ActiveRecord::Rollback
+    end
+  end
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -100,138 +133,5 @@ RSpec.configure do |config|
   # Create VCR cassette directory if it doesn't exist
   config.before(:suite) do
     FileUtils.mkdir_p('spec/fixtures/vcr_cassettes')
-  end
-end
-
-# Helper function to create cassette names that reflect the spec file and context
-def cassette_name(description)
-  # Get the calling file's name without path and extension
-  file = caller_locations(1, 1)[0].path.split('/').last.gsub('.rb', '')
-  
-  # Clean up the description
-  desc = description.to_s.downcase.gsub(/[^a-z0-9]+/, '_')
-  
-  "#{file}/#{desc}"
-end
-
-# Helper method to create a temporary directory
-def create_temp_dir(prefix = 'test')
-  path = File.join(Dir.tmpdir, "#{prefix}_#{Time.now.to_i}_#{rand(1000)}")
-  FileUtils.mkdir_p(path)
-  path
-end
-
-# Load all support files
-Dir[File.expand_path('./support/**/*.rb', __dir__)].each { |f| require f }
-
-# Load all files so they appear in coverage
-Dir.glob(File.expand_path('../app/**/*.rb', __dir__)).each { |r| require r }
-Dir.glob(File.expand_path('../lib/**/*.rb', __dir__)).each { |r| require r }
-
-# Fixture Helpers
-module Fixture
-  extend AppHelpersAccessor
-
-  # Define the load order based on dependencies
-  FIXTURES = [
-    ['coverage_histories', CoverageHistory],
-    ['github_users', GithubUser],
-    ['issue_labels', IssueLabel],
-    ['scrapers', Scraper],
-    # Tables with references
-    ['pull_requests', PullRequest], # references scraper
-    ['authorities', Authority], # depends on scraper
-    ['issues', Issue], # Depends on authority and github_user
-    # Join tables with fixtures
-    ['authorities_pull_requests', nil],
-    ['issue_labels_issues', nil], # HABTM
-    ['github_users_issues', nil], # HABTM
-  ].freeze
-  ASSOCIATIONS = %w[assignee authority github_user issue_label issue pull_request scraper user].freeze
-
-  def self.id_for(value)
-    (value.to_s.hash.abs % 0x7FFFFFFE) + 1
-  end
-
-  def self.find(model, key)
-    model.find_by(id: id_for(key))
-  end
-
-  def self.clear_database
-    ActiveRecord::Base.transaction do
-      connection = ActiveRecord::Base.connection
-      FIXTURES.reverse.each do |fixture_name, model|
-        if model
-          puts "Deleting all #{model.name} records (#{fixture_name} table) ..." if app_helpers.debug?
-          model.delete_all
-        else
-          table_name = connection.quote_table_name(fixture_name)
-          puts "Deleting all #{fixture_name} HABTM records ..." if app_helpers.debug?
-          ActiveRecord::Base.connection.execute "DELETE FROM #{table_name}"
-        end
-      end
-    end
-  end
-
-  def self.load_fixtures
-    ActiveRecord::Base.transaction do
-      connection = ActiveRecord::Base.connection
-      FIXTURES.each do |fixture_name, model|
-        fixture_file = File.join('spec/fixtures', "#{fixture_name}.yml")
-        fixtures = YAML.unsafe_load_file(fixture_file)
-        fixtures.each do |key, attributes|
-          ASSOCIATIONS.each do |assoc|
-            next unless (assoc_key = attributes.delete(assoc))
-
-            attributes["#{assoc}_id"] = Fixture.id_for(assoc_key)
-            puts "  with #{assoc}: #{assoc_key} => #{assoc}_id #{attributes["#{assoc}_id"]}" if app_helpers.debug?
-          end
-          if model
-            attributes['id'] ||= Fixture.id_for(key)
-            puts "Creating fixture #{fixture_name}:#{key}, id: #{attributes['id']}" if app_helpers.debug?
-            model.create!(attributes)
-          else
-            puts "Creating fixture #{fixture_name}:#{key}, #{attributes.inspect}" if app_helpers.debug?
-            columns = attributes.keys.map { |column| connection.quote_column_name(column) }
-            values = attributes.values.map { |value| connection.quote(value) }
-            table_name = connection.quote_table_name(fixture_name)
-            sql = "INSERT INTO #{table_name} (#{columns.join(', ')}) VALUES (#{values.join(', ')})"
-            connection.execute(sql)
-          end
-        rescue StandardError, ActiveRecord::RecordInvalid => e
-          puts "ERROR: Creating fixture #{fixture_name}:#{key}: #{e}"
-          raise e
-        end
-        puts "Loaded #{model ? model.count : fixtures.size} #{fixture_name} records" if app_helpers.debug?
-      end
-    end
-  end
-end
-
-# Ensure test database is prepared before tests
-begin
-  # Only load and run the task if the database needs updating
-  Rake.application.load_rakefile
-  Rake::Task['db:test:prepare'].invoke
-rescue StandardError => e
-  puts "Warning: Failed to prepare test database: #{e.message}"
-end
-
-RSpec.configure do |config|
-  config.extend VcrHelper
-  config.include TimeHelpers  # Include our time helpers
-
-  config.before(:suite) do
-    Fixture.clear_database
-    Fixture.load_fixtures
-  end
-
-  # Use transactions for each test
-  config.around(:each) do |example|
-    ActiveRecord::Base.transaction do
-      example.run
-      # puts "ROLLBACK ----------------------"
-      raise ActiveRecord::Rollback
-    end
   end
 end

@@ -7,9 +7,12 @@ require_relative '../../app/generators/scrapers_generator'
 require_relative '../../app/generators/scraper_generator'
 
 # Load the rake file
+require 'fileutils'
 require 'rake'
+
 load File.expand_path('../../app/tasks/generate.rake', __dir__)
 load File.expand_path('../../app/tasks/singleton.rake', __dir__)
+
 
 RSpec.describe 'generate.rake tasks' do
   before do

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require_relative 'config/boot'
+require_gems_for(:tasks, 'Rakefile')
+
 require_relative 'tasks'
-require_gems_for(:tasks)
 
 require 'rake'
 require 'sinatra/activerecord/rake'

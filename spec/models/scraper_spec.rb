@@ -47,7 +47,7 @@ RSpec.describe Scraper do
 
   describe 'accessor methods' do
     it 'accesses properties from all sources' do
-      act = Fixture.find(Scraper, :act)
+      act = FixtureHelper.find(Scraper, :act)
 
       expect(act.morph_url).to eq('https://morph.io/planningalerts-scrapers/act')
       expect(act.github_url).to eq('https://github.com/planningalerts-scrapers/act')

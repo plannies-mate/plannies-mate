@@ -61,7 +61,7 @@ RSpec.describe ApplicationHelper do
     context 'when in production environment' do
       before { ENV['RACK_ENV'] = 'test' }
       it 'returns the test path' do
-        expected_path = File.expand_path('../../../../../tmp/html-test', __dir__)
+        expected_path = File.expand_path('../../tmp/html-test', __dir__)
         expect(class_with_helper.site_dir).to eq(expected_path)
       end
     end
@@ -80,7 +80,7 @@ RSpec.describe ApplicationHelper do
       after { ENV['RACK_ENV'] = 'test' }
 
       it 'returns the development path' do
-        expected_path = File.expand_path('../../../../../tmp/html', __dir__)
+        expected_path = File.expand_path('../../tmp/html', __dir__)
         expect(class_with_helper.site_dir).to eq(expected_path)
       end
     end

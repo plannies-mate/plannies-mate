@@ -50,21 +50,21 @@ RSpec.describe WaybackAuthoritiesFetcher do
     it 'imports historical data and creates coverage history records' do
       # Mock fetch_available_timestamps to return a controlled set
       allow(fetcher).to receive(:fetch_available_timestamps).and_return(['20240315123456'])
-      
+
       # Mock fetch_snapshot to return some sample data
       allow(fetcher).to receive(:fetch_snapshot).with('20240315123456').and_return([
-        { 
-          'short_name' => 'test', 
-          'possibly_broken' => true, 
-          'population' => 50_000 
-        },
-        { 
-          'short_name' => 'test2', 
-          'possibly_broken' => false, 
-          'population' => 100_000 
-        }
-      ])
-      
+                                                                                     {
+                                                                                       'short_name' => 'test',
+                                                                                       'possibly_broken' => true,
+                                                                                       'population' => 50_000,
+                                                                                     },
+                                                                                     {
+                                                                                       'short_name' => 'test2',
+                                                                                       'possibly_broken' => false,
+                                                                                       'population' => 100_000,
+                                                                                     },
+                                                                                   ])
+
       # Count the change in CoverageHistory records
       expect do
         created = fetcher.import_historical_data(limit: 1)

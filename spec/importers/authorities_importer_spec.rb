@@ -10,7 +10,7 @@ RSpec.describe AuthoritiesImporter do
 
   context 'importing from scratch' do
     before do
-      Fixture.clear_database
+      FixtureHelper.clear_database
     end
 
     it 'imports authorities and scrapers', vcr: { cassette_name: cassette_name('import_authorities_from_scratch') } do

@@ -6,8 +6,8 @@ require_relative '../../app/services/pr_metrics_service'
 RSpec.describe PrMetricsService do
   describe '.calculate_metrics_for_date' do
     # Use fixtures for authorities
-    let(:broken_auth) { Fixture.find(Authority, :bathurst) }  # possibly_broken: true
-    let(:working_auth) { Fixture.find(Authority, :brimbank) } # possibly_broken: false
+    let(:broken_auth) { FixtureHelper.find(Authority, :bathurst) }  # possibly_broken: true
+    let(:working_auth) { FixtureHelper.find(Authority, :brimbank) } # possibly_broken: false
     
     # Create test PRs before each test
     before do
@@ -105,7 +105,7 @@ RSpec.describe PrMetricsService do
 
   describe '.update_coverage_history_metrics' do
     # Use a fixture for the history record
-    let(:history) { Fixture.find(CoverageHistory, :recent) }
+    let(:history) { FixtureHelper.find(CoverageHistory, :recent) }
 
     it 'updates history records with calculated metrics' do
       # Define test metrics that are different from the current values

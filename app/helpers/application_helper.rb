@@ -36,9 +36,9 @@ module ApplicationHelper
     if production?
       '/var/www/html'
     elsif test?
-      File.expand_path('../../../../../tmp/html-test', __dir__)
+      File.expand_path('../../tmp/html-test', __dir__)
     elsif development?
-      File.expand_path('../../../../../tmp/html', __dir__)
+      File.expand_path('../../tmp/html', __dir__)
     else
       raise "RACK_ENV must be 'production' or 'test' or 'development' (default)."
     end

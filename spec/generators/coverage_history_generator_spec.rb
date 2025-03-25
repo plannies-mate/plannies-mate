@@ -19,7 +19,7 @@ RSpec.describe CoverageHistoryGenerator do
       it 'generates a coverage history page with chart data' do
         # Ensure we have at least one history record
         # Use a fixture to avoid creating new records
-        recent = Fixture.find(CoverageHistory, :recent)
+        recent = FixtureHelper.find(CoverageHistory, :recent)
         
         # Allow CoverageHistory.order to return our fixture
         # This is a reasonable mock since we're not testing CoverageHistory here

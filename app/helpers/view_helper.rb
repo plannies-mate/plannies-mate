@@ -50,8 +50,8 @@ module ViewHelper
     brightness > 150
   end
 
-  def css_class_for_label(label, broken_authority)
-    if label.name == 'probably fixed' && broken_authority
+  def css_class_for_label(label, authority)
+    if label.name == 'probably fixed' && authority.month_count.zero?
       'issue-label-strikethrough '
     else
       ''

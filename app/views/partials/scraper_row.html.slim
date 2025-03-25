@@ -1,5 +1,5 @@
 td
-  a href="/scrapers/#{scraper.name}"
+  a href="#{path_for scraper}"
     == add_word_breaks CGI::escape_html(scraper.name)
 td
   a href="#{scraper.morph_url}" target="_blank"

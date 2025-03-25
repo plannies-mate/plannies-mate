@@ -5,8 +5,6 @@
 
 source 'https://rubygems.org'
 
-gem 'sinatra', '~> 4.1', require: false # Requesting refresh and basic debug info
-gem 'sinatra-contrib', '~> 4.1', require: false # Extras like json rendering
 gem 'slim', '~> 5.2' # Template for generating static html pages
 gem 'tilt', '~> 2.6' # Assists with using slim outside of rails
 gem 'tzinfo', '~> 2.0'
@@ -14,6 +12,8 @@ gem 'tzinfo', '~> 2.0'
 group :app do
   gem 'puma', '~> 6.6'
   gem 'rackup', '~> 2.2'
+  gem 'sinatra', '~> 4.1' # Requesting refresh and basic debug info
+  gem 'sinatra-contrib', '~> 4.1' # Extras like json rendering
 end
 
 group :tasks do
@@ -24,7 +24,7 @@ group :tasks do
   gem 'mechanize', '~> 2.14' #  Web Scraping morph.io
   gem 'nokogiri', '~> 1.18' # to enforce freshness of gem used by mechanize
   gem 'octokit', '~> 9.2' # GitHub API access
-  gem 'rake', '~> 13.2', require: false # For tasks
+  gem 'rake', '~> 13.2' # For tasks
   gem 'sinatra-activerecord', '~> 2.0'
   gem 'sqlite3', '~> 2.6'
 end

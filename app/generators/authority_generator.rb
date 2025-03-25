@@ -7,7 +7,7 @@ require_relative '../helpers/application_helper'
 require_relative '../models/authority'
 require_relative 'generator_base'
 
-# Generates `site_dir/authorities/#{authority.short_name}.html`
+# Generates `site_dir#{path_for authority}.html`
 class AuthorityGenerator
   extend GeneratorBase
   extend ApplicationHelper

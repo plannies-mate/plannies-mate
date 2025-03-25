@@ -56,32 +56,6 @@ RSpec.describe PrSyncService do
     end
   end
 
-  describe '#sync_to_yaml' do
-    it 'exports PRs to YAML file' do
-      yaml_data = [
-        {
-          'title' => 'Test PR',
-          'url' => 'https://github.com/test/repo/pull/1',
-          'created_at' => '2025-03-24',
-          'authorities' => [],
-        },
-      ]
-
-      # Mock the private export_prs_to_yaml method
-      expect(service).to receive(:export_prs_to_yaml).and_return(yaml_data)
-
-      result = service.sync_to_yaml
-
-      expect(result[:success]).to be true
-      expect(result[:exported]).to eq(1)
-
-      # Check file was written
-      temp_file.rewind
-      written_data = YAML.load(temp_file.read)
-      expect(written_data).to eq(yaml_data)
-    end
-  end
-
   describe '#update_from_github' do
     let(:github_service) { instance_double(GithubPrService) }
     let(:pr1) do

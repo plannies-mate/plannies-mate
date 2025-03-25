@@ -41,7 +41,7 @@ RSpec.describe CoverageHistory do
 
     it 'requires unique recorded_on dates' do
       # Use fixture data
-      existing = Fixture.find(CoverageHistory, :recent)
+      existing = FixtureHelper.find(CoverageHistory, :recent)
 
       duplicate = CoverageHistory.new(recorded_on: existing.recorded_on)
       expect(duplicate).not_to be_valid
@@ -51,21 +51,21 @@ RSpec.describe CoverageHistory do
 
   describe 'percentage calculations' do
     it 'calculates broken authority percentage using fixture data' do
-      history = Fixture.find(CoverageHistory, :recent)
+      history = FixtureHelper.find(CoverageHistory, :recent)
       expected = (history.broken_authority_count.to_f / history.authority_count * 100).round(1)
 
       expect(history.broken_authority_percentage).to eq(expected)
     end
 
     it 'calculates broken population percentage using fixture data' do
-      history = Fixture.find(CoverageHistory, :recent)
+      history = FixtureHelper.find(CoverageHistory, :recent)
       expected = (history.broken_population.to_f / history.total_population * 100).round(1)
 
       expect(history.broken_population_percentage).to eq(expected)
     end
 
     it 'calculates coverage percentage using fixture data' do
-      history = Fixture.find(CoverageHistory, :recent)
+      history = FixtureHelper.find(CoverageHistory, :recent)
       expected = ((history.total_population - history.broken_population).to_f /
         history.total_population * 100).round(1)
 

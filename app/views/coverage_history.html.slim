@@ -74,7 +74,7 @@ main.container
     document.addEventListener('DOMContentLoaded', function() {
       // Coverage Chart
       const ctxCoverage = document.getElementById('coverageChart').getContext('2d');
-      const coverageData = #{chart_data.html_safe};
+      const coverageData = #{chart_data.to_json};
       
       new Chart(ctxCoverage, {
         type: 'line',

@@ -10,8 +10,7 @@ require_relative '../app'
 
 # Everything Rake requires
 require_relative '../tasks'
-
-require_gems_for(:app, :tasks)
+require_gems_for(:app, :tasks, 'console script')
 
 # Show a welcome message
 puts 'PlanniesMate app console loaded! All web app and processing classes are available.'

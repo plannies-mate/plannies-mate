@@ -10,13 +10,13 @@ main.wide-container
       table.data-table
         thead
           tr
-            == render_partial 'partials/authority_header.html'
+            == render_partial 'authority_header'
             th Scraper
         tbody
           - authorities.each do |authority|
             tr
-              == render_partial 'partials/authority_row.html', authority: authority
-              == render_partial 'partials/scraper_cell.html', authority: authority
+              == render_partial 'authority_row', authority: authority
+              == render_partial 'scraper_cell', authority: authority
 
 
     .section-footer

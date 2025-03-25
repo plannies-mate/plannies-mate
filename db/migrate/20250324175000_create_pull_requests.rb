@@ -8,9 +8,6 @@ class CreatePullRequests < ActiveRecord::Migration[8.0]
       t.string :url, null: false, index: { unique: true }
       t.string :title
       t.references :scraper
-      t.integer :pr_number
-      t.string :github_owner
-      t.string :github_repo
 
       # Status information
       t.date :closed_at_date

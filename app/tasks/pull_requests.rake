@@ -10,27 +10,6 @@ namespace :pull_requests do
     puts "Updated #{updated} coverage history records with PR metrics"
   end
 
-  desc 'Validate the pull requests YAML file'
-  task :validate do
-    puts 'Validating pull requests YAML file...'
-
-    validator = PrValidatorService.new
-    valid = validator.validate_pr_file(
-      PrFileService::PR_FILE,
-      Authority.pluck(:short_name)
-    )
-
-    if valid
-      puts "\nValidation successful!"
-    else
-      puts "\nValidation failed with #{validator.errors.size} errors:"
-      validator.errors.each do |error|
-        puts "  - #{error}"
-      end
-      exit 1
-    end
-  end
-
   desc 'Import pull requests from YAML to database'
   task :import do
     puts 'Importing pull requests from YAML to database...'

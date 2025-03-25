@@ -31,8 +31,8 @@ main.container
       table.data-table
         thead
           tr
-            == render_template 'partials/authority_header.html'
+            == render_partial 'authority_header'
         tbody
           - scraper.authorities.sort_by { |a| [a.state, a.name.downcase] }.each do |authority|
             tr
-              == render_template 'partials/authority_row.html', locals: { authority: authority }
+              == render_partial 'authority_row', authority: authority

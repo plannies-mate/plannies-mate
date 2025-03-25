@@ -94,7 +94,7 @@ main.container
                         = user.login
                 td
                   - iss.labels.sort_by { |l| l.name }.each do |label|
-                    span.issue-label class="#{css_class_for_label(label, authority.month_count.zero?)}" style="background-color: ##{label.color};" title="#{iss_title}#{label.description}"
+                    span.issue-label class="#{css_class_for_label(label, authority)}" style="background-color: ##{label.color};" title="#{iss_title}#{label.description}"
                       = label.name
                     '
                   - if suggest_close_issue?(authority, iss)

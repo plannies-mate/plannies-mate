@@ -130,9 +130,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_175000) do
     t.string "url", null: false
     t.string "title"
     t.integer "scraper_id"
-    t.integer "pr_number"
-    t.string "github_owner"
-    t.string "github_repo"
     t.date "closed_at_date"
     t.boolean "accepted", default: false
     t.datetime "last_checked_at"

@@ -1,5 +1,5 @@
 td
-  a href="/authorities/#{authority.short_name}"
+  a href="#{path_for authority}"
     == add_word_breaks CGI::escape_html(authority.short_name)
 td
   == add_word_breaks CGI::escape_html(authority.name)
@@ -52,12 +52,12 @@ td
   - authority.issues.sort_by { |i| i.title }.each do |iss|
     - iss_title = authority.issues.size > 1 ? "##{iss.to_param} " : ''
     - iss.labels.sort_by{|l| l.name}.each do |label|
-      span.issue-label class="#{css_class_for_label(label, authority.month_count.zero?)}" style="background-color: ##{label.color};" title="#{iss_title}#{label.description}"
+      span.issue-label class="#{css_class_for_label(label, authority)}" style="background-color: ##{label.color};" title="#{iss_title}#{label.description}"
         = label.name
       '
     - if suggest_close_issue?(authority, iss)
       span.issue-label class="issue-label-dark-text issue-label-light-border" style="background-color: #ededed;" title="#{iss_title} records have been received this week and month, but missing 'probably fixed' label"
         ' Add probably fixed?
 td
-  a href="#{app_helpers.path_for authority.short_name}"
+  a href="#{path_for authority}"
     i.fab.fa-github
