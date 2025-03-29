@@ -47,10 +47,13 @@ plannies-mate/
 │   ├── pull_requests.yml - Manually entered pull requests
 │   ├── schema.rb - auto generated - used by db:create if present
 │   └── seeds.rb - seed data (currently none)
+├── docs/ Documentation
+│   ├── GUIDELINES.md - AI guidelines
+│   ├── IMLEMENTATION.md - Project wide implementation details (class level details are part of YARD docs)
+│   ├── SPECS-IN-COMMON.md - Specification
+│   └── SPECS.md - Specification
 ├── Gemfile* - List of gems for project (with app and task sub sections)
 ├── Gemfile.lock
-├── GUIDELINES.md - AI guidelines
-├── IMLEMENTATION.md - Project wide implementation details (class level details are part of YARD docs)
 ├── lib/
 ├── LICENSE
 ├── public/          # Static files copied directly to web root
@@ -63,7 +66,6 @@ plannies-mate/
 ├── README.md - Developers how to use starting point
 ├── script/ - Scripts to rule them all, github style
 ├── spec/ - Rspec test by exmple
-├── SPEC.md - Specification
 └── tasks.rb - requires all the files needed for rake tasks
 
 
