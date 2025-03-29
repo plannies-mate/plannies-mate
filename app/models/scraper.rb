@@ -8,12 +8,13 @@ require_relative 'application_record'
 #
 # Table name: scrapers
 #
-#  id           :integer          not null, primary key
-#  github_url   :string           not null
-#  morph_url    :string           not null
-#  scraper_file :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id               :integer          not null, primary key
+#  authorities_path :string
+#  github_url       :string           not null
+#  morph_url        :string           not null
+#  scraper_path     :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #
@@ -21,9 +22,19 @@ require_relative 'application_record'
 #
 class Scraper < ApplicationRecord
   validates :morph_url, presence: true, uniqueness: true
+  # @example: https://github.com/planningalerts-scrapers/multiple_icon
   validates :github_url, presence: true
 
   has_many :authorities
+
+  def repo
+    github_url.split('/')[-1]
+  end
+
+  # Extract owner from html_url, "planningalerts-scrapers" in the examples above
+  def owner
+    github_url.split('/')[-2]
+  end
 
   def to_s
     gh_name = File.basename(github_url)

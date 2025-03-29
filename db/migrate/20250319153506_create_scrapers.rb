@@ -7,7 +7,9 @@ class CreateScrapers < ActiveRecord::Migration[8.0]
       # Basic morph scraper details from authority details
       t.string :morph_url, null: false, index: { unique: true }
       t.string :github_url, null: false
-      t.string :scraper_file
+      t.string :scraper_path
+      # file that contains the one or list of authorities and their query domains
+      t.string :authorities_path
 
       t.timestamps
     end

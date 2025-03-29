@@ -31,6 +31,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_175000) do
     t.text "last_log"
     t.integer "import_count", default: 0, null: false
     t.string "imported_on"
+    t.string "query_domains"
+    t.string "ip_addresses"
+    t.string "whois_names"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["scraper_id"], name: "index_authorities_on_scraper_id"
@@ -80,6 +83,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_175000) do
     t.index ["issue_id"], name: "index_github_users_issues_on_issue_id"
   end
 
+  create_table "github_users_pull_requests", id: false, force: :cascade do |t|
+    t.integer "github_user_id", null: false
+    t.integer "pull_request_id", null: false
+    t.index ["github_user_id", "pull_request_id"], name: "idx_on_github_user_id_pull_request_id_b4b9f28f63", unique: true
+    t.index ["pull_request_id"], name: "index_github_users_pull_requests_on_pull_request_id"
+  end
+
   create_table "http_cache_entries", force: :cascade do |t|
     t.string "url", null: false
     t.string "etag"
@@ -110,42 +120,49 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_175000) do
   end
 
   create_table "issues", force: :cascade do |t|
-    t.string "html_url"
-    t.string "title"
-    t.string "state"
-    t.boolean "locked", default: false
-    t.string "milestone"
+    t.integer "number", null: false
+    t.string "html_url", null: false
+    t.string "title", null: false
+    t.string "state", null: false
+    t.boolean "locked", default: false, null: false
     t.datetime "closed_at"
-    t.integer "user_id"
-    t.integer "assignee_id"
     t.integer "authority_id"
+    t.integer "user_id", null: false
+    t.integer "scraper_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assignee_id"], name: "index_issues_on_assignee_id"
     t.index ["authority_id"], name: "index_issues_on_authority_id"
+    t.index ["html_url"], name: "index_issues_on_html_url", unique: true
+    t.index ["scraper_id"], name: "index_issues_on_scraper_id"
     t.index ["user_id"], name: "index_issues_on_user_id"
   end
 
   create_table "pull_requests", force: :cascade do |t|
-    t.string "url", null: false
-    t.string "title"
-    t.integer "scraper_id"
-    t.integer "github_user_id"
-    t.date "closed_at_date"
-    t.boolean "merged", default: false
-    t.datetime "last_checked_at"
-    t.boolean "needs_github_update", default: true
+    t.integer "number", null: false
+    t.string "html_url", null: false
+    t.string "title", null: false
+    t.string "state", null: false
+    t.boolean "locked", default: false, null: false
+    t.datetime "closed_at"
+    t.datetime "merged_at"
+    t.string "merge_commit_sha"
+    t.integer "user_id", null: false
+    t.integer "issue_id", null: false
+    t.integer "scraper_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["github_user_id"], name: "index_pull_requests_on_github_user_id"
+    t.boolean "merged", default: false
+    t.index ["html_url"], name: "index_pull_requests_on_html_url", unique: true
+    t.index ["issue_id"], name: "index_pull_requests_on_issue_id"
     t.index ["scraper_id"], name: "index_pull_requests_on_scraper_id"
-    t.index ["url"], name: "index_pull_requests_on_url", unique: true
+    t.index ["user_id"], name: "index_pull_requests_on_user_id"
   end
 
   create_table "scrapers", force: :cascade do |t|
     t.string "morph_url", null: false
     t.string "github_url", null: false
-    t.string "scraper_file"
+    t.string "scraper_path"
+    t.string "authorities_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["morph_url"], name: "index_scrapers_on_morph_url", unique: true
@@ -156,9 +173,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_175000) do
   add_foreign_key "authorities_pull_requests", "pull_requests"
   add_foreign_key "github_users_issues", "github_users"
   add_foreign_key "github_users_issues", "issues"
+  add_foreign_key "github_users_pull_requests", "github_users"
+  add_foreign_key "github_users_pull_requests", "pull_requests"
   add_foreign_key "issue_labels_issues", "issue_labels"
   add_foreign_key "issue_labels_issues", "issues"
   add_foreign_key "issues", "authorities"
-  add_foreign_key "issues", "github_users", column: "assignee_id"
   add_foreign_key "issues", "github_users", column: "user_id"
+  add_foreign_key "issues", "scrapers"
+  add_foreign_key "pull_requests", "github_users", column: "user_id"
 end

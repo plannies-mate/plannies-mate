@@ -8,9 +8,9 @@ council websites, minimizing the need to check repositories added after this ana
 
 Note: This README focuses on installation and usage. For development:
 
-- See GUIDELINES.md for development guidelines
-- See SPECS.md for requirements and architecture
-- See IMPLEMENTATION.md for implementation details
+- See docs/GUIDELINES.md for development guidelines
+- See docs/SPECS.md for requirements and architecture
+- See docs/IMPLEMENTATION.md for implementation details
 
 ## Dependencies
 

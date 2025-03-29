@@ -32,6 +32,14 @@ class CreateAuthorities < ActiveRecord::Migration[8.0]
       t.integer :import_count, default: 0, null: false
       t.string :imported_on
 
+      # Details from scraper and dns / whois lookup
+      # comma seperated list of domains used in code
+      t.string :query_domains
+      # comma seperated ip addresses these domains resolve to (or "FAIL" if DNS lookup failed)
+      t.string :ip_addresses
+      # whois descr
+      t.string :whois_names
+
       t.timestamps
     end
   end

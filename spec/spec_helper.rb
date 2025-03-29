@@ -50,29 +50,8 @@ App.configure_sinatra_options(Sinatra::Base)
 database_config = YAML.load_file(File.expand_path('../config/database.yml', __dir__), aliases: true)
 ActiveRecord::Base.establish_connection(database_config['test'])
 
-VCR.configure do |config|
-  config.allow_http_connections_when_no_cassette = false
-  config.cassette_library_dir = File.expand_path('cassettes', __dir__)
-  config.hook_into :webmock
-  config.ignore_request { ENV.fetch('DISABLE_VCR', nil) }
-  config.ignore_localhost = true
-  config.configure_rspec_metadata!
-
-  # Filter out sensitive information if needed
-  # config.filter_sensitive_data('<API_KEY>') { ENV['API_KEY'] }
-
-  # Allow localhost requests (useful for testing against local services)
-  config.ignore_localhost = true
-
-  # Set default recording mode - one of :once, :new_episodes, :none, :all
-  vcr_mode = ENV.fetch('VCR_MODE', nil) =~ /rec/i ? :all : :once
-  config.default_cassette_options = {
-    record: vcr_mode,
-    match_requests_on: %i[method uri body],
-  }
-end
-
-# Load all support files
+# Load all support files,
+# including vcr_helper which sets up VCR
 Dir[File.expand_path('./support/**/*.rb', __dir__)].each { |f| require f }
 
 # Load all files so they appear in coverage

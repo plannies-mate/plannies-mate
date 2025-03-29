@@ -4,23 +4,32 @@
 #
 # Table name: pull_requests
 #
-#  id                  :integer          not null, primary key
-#  closed_at_date      :date
-#  last_checked_at     :datetime
-#  merged              :boolean          default(FALSE)
-#  needs_github_update :boolean          default(TRUE)
-#  title               :string
-#  url                 :string           not null
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  github_user_id      :integer
-#  scraper_id          :integer
+#  id               :integer          not null, primary key
+#  closed_at        :datetime
+#  html_url         :string           not null
+#  locked           :boolean          default(FALSE), not null
+#  merge_commit_sha :string
+#  merged           :boolean          default(FALSE)
+#  merged_at        :datetime
+#  number           :integer          not null
+#  state            :string           not null
+#  title            :string           not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  issue_id         :integer          not null
+#  scraper_id       :integer          not null
+#  user_id          :integer          not null
 #
 # Indexes
 #
-#  index_pull_requests_on_github_user_id  (github_user_id)
-#  index_pull_requests_on_scraper_id      (scraper_id)
-#  index_pull_requests_on_url             (url) UNIQUE
+#  index_pull_requests_on_html_url    (html_url) UNIQUE
+#  index_pull_requests_on_issue_id    (issue_id)
+#  index_pull_requests_on_scraper_id  (scraper_id)
+#  index_pull_requests_on_user_id     (user_id)
+#
+# Foreign Keys
+#
+#  user_id  (user_id => github_users.id)
 #
 require 'spec_helper'
 require_relative '../../app/models/pull_request'
@@ -42,12 +51,16 @@ RSpec.describe PullRequest do
     it 'requires unique url' do
       described_class.create!(
         url: 'https://github.com/test/repo/pull/1',
-        created_at: Date.today
+        created_at: Date.today,
+        github_user_id: 1,
+        scraper_id: 1
       )
 
       duplicate = described_class.new(
         url: 'https://github.com/test/repo/pull/1',
-        created_at: Date.today
+        created_at: Date.today,
+        github_user_id: 1,
+        scraper_id: 1
       )
 
       expect(duplicate).not_to be_valid
@@ -55,60 +68,83 @@ RSpec.describe PullRequest do
     end
   end
 
-  describe 'github_url helpers' do
-    it 'parses GitHub URL components' do
-      pr = described_class.new(url: 'https://github.com/owner/repo-name/pull/123')
+  describe 'url parsing methods' do
+    it 'extracts GitHub URL components' do
+      pr = described_class.new(url: 'https://github.com/planningalerts-scrapers/multiple_masterview/pull/5')
 
-      expect(pr.github_owner).to eq('owner')
-      expect(pr.github_repo).to eq('repo-name')
-      expect(pr.pr_number).to eq(123)
+      expect(pr.github_owner).to eq('planningalerts-scrapers')
+      expect(pr.github_name).to eq('multiple_masterview')
+      expect(pr.pr_number).to eq(5)
     end
 
     it 'returns nil for attributes of invalid URLs' do
       pr = described_class.new(url: 'https://example.com/not-github')
 
       expect(pr.github_owner).to be_nil
-      expect(pr.github_repo).to be_nil
+      expect(pr.github_name).to be_nil
       expect(pr.pr_number).to be_nil
     end
   end
 
-  describe '#update_from_github' do
-    let(:pr) do
-      described_class.create!(
+  describe 'scopes' do
+    before do
+      described_class.destroy_all
+
+      @open_pr = described_class.create!(
         url: 'https://github.com/test/repo/pull/1',
+        title: 'Open PR',
         created_at: Date.today,
-        needs_github_update: true
+        github_user_id: 1,
+        scraper_id: 1
+      )
+
+      @closed_merged_pr = described_class.create!(
+        url: 'https://github.com/test/repo/pull/2',
+        title: 'Merged PR',
+        created_at: Date.today - 10,
+        closed_at_date: Date.today - 5,
+        merged: true,
+        github_user_id: 1,
+        scraper_id: 1
+      )
+
+      @closed_rejected_pr = described_class.create!(
+        url: 'https://github.com/test/repo/pull/3',
+        title: 'Rejected PR',
+        created_at: Date.today - 15,
+        closed_at_date: Date.today - 8,
+        merged: false,
+        github_user_id: 1,
+        scraper_id: 1
       )
     end
 
-    it 'updates closed PR status' do
-      github_data = {
-        'state' => 'closed',
-        'closed_at' => '2025-03-24T12:00:00Z',
-        'merged' => true,
-      }
-
-      pr.update_from_github(github_data)
-
-      expect(pr.closed_at_date).to eq(Date.parse('2025-03-24'))
-      expect(pr.accepted).to be true
-      expect(pr.needs_github_update).to be false
-      expect(pr.last_checked_at).not_to be_nil
+    it 'filters open PRs' do
+      open_prs = described_class.open
+      expect(open_prs).to include(@open_pr)
+      expect(open_prs).not_to include(@closed_merged_pr)
+      expect(open_prs).not_to include(@closed_rejected_pr)
     end
 
-    it 'does not close an open PR' do
-      github_data = {
-        'state' => 'open',
-        'merged' => false,
-      }
+    it 'filters closed PRs' do
+      closed_prs = described_class.closed
+      expect(closed_prs).not_to include(@open_pr)
+      expect(closed_prs).to include(@closed_merged_pr)
+      expect(closed_prs).to include(@closed_rejected_pr)
+    end
 
-      pr.update_from_github(github_data)
+    it 'filters merged PRs' do
+      merged_prs = described_class.merged
+      expect(merged_prs).not_to include(@open_pr)
+      expect(merged_prs).to include(@closed_merged_pr)
+      expect(merged_prs).not_to include(@closed_rejected_pr)
+    end
 
-      expect(pr.closed_at_date).to be_nil
-      expect(pr.accepted).to be false
-      expect(pr.needs_github_update).to be true
-      expect(pr.last_checked_at).not_to be_nil
+    it 'filters rejected PRs' do
+      rejected_prs = described_class.rejected
+      expect(rejected_prs).not_to include(@open_pr)
+      expect(rejected_prs).not_to include(@closed_merged_pr)
+      expect(rejected_prs).to include(@closed_rejected_pr)
     end
   end
 end

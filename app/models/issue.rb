@@ -10,33 +10,35 @@ require_relative 'application_record'
 #
 #  id           :integer          not null, primary key
 #  closed_at    :datetime
-#  html_url     :string
-#  locked       :boolean          default(FALSE)
-#  milestone    :string
-#  state        :string
-#  title        :string
+#  html_url     :string           not null
+#  locked       :boolean          default(FALSE), not null
+#  number       :integer          not null
+#  state        :string           not null
+#  title        :string           not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  assignee_id  :integer
 #  authority_id :integer
-#  user_id      :integer
+#  scraper_id   :integer          not null
+#  user_id      :integer          not null
 #
 # Indexes
 #
-#  index_issues_on_assignee_id   (assignee_id)
 #  index_issues_on_authority_id  (authority_id)
+#  index_issues_on_html_url      (html_url) UNIQUE
+#  index_issues_on_scraper_id    (scraper_id)
 #  index_issues_on_user_id       (user_id)
 #
 # Foreign Keys
 #
-#  assignee_id   (assignee_id => github_users.id)
 #  authority_id  (authority_id => authorities.id)
+#  scraper_id    (scraper_id => scrapers.id)
 #  user_id       (user_id => github_users.id)
 #
 class Issue < ApplicationRecord
-  belongs_to :assignee, class_name: 'GithubUser', optional: true
-  belongs_to :authority, optional: true
-  belongs_to :user, class_name: 'GithubUser', optional: true
+  include RepoOwnerNumberHtmlUrl
+
+  belongs_to :authority, required: true
+  belongs_to :user, class_name: 'GithubUser', required: true
 
   has_and_belongs_to_many :assignees,
                           class_name: 'GithubUser',

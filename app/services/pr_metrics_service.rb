@@ -2,13 +2,16 @@
 
 # Service for calculating PR metrics for CoverageHistory
 class PrMetricsService
+  # Calculate metrics for a specific date
+  # @param date [Date] The date to calculate metrics for
+  # @return [Hash] Metrics including counts and populations
   def self.calculate_metrics_for_date(date)
     # Get all authorities for lookups
     authorities_map = {}
     Authority.all.each do |auth|
       authorities_map[auth.short_name] = {
-        population: auth.population,
-        possibly_broken: auth.possibly_broken?,
+        population: auth.population || 0,
+        possibly_broken: auth.possibly_broken?
       }
     end
 
@@ -39,7 +42,7 @@ class PrMetricsService
         next unless auth_info && auth_info[:possibly_broken] # Only count if it's broken
 
         authorities_impacted += 1
-        population_impacted += auth_info[:population].to_i
+        population_impacted += auth_info[:population]
       end
 
       # Skip if no actual impact (all authorities already working)
@@ -66,6 +69,8 @@ class PrMetricsService
     metrics
   end
 
+  # Update all coverage history records with PR metrics
+  # @return [Integer] Number of records updated
   def self.update_coverage_history_metrics
     updated_count = 0
 

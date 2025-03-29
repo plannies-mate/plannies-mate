@@ -47,7 +47,7 @@ class PullRequestsImporter
     users = [users] if users.is_a?(String)
     
     # Set default since date if not provided
-    since ||= Date.parse('2024-10-01').to_time
+    since ||= 1.month.ago
     
     self.class.log "Importing pull requests from GitHub for #{users.size} users since #{since}"
     
@@ -76,14 +76,14 @@ class PullRequestsImporter
     
     # Clean up PRs that no longer exist
     if pr_ids.any?
-      removed = PullRequest.where('github_updated_at > ?', since)
-                           .where.not(github_id: pr_ids)
+      removed = PullRequest.where('updated_at > ?', since)
+                           .where.not(id: pr_ids)
                            .destroy_all
                            .size
       self.class.log "Removed #{removed} PRs that no longer exist" if removed > 0
     end
     
-    self.class.log "Imported #{@count} PRs, updated #{@updated} PRs, encountered #{@errors} errors"
+    self.class.log "Imported #{@count} PRs, updated #{@updated}, encountered #{@errors} errors"
     { imported: @count, updated: @updated, errors: @errors }
   end
   
@@ -91,59 +91,82 @@ class PullRequestsImporter
   
   # Process a single pull request from the GitHub API
   def process_pull_request(pr_data)
-    # Extract repository from the repo URL (format: https://github.com/owner/repo/pull/number)
-    repo = pr_data.repository_url.split('/').last(2).join('/')
+    # Extract repository from the PR HTML URL (format: https://github.com/owner/repo/pull/number)
+    # Example: https://github.com/planningalerts-scrapers/multiple_masterview/pull/5
+    url_parts = pr_data.html_url.split('/')
+    repo = "#{url_parts[-4]}/#{url_parts[-2]}"
+    pr_number = url_parts[-1].to_i
+    
+    # Find the scraper
+    repo_name = url_parts[-2]
+    scraper = Scraper.find_by(name: repo_name)
+    
+    # Skip PRs for repositories we don't track as scrapers
+    unless scraper
+      self.class.log "Skipping PR for unknown scraper: #{repo_name}"
+      return
+    end
     
     # Find or initialize the PR record
-    pull_request = PullRequest.find_or_initialize_by(github_id: pr_data.id)
+    pull_request = PullRequest.find_or_initialize_by(url: pr_data.html_url)
     
     # If this is a new PR, increment the count
     is_new = pull_request.new_record?
     
+    # Find the user
+    user = GithubUser.find_by(login: pr_data.user.login)
+    unless user
+      # Create the user if they don't exist
+      user = GithubUser.create!(
+        id: pr_data.user.id,
+        login: pr_data.user.login,
+        html_url: pr_data.user.html_url,
+        avatar_url: pr_data.user.avatar_url
+      )
+    end
+    
     # Extract the PR attributes
     attributes = {
       title: pr_data.title,
-      url: pr_data.html_url,
-      github_repo: repo,
-      github_number: pr_data.number,
-      github_state: pr_data.state,
-      github_merged: pr_data.pull_request&.merged_at.present?,
-      github_updated_at: pr_data.updated_at,
-      closed_at_date: pr_data.closed_at ? Date.parse(pr_data.closed_at.to_s) : nil,
-      accepted: pr_data.pull_request&.merged_at.present?
+      created_at: pr_data.created_at,
+      updated_at: pr_data.updated_at,
+      github_user_id: user.id,
+      scraper_id: scraper.id
     }
     
-    # Find the user
-    user_login = pr_data.user&.login
-    if user_login.present?
-      user = GithubUser.find_by(login: user_login)
-      attributes[:github_user_id] = user.id if user
+    # Add closed date if available
+    attributes[:closed_at_date] = pr_data.closed_at&.to_date if pr_data.closed_at
+    
+    # Determine if it's merged or not
+    attributes[:merged] = pr_data.pull_request&.merged_at.present?
+    
+    # Update the record
+    if is_new
+      pull_request.assign_attributes(attributes)
+      pull_request.save!
+      @count += 1
+      self.class.log "Created new PR: #{pull_request.title}"
+    elsif pull_request.attributes.except('id') != attributes.except('id')
+      pull_request.update!(attributes)
+      @updated += 1
+      self.class.log "Updated PR: #{pull_request.title}"
     end
     
     # Auto-associate with authority if possible
-    if is_new && pull_request.authorities.empty?
-      guess_associated_authorities(pull_request, pr_data.title, repo)
+    if pull_request.authorities.empty?
+      guess_associated_authorities(pull_request, pr_data.title, repo_name)
     end
     
-    # Update the record if anything changed
-    changed = pull_request.assign_attributes(attributes)
-    
-    if pull_request.new_record? || pull_request.changed?
-      pull_request.save!
-      @count += 1 if is_new
-      @updated += 1 unless is_new
-    end
+    pull_request
   end
   
   # Try to guess which authorities this PR is related to based on the title and repo
-  def guess_associated_authorities(pull_request, title, repo)
-    # Extract repo name without owner
-    repo_name = repo.split('/').last
-    
+  def guess_associated_authorities(pull_request, title, repo_name)
     # First, check if the repo name matches an authority short_name
     authority = Authority.find_by(short_name: repo_name)
     if authority
       pull_request.authorities << authority
+      self.class.log "Associated PR with authority: #{authority.short_name}"
       return
     end
     
@@ -152,6 +175,7 @@ class PullRequestsImporter
       authority = IssueAuthorityMatcher.match(title, [])
       if authority
         pull_request.authorities << authority
+        self.class.log "Associated PR with authority via title match: #{authority.short_name}"
         return
       end
     end
@@ -163,6 +187,7 @@ class PullRequestsImporter
         # Don't automatically add too many authorities
         if scraper.authorities.size <= 5
           pull_request.authorities = scraper.authorities
+          self.class.log "Associated PR with #{scraper.authorities.size} authorities from multiple scraper"
         end
       end
     end

@@ -9,6 +9,7 @@
 #  admin_url       :string
 #  import_count    :integer          default(0), not null
 #  imported_on     :string
+#  ip_addresses    :string
 #  last_log        :text
 #  last_received   :date
 #  median_per_week :integer          default(0), not null
@@ -17,12 +18,14 @@
 #  population      :integer
 #  possibly_broken :boolean          default(FALSE), not null
 #  query_domain    :string
+#  query_domains   :string
 #  short_name      :string           not null
 #  state           :string
 #  total_count     :integer          default(0), not null
 #  url             :string           not null
 #  website_url     :string
 #  week_count      :integer          default(0), not null
+#  whois_names     :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  scraper_id      :integer          not null

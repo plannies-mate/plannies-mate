@@ -4,12 +4,13 @@
 #
 # Table name: scrapers
 #
-#  id           :integer          not null, primary key
-#  github_url   :string           not null
-#  morph_url    :string           not null
-#  scraper_file :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id               :integer          not null, primary key
+#  authorities_path :string
+#  github_url       :string           not null
+#  morph_url        :string           not null
+#  scraper_path     :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #
