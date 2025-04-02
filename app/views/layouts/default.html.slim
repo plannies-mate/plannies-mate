@@ -1,0 +1,74 @@
+doctype html
+html lang="en"
+  head
+    meta charset="UTF-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    title #{title} #{title ? '-' : ''} #{defined?(section) && section ? section : 'Plannies Mate'}
+    - if defined?(favicon) && favicon # defined?(favicon) && favicon
+      link rel="apple-touch-icon" sizes="180x180" href="/assets/images/#{favicon}-apple-touch-icon.png"
+      link rel="icon" type="image/png" sizes="32x32" href="/assets/images/#{favicon}-favicon-32x32.png"
+      link rel="icon" type="image/png" sizes="16x16" href="/assets/images/#{favicon}-favicon-16x16.png"
+      link rel="manifest" href="/assets/#{favicon}.webmanifest"
+    - else
+      link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png"
+      link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png"
+      link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png"
+      link rel="manifest" href="/assets/site.webmanifest"
+    link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    link rel="stylesheet" href="/assets/css/base.css"
+    link rel="stylesheet" href="/assets/css/theme.css"
+    link rel="stylesheet" href="/assets/css/background.css"
+    - unless defined?(no_menu) && no_menu
+      link rel="stylesheet" href="/assets/css/mini_menu.css"
+      link rel="stylesheet" href="/assets/css/reports.css"
+    meta name="theme-color" content="#00843D"
+
+  body
+    - unless defined?(no_menu) && no_menu
+      header.mini-hero
+        .container
+          h1
+            i.fas.fa-code
+            |  #{title} #{title ? '-' : ''} Plannies Mate
+          p.subtitle Dev My Scraper
+          nav.main-nav
+            a href="/"
+              i.fas.fa-home
+              |  Home
+            a href="/crikey-whats-that"
+              i.fas.fa-magnifying-glass-chart
+              |  Crikey! What's That?
+            a href="/authorities"
+              i.fas.fa-building
+              |  Authorities
+            a href="/issues"
+              i.fas.fa-bug
+              |  Issues
+            a href="/scrapers"
+              i.fas.fa-code-branch
+              |  Scrapers
+            a.logout-link href="/oauth2/sign_out"
+              i.fas.fa-right-from-bracket
+              |  Sign Out
+
+    == yield
+    
+    footer
+      .container
+        .social-links
+          a.social-link href="https://github.com/ianheggie-oaf" title="When I am hanging out with OAF"
+            i.fab.fa-github-alt
+          a.social-link href="https://github.com/ianheggie" title="Normal work and play using GitHub"
+            i.fab.fa-github
+          a.social-link href="https://www.linkedin.com/in/ianheggie/" title="Professional networking"
+            i.fab.fa-linkedin
+        p
+          span#deployed
+          |  Made with
+          a.social-link href="https://www.australia.com/en" title="Come and say G'Day!"
+            i.fas.fa-heart
+          '  in Australia at
+          - melbourne_time = Time.now.in_time_zone('Australia/Melbourne')
+          = melbourne_time.strftime("%H:%M on %d %b %Y %Z")
+
+    script src="/assets/js/version.js"

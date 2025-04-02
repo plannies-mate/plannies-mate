@@ -9,6 +9,30 @@ style
   .get-endpoint { color: #0066cc; background: #f0f8ff; }
   .post-endpoint { color: #008800; background: #f0fff0; }
 
+
+h2 Environment
+table
+  thead
+    tr
+      th Variable
+      th value
+  tbody
+    tr
+      th RACK_ENV
+      td= env
+    tr
+      th RUBY_VERSION
+      td= RUBY_VERSION
+    tr
+      th site_dir
+      td = site_dir
+    tr
+      th roundup_request_file
+      td= roundup_request_file
+    tr
+      th roundup_request_file_exists
+      td= roundup_request_file_exists
+
 h2 GET Endpoints
 ul
   - get_paths.each do |get_path|

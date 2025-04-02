@@ -11,53 +11,47 @@ class DevelopController < ApplicationController
   # We're already using Sinatra::JSON from contrib
   # register Sinatra::Contrib
 
-  get '/' do
+  get '/debug' do
     locals = { title: 'APP Endpoints',
                get_paths: get_paths,
-               post_paths: method_paths('POST'), }
-    app_helpers.render 'root', locals
-  end
-
-  get '/debug' do
-    content_type :json
-    json(
-      env: ENV.fetch('RACK_ENV', nil),
-      roundup_request_file: app_helpers.roundup_request_file,
-      roundup_request_file_exists: File.exist?(app_helpers.roundup_request_file)
-    )
+               post_paths: method_paths('POST'),
+               env: ENV.fetch('RACK_ENV', nil),
+               roundup_request_file: app_helpers.roundup_request_file,
+               roundup_request_file_exists: File.exist?(app_helpers.roundup_request_file), }
+    app_helpers.render 'debug', locals
   end
 
   # Serve static files
   # Used for development paths not automatically mapped to static files
-  get '/*' do
-    path = params[:splat].first
-    serve_path(path)
-  end
+  # get '/*' do
+  #   path = params[:splat].first
+  #   serve_path(path)
+  # end
 
   private
 
-  def serve_path(path)
-    file_path = File.join(app_helpers.site_dir, path)
-
-    try_paths = %W[#{file_path}
-                   #{file_path}.html
-                   #{file_path}/index.html
-                   #{file_path}.default.html
-                   #{file_path}/default.html]
-    try_path = try_paths.find { |p| File.exist?(p) && !File.directory?(p) } unless app_helpers.production?
-    if try_path
-      set_content_type(try_path)
-      if path =~ %r{\A/errors/(\d+)}
-        # TODO: set response code to $1
-      end
-      send_file try_path
-    elsif path == NOT_FOUND_PATH
-      set_content_type('.txt')
-      halt 404, 'File not found!'
-    else
-      serve_path(NOT_FOUND_PATH)
-    end
-  end
+  # def serve_path(path)
+  #   file_path = File.join(app_helpers.site_dir, path)
+  #
+  #   try_paths = %W[#{file_path}
+  #                  #{file_path}.html
+  #                  #{file_path}/index.html
+  #                  #{file_path}.default.html
+  #                  #{file_path}/default.html]
+  #   try_path = try_paths.find { |p| File.exist?(p) && !File.directory?(p) } unless app_helpers.production?
+  #   if try_path
+  #     set_content_type(try_path)
+  #     if path =~ %r{\A/errors/(\d+)}
+  #       # TODO: set response code to $1
+  #     end
+  #     send_file try_path
+  #   elsif path == NOT_FOUND_PATH
+  #     set_content_type('.txt')
+  #     halt 404, 'File not found!'
+  #   else
+  #     serve_path(NOT_FOUND_PATH)
+  #   end
+  # end
 
   def get_paths
     paths = method_paths('GET')
@@ -71,12 +65,12 @@ class DevelopController < ApplicationController
   end
 
   def method_paths(http_method)
-    paths = []
-    Constants::ROUTES.each do |route|
-      paths << route[:controller].routes[http_method]&.map do |r|
-        "#{route[:path]}#{r[0]}".sub(%r{\A/+}, '/').sub(%r{(?!^)/\z}, '')
+    paths =
+      Constants::ROUTES.map do |route|
+        route[:controller].routes[http_method]&.map do |r|
+          "#{route[:path]}#{r[0]}".sub(%r{\A/+}, '/').sub(%r{(?!^)/\z}, '')
+        end
       end
-    end
     paths.flatten.compact.sort
   end
 

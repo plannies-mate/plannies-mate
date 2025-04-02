@@ -13,17 +13,26 @@ require 'rake'
 load File.expand_path('../../app/tasks/generate.rake', __dir__)
 load File.expand_path('../../app/tasks/singleton.rake', __dir__)
 
-
 RSpec.describe 'generate.rake tasks' do
   before do
     Rake::Task.tasks.each(&:reenable)
     Rake::Task.load_tasks if Rake::Task.tasks.empty?
+    FileUtils.rm_rf(AuthoritiesGenerator.site_dir)
   end
 
   after do
     # Clean up
-    FileUtils.rm_rf(AuthoritiesGenerator.site_dir)
+    # FileUtils.rm_rf(AuthoritiesGenerator.site_dir)
     RSpec::Mocks.space.reset_all
+  end
+
+  describe 'generate:content' do
+    it 'calls ContentGenerator.generate_public and generate_content' do
+      expect(ContentGenerator).to receive(:generate_public)
+      expect(ContentGenerator).to receive(:generate_content)
+      task = Rake::Task['generate:authorities']
+      task.invoke
+    end
   end
 
   describe 'generate:authorities' do

@@ -11,14 +11,10 @@ namespace :generate do
     puts 'All reports generated successfully'
   end
 
-  desc 'Generate public static content'
-  task :public do
-    raise NotImplementedError, 'TODO: Implement copy of static content from public'
-  end
-
   desc 'Generate static content'
   task :content do
-    raise NotImplementedError, 'TODO: Implement generation of static content from app/contents wrapped in a layout'
+    ContentGenerator.generate_public
+    ContentGenerator.generate_contents
   end
 
   desc 'Generate authorities index page'
