@@ -10,7 +10,6 @@ require_relative 'application_record'
 #
 #  id             :integer          not null, primary key
 #  avatar_url     :string
-#  html_url       :string
 #  login          :string           not null
 #  site_admin     :boolean          default(FALSE)
 #  user_view_type :string

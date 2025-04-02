@@ -1,33 +1,92 @@
-# Plannies Mate Specifications
+# Plannies Mate - Tasks Specifications
 
 See Also:
 
-- SPECS-WHATS-THAT.md - Specs for "Crikey! What's That?" front end page
-- SPECS.MD - specs specific to this project
-- IMPLEMENTATION.md - implementation decisions made
 - GUIDELINES.md - Guidelines for AIs and Developers (shared with plannies-mate)
+- IMPLEMENTATION.md - implementation decisions made
+- SPECS.MD - Project wide specs
 
 Note: README.md is for setup and usage by the Developer
 
+The main purpose of the rake tasks is to generate html content in site_dir:
+
+* /var/www/html - Production environment
+* project_dir/tmp/html - Development environment
+* project_dir/tmp/html-test - Test environment
+
+## Periodic Cron jobs
+
+* `roundup:all` is run nightly
+* `roundup:if_needed` is run each 30 minutes
+
+## Import tasks
+
+These tasks import data from external resources:
+
+* `import:authorities` - imports using fetchers from https://www.planningalerts.org.au/authorities and linked authority
+  detail and "under the hood" (stats) pages into Authority and Scraper tables. Fetchers extract the data from the
+  html pages.
+
+* `import:issues` - imports [Issues](https://github.com/planningalerts-scrapers/issues/issues) using github API into
+  Issue, GithubUser and IssueLabel tables
+
+* `import:pull_requests` - imports the pull requests I created
+  targeting [planningalerts-scrapers repos](https://github.com/orgs/planningalerts-scrapers/repositories?q=archived%3Afalse)
+  using github API into the PullRequest table and sets up associations
+
+* `import:coverage_history` - Imports historical coverage stats using the WayBack archive of authorities index into
+  CoverageHistory table. Requires PullRequest.authorities association to have been populated (automatically for single
+  authority repos, manually for non-obvious multis - branch name may match an authority or pull request title may
+  contain authority name or short_names)
+
+To consider:
+
+* `import:branches` - imports the branches of repos from [my repos](https://github.com/ianheggie-oaf?tab=repositories)
+  whose repos are forks of some of the planningalerts-scrapers repos
+  * Also adds webhooks to be informed of branches and pull requests
+  * /webhooks should be sent directly to sinatra app by caddy rather than going through Oauth2 Proxy
+
+## Tasks to Generate html website
+
+These tasks rely on import tasks being run
+
+* `generate:public` - copies `project_dir/public` to `site_dir`
+* `generate:content` - inserts html files from `app/contents` into default layout (or no-menu for base index.html)
+  and writes to `site_dir`
+* `generate:authorities` - Generate Authorities index page: `site_dir/authorities.html`
+* `generate:authority_pages` - Generate individual authority pages: `site_dir/authorities/AUTHORITY.html`
+* `generate:scrapers` - Generate scrapers index page: `site_dir/scrapers.html`
+* `generate:scraper_pages` - Generate individual scraper pages: `site_dir/scrapers/SCRAPER.html`
+* `generate:coverage_history` - Generate coverage history report: `site_dir/coverge_hostory.html`
+
+To consider:
+
+* generate a maintenance_required.html (login required) list - include:
+  * interesting branches that don't have pull requests - prompts me to create pull requests
+  * branches that have merged pull requests (can be deleted locally and on github)
+
 ## The Big Picture
 
-There are a variety of reports I want from the system:
+Why do I care and what will I use these for!?
 
-### Scraper and Authority Lists and Status pages
+### Scrapers
 
-Files generated and classes that do the generation (each called from their own task, similar to how fetchers are called)
+I can see the state of each of the scrapers, what authorities are broken and if there is a Pull request with a fix or if
+someone else is working on the issue.
 
-* `data_dir/scrapers.html` - list of scrapers with a table of the associated authorities grouped under each
+Need a clear visual:
+
+* Nothing for me to do (not broken, I made a PR, someone else is working on it) - Pale Green background?
+* Assigned to me to work on - Yellow background?
+* Consider to work on (Combined with Scrapers listed in order of most broken to least ordered by population affected *
+  log2(months down))
+
+* `site_dir/scrapers.html` - list of scrapers with a table of the associated authorities grouped under each
   class: `lib/scrapers_generator.rb`
-* `data_dir/scrapers/scraper_base_name.html` - details of scraper (currently just the github and auth links and a list of
+* `site_dir/scrapers/scraper_base_name.html` - details of scraper (currently just the github and auth links and a list
+  of
   authorities that use the scraper)
   class: `lib/scraper_generator.rb`
-* `data_dir/authorities.html` - table of authorities with scraper and detail relative links - order by authority
-  class: `lib/authorities_generator.rb`
-* DISCUSS if we generate different pages for different sort orders, or use a javascript plugin to sort the table (prefer
-  as we will later also add filtering)
-* `data_dir/authorities/short_name.html` - detailed page for each authority listing all the details we have
-  class: `lib/authority_generator.rb`
 
 Repos Index is grouped by
 
@@ -43,6 +102,21 @@ Links (can be a terse list of links):
 * morph: production, ianheggie-oaf (if available)
 * info - links to a detailed page for each authority
 
+#### Scrapers Details page
+
+The details page should also include feedback on how my work on broken scrapers is progressing... (TBD)
+
+### Authorities
+
+Mainly as a enhanced version of authority coverage?
+
+* `site_dir/authorities.html` - table of authorities with scraper and detail relative links - order by authority
+  class: `lib/authorities_generator.rb`
+* DISCUSS if we generate different pages for different sort orders, or use a javascript plugin to sort the table (prefer
+  as we will later also add filtering)
+* `site_dir/authorities/short_name.html` - detailed page for each authority listing all the details we have
+  class: `lib/authority_generator.rb`
+
 * table of authorities in order of score within scraper, listing
     * authority name
     * state
@@ -52,82 +126,12 @@ Links (can be a terse list of links):
     * spec count (expected records in spec if updated since scraper went down)
     * test count (records from Ian's run of scraper)
 
-### How is what I am working progressing?
-
-There should be a "in_progress" report
-
-* Scrapers who have one or more tickets assigned to me with Project Status "In Progress" should be listed here
-
-This is where I want to merge in status from
-
-* my repos on morph - which wil give me last error or last records scraped,
-* the spec/expected/*.yml files in the git repo (where they have been refreshed well after the scraper stopped working)
-
-### What has been assigned to me?
-
-I want a "assigned_to_me" report with the following groups, which are roughly in the order I should work on them.
-
-Later I will consider allowing selection of selecting other assignees.
-
-Groups with nothing in them should not be listed.
-
-* **My To Do**
-    * Scrapers who have one or more tickets assigned to me with Project Status "ToDo"
-
-* **My Blocked**
-    * Scrapers who have one or more tickets assigned to me with Project Status "Blocked"
-    * Action: get help to unblock, or assign through to someone who can get help.
-
-* **My Done**
-    * Scrapers who have one or more tickets assigned to me with Project Status "Done"
-    * Action: Assign through to a reviewer to sign off on closing
-
-### What should I consider next
-
-* List scrapers that have some tickets with positive score in order of the sum of the scores
-* Add in some diagnostics based on analysing the repos:
-    * Is the url still viable (hostname still valid in DNS?)
-
-### Reviewing other tickets
-
-* **unmatched Tickets**
-    * List tickets that are unassigned and could not be matched to a scraper here
-
-### Ignore list
-
-* scrapers whose open tickets are all zero score get grouped here
-
-### Scoring
-
-Score tickets by months since data has been received times population divided by 100,000 - round to two decimal places
-
-* Adjust ticket score based on presence of tags:
-    * "custom" *= 0.9 - minor extra work
-    * "council website good" *= 1.1 - someone has confirmed the info is available
-    * "new scraper needed" *= 0.1 (Do after existing)
-    * "PDF" += 0.7 - extra work
-    * "PhP" *= 0.05 - dislike the language and libraries
-    * "quick fix" *= 1.2
-    * "reported" *= 3 - better work of mouth when we fix things
-    * "waiting callback" *= 0.5 - someone else is following up
-
-* Score tickets that are have any of these tags as zero score:
-    * "anti scraping technology"
-    * "council website bad"
-    * "blocked by authority"
-    * "does not publish"
-    * "no da tracking site"
-
-* Score tickets that are assigned to other people as zero score
-
-* Score tickets that are not marked "Possibly Broken" in the PlanningAlerts list as zero score.
-
 ### Has a site changed to something an existing scraper already handles?
 
 This is the focus of the "Crikey, Whats That!?" sub-project - extracting significant search strings from each of the
 repos to find which scraper best matches a sites new search results page.
 
-## Environment
+### Coverage History
 
-See README.md
-
+this is basically to showcase the impact my work has as well as to gain an understanding of the size of the work (how
+quickly scraping of authorities break)

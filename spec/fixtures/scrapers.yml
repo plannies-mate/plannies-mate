@@ -2,53 +2,75 @@
 #
 # Table name: scrapers
 #
-#  id               :integer          not null, primary key
-#  authorities_path :string
-#  github_url       :string           not null
-#  morph_url        :string           not null
-#  scraper_path     :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id                  :integer          not null, primary key
+#  authorities_path    :string
+#  default_branch      :string           default("master"), not null
+#  name                :string           not null
+#  needs_generate      :boolean          default(TRUE), not null
+#  needs_import        :boolean          default(TRUE), not null
+#  scraper_path        :string
+#  update_reason       :string
+#  update_requested_at :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 # Indexes
 #
-#  index_scrapers_on_morph_url  (morph_url) UNIQUE
+#  index_scrapers_on_name  (name) UNIQUE
 #
 ---
 # Fixtures for scrapers
 
 act:
-  github_url: https://github.com/planningalerts-scrapers/act
-  morph_url: https://morph.io/planningalerts-scrapers/act
+  name: act
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
 
 'multiple_atdis':
-  github_url: https://github.com/planningalerts-scrapers/multiple_atdis
-  morph_url: https://morph.io/planningalerts-scrapers/multiple_atdis
+  name: multiple_atdis
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
 
 bankstown:
-  github_url: https://github.com/planningalerts-scrapers/bankstown
-  morph_url: https://morph.io/planningalerts-scrapers/bankstown
+  name: bankstown
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
 
 burdekin:
-  github_url: https://github.com/planningalerts-scrapers/BurdekinShire_DAs
-  morph_url: https://morph.io/planningalerts-scrapers/BurdekinShire_DAs
+  name: BurdekinShire_DAs
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
 
 banyule:
-  github_url: https://github.com/planningalerts-scrapers/banyule
-  morph_url: https://morph.io/planningalerts-scrapers/banyule
+  name: banyule
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
 
 baw_baw:
-  github_url: https://github.com/planningalerts-scrapers/bawbaw
-  morph_url: https://morph.io/planningalerts-scrapers/bawbaw
+  name: bawbaw
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
 
 'multiple_civica':
-  github_url: https://github.com/planningalerts-scrapers/multiple_civica
-  morph_url: https://morph.io/planningalerts-scrapers/multiple_civica
+  name: multiple_civica
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
 
 brimbank:
-  github_url: https://github.com/planningalerts-scrapers/Brimbank_City_Council
-  morph_url: https://morph.io/planningalerts-scrapers/Brimbank_City_Council
+  name: Brimbank_City_Council
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
 
 busselton:
-  github_url: https://github.com/planningalerts-scrapers/city_of_busselton_development_applications
-  morph_url: https://morph.io/planningalerts-scrapers/city_of_busselton_development_applications
+  name: city_of_busselton_development_applications
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30

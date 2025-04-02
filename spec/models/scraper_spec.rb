@@ -4,17 +4,21 @@
 #
 # Table name: scrapers
 #
-#  id               :integer          not null, primary key
-#  authorities_path :string
-#  github_url       :string           not null
-#  morph_url        :string           not null
-#  scraper_path     :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id                  :integer          not null, primary key
+#  authorities_path    :string
+#  default_branch      :string           default("master"), not null
+#  name                :string           not null
+#  needs_generate      :boolean          default(TRUE), not null
+#  needs_import        :boolean          default(TRUE), not null
+#  scraper_path        :string
+#  update_reason       :string
+#  update_requested_at :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 # Indexes
 #
-#  index_scrapers_on_morph_url  (morph_url) UNIQUE
+#  index_scrapers_on_name  (name) UNIQUE
 #
 require_relative '../spec_helper'
 require_relative '../../app/models/scraper'

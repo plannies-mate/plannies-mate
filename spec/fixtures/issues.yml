@@ -4,23 +4,26 @@
 #
 # Table name: issues
 #
-#  id           :integer          not null, primary key
-#  closed_at    :datetime
-#  html_url     :string           not null
-#  locked       :boolean          default(FALSE), not null
-#  number       :integer          not null
-#  state        :string           not null
-#  title        :string           not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  authority_id :integer
-#  scraper_id   :integer          not null
-#  user_id      :integer          not null
+#  id                    :integer          not null, primary key
+#  closed_at             :datetime
+#  import_trigger_reason :string
+#  import_triggered_at   :datetime
+#  locked                :boolean          default(FALSE), not null
+#  needs_generate        :boolean          default(TRUE), not null
+#  needs_import          :boolean          default(TRUE), not null
+#  number                :integer          not null
+#  state                 :string           not null
+#  title                 :string           not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  authority_id          :integer
+#  scraper_id            :integer
+#  user_id               :integer          not null
 #
 # Indexes
 #
 #  index_issues_on_authority_id  (authority_id)
-#  index_issues_on_html_url      (html_url) UNIQUE
+#  index_issues_on_number        (number) UNIQUE
 #  index_issues_on_scraper_id    (scraper_id)
 #  index_issues_on_user_id       (user_id)
 #
@@ -30,31 +33,26 @@
 #  scraper_id    (scraper_id => scrapers.id)
 #  user_id       (user_id => github_users.id)
 #
+---
 issue_1:
-
-  html_url: https://github.com/planningalerts-scrapers/issues/issues/1
+  number: 1
   title: Brimbank City Council
   authority: brimbank
   state: open
   locked: false
-  milestone: March 2025
   created_at: 2025-03-01T10:30:00Z
   updated_at: 2025-03-15T15:45:00Z
   closed_at: 
   user: ianheggie
-  assignee: ianheggie_oaf
 
 
 issue_2:
-
-  html_url: https://github.com/planningalerts-scrapers/issues/issues/2
+  number: 2
   title: Update Brisbane scraper to new website format
   state: open
   locked: false
-  milestone: April 2025
   created_at: 2025-03-10T09:15:00Z
   updated_at: 2025-03-18T14:20:00Z
   closed_at: 
   user: planningalerts_bot
-  assignee: ianheggie_oaf
 

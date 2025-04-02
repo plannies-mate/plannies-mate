@@ -4,32 +4,35 @@
 #
 # Table name: pull_requests
 #
-#  id               :integer          not null, primary key
-#  closed_at        :datetime
-#  html_url         :string           not null
-#  locked           :boolean          default(FALSE), not null
-#  merge_commit_sha :string
-#  merged           :boolean          default(FALSE)
-#  merged_at        :datetime
-#  number           :integer          not null
-#  state            :string           not null
-#  title            :string           not null
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  issue_id         :integer          not null
-#  scraper_id       :integer          not null
-#  user_id          :integer          not null
+#  id                    :integer          not null, primary key
+#  base_branch_name      :string           not null
+#  closed_at             :datetime
+#  head_branch_name      :string           not null
+#  import_trigger_reason :string
+#  import_triggered_at   :datetime
+#  locked                :boolean          default(FALSE), not null
+#  merge_commit_sha      :string
+#  merged_at             :datetime
+#  needs_import          :boolean          default(FALSE), not null
+#  number                :integer          not null
+#  state                 :string           not null
+#  title                 :string           not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  issue_id              :integer          not null
+#  scraper_id            :integer          not null
 #
 # Indexes
 #
-#  index_pull_requests_on_html_url    (html_url) UNIQUE
-#  index_pull_requests_on_issue_id    (issue_id)
-#  index_pull_requests_on_scraper_id  (scraper_id)
-#  index_pull_requests_on_user_id     (user_id)
+#  index_pull_requests_on_issue_id               (issue_id)
+#  index_pull_requests_on_number                 (number) UNIQUE
+#  index_pull_requests_on_scraper_id             (scraper_id)
+#  index_pull_requests_on_scraper_id_and_number  (scraper_id,number) UNIQUE
 #
 # Foreign Keys
 #
-#  user_id  (user_id => github_users.id)
+#  issue_id    (issue_id => issues.id)
+#  scraper_id  (scraper_id => scrapers.id)
 #
 require 'spec_helper'
 require_relative '../../app/models/pull_request'

@@ -8,17 +8,12 @@ class CreateAuthorities < ActiveRecord::Migration[8.0]
       t.string :short_name, null: false, index: { unique: true }
       t.string :state
       t.string :name, null: false
-      t.string :url, null: false
-      # The website for the council
-      t.string :website_url
-      # The domain used to send queries to
-      t.string :query_domain
-      # The PA admin url
-      t.string :admin_url
       t.boolean :possibly_broken, default: false, null: false
       t.integer :population
+      # date authority is no longer listed
+      t.date :removed_on
 
-      # Stats data
+      # Stats data (Not checked for historical lists)
       t.date :last_received
       t.integer :week_count, default: 0, null: false
       t.integer :month_count, default: 0, null: false
@@ -26,13 +21,19 @@ class CreateAuthorities < ActiveRecord::Migration[8.0]
       t.date :added_on
       t.integer :median_per_week, default: 0, null: false
 
-      # Details data
-      t.references :scraper, null: false, foreign_key: true
+      # Details data (Not checked for historical lists)
+      t.references :scraper, null: true, foreign_key: true
       t.text :last_log
       t.integer :import_count, default: 0, null: false
       t.string :imported_on
 
-      # Details from scraper and dns / whois lookup
+      # Details from issue - project link
+      # The website for the council (from associated issue - project link details)
+      t.string :website_url
+      # The PA admin url
+      t.string :admin_url
+
+      # Details from repo files => scraper.* and dns / whois lookup
       # comma seperated list of domains used in code
       t.string :query_domains
       # comma seperated ip addresses these domains resolve to (or "FAIL" if DNS lookup failed)
@@ -40,7 +41,14 @@ class CreateAuthorities < ActiveRecord::Migration[8.0]
       # whois descr
       t.string :whois_names
 
-      t.timestamps
+      # requires import of details, stats pages and github details
+      t.boolean :needs_import, default: true, null: false
+      # generate after needs_import
+      t.boolean :needs_generate, default: true, null: false
+      t.datetime :import_triggered_at
+      t.string :import_trigger_reason
+
+      t.timestamps null: false
     end
   end
 end

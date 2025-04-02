@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'application_record'
+require_relative 'concerns/repo_owner_number_html_url'
 
 # GitHub Label model
 #
@@ -8,23 +9,26 @@ require_relative 'application_record'
 #
 # Table name: issues
 #
-#  id           :integer          not null, primary key
-#  closed_at    :datetime
-#  html_url     :string           not null
-#  locked       :boolean          default(FALSE), not null
-#  number       :integer          not null
-#  state        :string           not null
-#  title        :string           not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  authority_id :integer
-#  scraper_id   :integer          not null
-#  user_id      :integer          not null
+#  id                    :integer          not null, primary key
+#  closed_at             :datetime
+#  import_trigger_reason :string
+#  import_triggered_at   :datetime
+#  locked                :boolean          default(FALSE), not null
+#  needs_generate        :boolean          default(TRUE), not null
+#  needs_import          :boolean          default(TRUE), not null
+#  number                :integer          not null
+#  state                 :string           not null
+#  title                 :string           not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  authority_id          :integer
+#  scraper_id            :integer
+#  user_id               :integer          not null
 #
 # Indexes
 #
 #  index_issues_on_authority_id  (authority_id)
-#  index_issues_on_html_url      (html_url) UNIQUE
+#  index_issues_on_number        (number) UNIQUE
 #  index_issues_on_scraper_id    (scraper_id)
 #  index_issues_on_user_id       (user_id)
 #

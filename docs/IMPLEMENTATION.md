@@ -2,18 +2,18 @@
 
 See Also:
 
-- SPECS-IN-COMMON.md - Specs shared with plannies-mate
-- SPECS.MD - specs specific to this project
-- IMPLEMENTATION.md - implementation decisions made
 - GUIDELINES.md - Guidelines for AIs and Developers (shared with plannies-mate)
+- IMPLEMENTATION.md - implementation decisions made
+- SPECS.MD - Project wide specs
+- SPECS-APP.MD - specs for sinatra App
+- SPECS-TASKS.MD - specs tasks
+- SPECS-WHATS-THAT.MD - specs for generating jsn data for /crikey-whats-that.html
 
 Note: README.md is for setup and usage by the Developer
 
 ## Architecture
 
 ### Directory Structure and Content Flow
-
-1. Source Content Structure (in roles/web/files/):
 
 ```
 plannies-mate/
@@ -67,8 +67,6 @@ plannies-mate/
 ├── script/ - Scripts to rule them all, github style
 ├── spec/ - Rspec test by exmple
 └── tasks.rb - requires all the files needed for rake tasks
-
-
 ```
 
 2. Build Process
@@ -83,7 +81,7 @@ plannies-mate/
 
 ```
 /var/www/html/
-├── assets/          # Copied directly from roles/web/files/assets
+├── js,css,images/          # Copied directly from public
 ├── authorities/     # Themed content from tmp/build/authorities
 ├── repos/          # Themed content from tmp/build/repos
 └── crikey-whats-that/     # Themed content from tmp/build/crikey-whats-that

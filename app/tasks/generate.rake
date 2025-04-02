@@ -11,9 +11,14 @@ namespace :generate do
     puts 'All reports generated successfully'
   end
 
+  desc 'Generate public static content'
+  task :public do
+    raise NotImplementedError, 'TODO: Implement copy of static content from public'
+  end
+
   desc 'Generate static content'
   task :content do
-    raise NotImplementedError, 'TODO: Implement generation of static content from app/contents'
+    raise NotImplementedError, 'TODO: Implement generation of static content from app/contents wrapped in a layout'
   end
 
   desc 'Generate authorities index page'
@@ -38,14 +43,6 @@ namespace :generate do
 
   desc 'Generate coverage history report'
   task :coverage_history do
-    puts 'Generating coverage history report...'
-    result = CoverageHistoryGenerator.generate
-
-    if result
-      puts "Successfully generated coverage history report with #{result[:histories].size} data points"
-      puts "Output file: #{result[:output_file]}"
-    else
-      puts 'No coverage history data available to generate report'
-    end
+    CoverageHistoryGenerator.generate
   end
 end

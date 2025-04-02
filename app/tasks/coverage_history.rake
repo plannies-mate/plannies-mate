@@ -1,22 +1,23 @@
 # frozen_string_literal: true
 
 namespace :coverage_history do
-  desc 'Import historical coverage data from Wayback Machine'
-  task :import_historical, [:limit, :start_date, :end_date] do |_t, args|
+  # TODO: Move to import.rake
+  desc 'Import historical coverage data from Wayback Machine working back from to_date till limit records or from_date is reached'
+  task :import_historical, [:to_date, :limit, :from_date] do |_t, args|
     limit = args[:limit] ? args[:limit].to_i : nil
-    start_date = args[:start_date] ? Date.parse(args[:start_date]) : nil
-    end_date = args[:end_date] ? Date.parse(args[:end_date]) : nil
+    from_date = args[:from_date] ? Date.parse(args[:from_date]) : nil
+    to_date = args[:to_date] ? Date.parse(args[:to_date]) : nil
 
     limit_desc = limit ? "limited to #{limit} records" : 'all available records'
     date_range = [
-      start_date ? "from #{start_date}" : nil,
-      end_date ? "to #{end_date}" : nil,
+      from_date ? "from #{from_date}" : nil,
+      to_date ? "to #{to_date}" : nil,
     ].compact.join(' ')
 
     puts "Importing historical coverage data (#{limit_desc}) #{date_range}..."
 
     importer = WaybackAuthoritiesImporter.new
-    count = importer.import_historical_data(limit: limit, start_date: start_date, end_date: end_date)
+    count = importer.import_historical_data(limit: limit, from_date: from_date, to_date: to_date)
 
     puts "Successfully imported #{count} historical coverage records"
   end

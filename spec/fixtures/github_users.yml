@@ -6,7 +6,6 @@
 #
 #  id             :integer          not null, primary key
 #  avatar_url     :string
-#  html_url       :string
 #  login          :string           not null
 #  site_admin     :boolean          default(FALSE)
 #  user_view_type :string
@@ -19,24 +18,18 @@
 #
 ianheggie:
   login: ianheggie
-  avatar_url: https://avatars.githubusercontent.com/u/12345678?v=4
-  html_url: https://github.com/ianheggie
   user_view_type: public
   site_admin: false
 
 
 ianheggie_oaf:
   login: ianheggie-oaf
-  avatar_url: https://avatars.githubusercontent.com/u/183138466?v=4
-  html_url: https://github.com/ianheggie-oaf
   user_view_type: public
   site_admin: false
 
 
 planningalerts_bot:
   login: planningalerts-bot
-  avatar_url: https://avatars.githubusercontent.com/u/98765432?v=4
-  html_url: https://github.com/planningalerts-bot
   user_view_type: public
   site_admin: false
 

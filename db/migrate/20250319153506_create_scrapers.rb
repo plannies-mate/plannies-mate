@@ -4,14 +4,23 @@
 class CreateScrapers < ActiveRecord::Migration[8.0]
   def change
     create_table :scrapers, force: true do |t|
-      # Basic morph scraper details from authority details
-      t.string :morph_url, null: false, index: { unique: true }
-      t.string :github_url, null: false
+      # github and morph primary key of owner + '/' + repo
+      t.string :name, null: false, index: { unique: true }
+      t.string :default_branch, null: false, default: "master"
+      # Path to scraper.rb / py etc
       t.string :scraper_path
-      # file that contains the one or list of authorities and their query domains
+      # Path to file that contains the list of authorities and their query domains.
+      # Typically custom scrapes will use the same file
       t.string :authorities_path
 
-      t.timestamps
+      # requires import of github details (because of webhook, manual request or nightly)
+      t.boolean :needs_import, default: true, null: false
+      # generate after needs_import
+      t.boolean :needs_generate, default: true, null: false
+      t.datetime :update_requested_at
+      t.string :update_reason
+
+      t.timestamps null: false
     end
   end
 end

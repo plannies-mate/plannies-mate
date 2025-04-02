@@ -9,7 +9,7 @@ class CreateHttpCacheEntries < ActiveRecord::Migration[8.0]
       t.datetime :last_success_at
       t.datetime :last_other_response_at
       t.datetime :last_not_modified_at
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
