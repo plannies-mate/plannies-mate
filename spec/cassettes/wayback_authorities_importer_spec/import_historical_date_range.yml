@@ -1,0 +1,108 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://web.archive.org/robots.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - web.archive.org
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 03 Apr 2025 14:06:06 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '146'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404
+        Not Found</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  recorded_at: Thu, 03 Apr 2025 14:06:06 GMT
+- request:
+    method: get
+    uri: http://web.archive.org/cdx/search/cdx?collapse=timestamp:8&from=20230101&output=json&to=20230131&url=https://www.planningalerts.org.au/authorities
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - web.archive.org
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 03 Apr 2025 14:06:08 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server-Timing:
+      - BYPASS
+      - TR;dur=0,Tw;dur=0,Tc;dur=1
+      - exclusion.robots;dur=0.061661, exclusion.robots.policy;dur=0.045586, esindex;dur=0.016528
+      X-App-Server:
+      - wwwb-app235
+      X-Ts:
+      - '200'
+      X-Tr:
+      - '433'
+      X-Location:
+      - cdx
+      X-Rl:
+      - '0'
+      X-Na:
+      - '0'
+      X-Page-Cache:
+      - BYPASS
+      X-Nid:
+      - "-"
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+      Permissions-Policy:
+      - interest-cohort=()
+    body:
+      encoding: UTF-8
+      string: "[]\n"
+  recorded_at: Thu, 03 Apr 2025 14:06:08 GMT
+recorded_with: VCR 6.3.1

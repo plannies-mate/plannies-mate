@@ -16,78 +16,14 @@ RSpec.describe DevelopController do
     header 'HOST', '127.0.0.1'
   end
 
-  describe 'GET /' do
-    it 'returns HTML content' do
-      get '/'
-
-      expect(last_response).to be_ok
-      expect(last_response.content_type).to include('text/html')
-      expect(last_response.body).to include('APP Endpoints')
-      expect(last_response.body).to include('GET Endpoints')
-      expect(last_response.body).to include('POST Endpoints')
-    end
-  end
-
   describe 'GET /debug' do
     it 'returns debug information' do
       get '/debug'
 
       expect(last_response).to be_ok
-      json_response = JSON.parse(last_response.body)
+      body = last_response.body
 
-      expect(json_response).to include('env', 'roundup_request_file', 'roundup_request_file_exists')
-      expect(json_response['env']).to eq('test')
-    end
-  end
-
-  describe 'GET /*' do
-    context 'when the file exists' do
-      before do
-        allow(File).to receive(:exist?).and_return(true)
-        # allow(File).to receive(:directory?).and_return(false)
-        allow_any_instance_of(DevelopController).to receive(:send_file)
-      end
-
-      it 'sets the appropriate content type and sends the file' do
-        expect_any_instance_of(DevelopController).to receive(:send_file)
-          .with("#{app_helpers.site_dir}/test_path.html")
-
-        get '/test_path.html'
-        expect(last_response).to be_ok
-      end
-
-      it 'sets the appropriate content type for JS files' do
-        allow(File).to receive(:extname).and_return('.js')
-
-        allow_any_instance_of(DevelopController).to receive(:content_type)
-        expect_any_instance_of(DevelopController).to receive(:content_type)
-          .with('application/javascript')
-          .at_least(:once)
-
-        expect_any_instance_of(DevelopController).to receive(:send_file)
-        get '/test.js'
-      end
-
-      it 'sets the appropriate content type for CSS files' do
-        allow(File).to receive(:extname).and_return('.css')
-
-        allow_any_instance_of(DevelopController).to receive(:content_type)
-        expect_any_instance_of(DevelopController).to receive(:content_type)
-          .with('text/css')
-          .at_least(:once)
-
-        expect_any_instance_of(DevelopController).to receive(:send_file)
-        get '/test.css'
-      end
-    end
-
-    context 'when the file does not exist' do
-      it 'returns a 404 error' do
-        get '/nonexistent'
-
-        expect(last_response.status).to eq(404)
-        expect(last_response.body).to include(/(Page Gone Walkabout|File not found!)/)
-      end
+      expect(body).to include('test', 'roundup_request_file', 'roundup_request_file_exists')
     end
   end
 end

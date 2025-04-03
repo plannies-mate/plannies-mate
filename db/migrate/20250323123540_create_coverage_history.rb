@@ -13,10 +13,7 @@ class CreateCoverageHistory < ActiveRecord::Migration[8.0]
       # Authority counts
       t.integer :authority_count, null: false, default: 0
       t.integer :broken_authority_count, null: false, default: 0
-      # Json list of authority short/full names that are marked as possibly broken
-      # that we could not match
-      t.text :extra_broken_authorities, null: false, default: '[]'
-      
+
       # Population metrics
       t.integer :total_population, null: false, default: 0
       t.integer :broken_population, null: false, default: 0
@@ -33,10 +30,10 @@ class CreateCoverageHistory < ActiveRecord::Migration[8.0]
     end
 
     # Add a new association table
-    create_table :coverage_histories_authorities, id: false do |t|
-      t.references :coverage_history, null: false, foreign_key: true, index: false
-      t.references :authority, null: false, foreign_key: true
-      t.index [:coverage_history_id, :authority_id], unique: true, name: 'idx_coverage_history_authorities'
+    create_table :broken_authority_histories, id: false do |t|
+      t.references :authority, null: false, foreign_key: true, index: false
+      t.references :coverage_history, null: false, foreign_key: true
+      t.index [:authority_id, :coverage_history_id], unique: true, name: 'idx_broken_authority_histories'
     end
   end
 end

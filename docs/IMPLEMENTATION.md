@@ -36,7 +36,7 @@ plannies-mate/
 │   ├── services/ - Misc services for specific algorithms
 │   ├── tasks/ - rake tasks
 │   └── views/ - Slim templates for pages
-│       ├── layouts - layouts for views (no-menu, with-menu and favicob-*)
+│       ├── layouts - layouts for views (default)
 │       └── partials - Partials that are included into pages
 ├── app.rb - requires all the files needed for sinatra app
 ├── config/ - boot and database configuration files

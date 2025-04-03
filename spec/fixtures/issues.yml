@@ -12,47 +12,44 @@
 #  needs_generate        :boolean          default(TRUE), not null
 #  needs_import          :boolean          default(TRUE), not null
 #  number                :integer          not null
-#  state                 :string           not null
 #  title                 :string           not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  authority_id          :integer
-#  scraper_id            :integer
-#  user_id               :integer          not null
+#  scraper_id            :integer          not null
 #
 # Indexes
 #
 #  index_issues_on_authority_id  (authority_id)
 #  index_issues_on_number        (number) UNIQUE
 #  index_issues_on_scraper_id    (scraper_id)
-#  index_issues_on_user_id       (user_id)
 #
 # Foreign Keys
 #
 #  authority_id  (authority_id => authorities.id)
 #  scraper_id    (scraper_id => scrapers.id)
-#  user_id       (user_id => github_users.id)
 #
 ---
 issue_1:
   number: 1
-  title: Brimbank City Council
-  authority: brimbank
-  state: open
+  title: Burdekin Shire Council
+  authority: burdekin
+  scraper: burdekin
   locked: false
+  needs_import: true
+  needs_generate: true
   created_at: 2025-03-01T10:30:00Z
   updated_at: 2025-03-15T15:45:00Z
   closed_at: 
-  user: ianheggie
 
 
 issue_2:
   number: 2
-  title: Update Brisbane scraper to new website format
-  state: open
+  title: Update baw_baw scraper to new website format
+  scraper: baw_baw
   locked: false
+  needs_import: true
+  needs_generate: true
   created_at: 2025-03-10T09:15:00Z
   updated_at: 2025-03-18T14:20:00Z
-  closed_at: 
-  user: planningalerts_bot
-
+  closed_at:

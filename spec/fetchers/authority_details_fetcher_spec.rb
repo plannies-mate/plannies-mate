@@ -22,10 +22,8 @@ RSpec.describe AuthorityDetailsFetcher do
       details = fetcher.fetch(short_name)
       expect(details).to be_a(Hash)
 
-      expect(details).to include('short_name', 'morph_url', 'github_url')
+      expect(details).to include('short_name', 'repo')
       expect(details['short_name']).to eq(short_name)
-      expect(details['morph_url']).to include('morph.io')
-      expect(details['github_url']).to include('github.com')
     end
 
     it 'requires a short_name' do

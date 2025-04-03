@@ -108,9 +108,4 @@ RSpec.configure do |config|
 
   config.order = :random
   Kernel.srand config.seed
-
-  # Create VCR cassette directory if it doesn't exist
-  config.before(:suite) do
-    FileUtils.mkdir_p('spec/fixtures/vcr_cassettes')
-  end
 end

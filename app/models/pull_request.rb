@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'concerns/repo_owner_number_html_url'
-
+# Cache for GitHub pull request data
+#
 # == Schema Information
 #
 # Table name: pull_requests
@@ -13,11 +13,10 @@ require_relative 'concerns/repo_owner_number_html_url'
 #  import_trigger_reason :string
 #  import_triggered_at   :datetime
 #  locked                :boolean          default(FALSE), not null
-#  merge_commit_sha      :string
 #  merged_at             :datetime
 #  needs_import          :boolean          default(FALSE), not null
+#  needs_review          :boolean          default(FALSE), not null
 #  number                :integer          not null
-#  state                 :string           not null
 #  title                 :string           not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
@@ -27,7 +26,6 @@ require_relative 'concerns/repo_owner_number_html_url'
 # Indexes
 #
 #  index_pull_requests_on_issue_id               (issue_id)
-#  index_pull_requests_on_number                 (number) UNIQUE
 #  index_pull_requests_on_scraper_id             (scraper_id)
 #  index_pull_requests_on_scraper_id_and_number  (scraper_id,number) UNIQUE
 #
@@ -36,23 +34,33 @@ require_relative 'concerns/repo_owner_number_html_url'
 #  issue_id    (issue_id => issues.id)
 #  scraper_id  (scraper_id => scrapers.id)
 #
-
-# Cache for GitHub pull request data
 class PullRequest < ApplicationRecord
-  include RepoOwnerNumberHtmlUrl
-
-  # Relationships
-  has_and_belongs_to_many :authorities
-  belongs_to :user, optional: true, class_name: 'GithubUser'
+  has_and_belongs_to_many :assignees,
+                          join_table: 'pull_request_assignees',
+                          class_name: 'User'
+  belongs_to :issue, required: true
   belongs_to :scraper, required: true
+  has_many :branches
 
   # Validations
-  validates :url, presence: true, uniqueness: true
-  validates :created_at, presence: true
+  validates :base_branch_name,
+            :head_branch_name,
+            :number,
+            :title,
+            presence: true
 
-  # Scopes
-  scope :open, -> { where(closed_at_date: nil) }
-  scope :closed, -> { where.not(closed_at_date: nil) }
-  scope :merged, -> { where(merged: true) }
-  scope :rejected, -> { closed.where(merged: false) }
+  validates :number, uniqueness: { scope: :scraper_id }
+
+  scope :open, -> { where(closed_at: nil) }
+  scope :closed, -> { where.not(closed_at: nil) }
+  scope :merged, -> { where.not(merged_at: nil) }
+  scope :rejected, -> { closed.where(merged_at: nil) }
+
+  def open?
+    closed_at.nil?
+  end
+
+  def html_url
+    "#{scraper.github_url}/pull/#{number}"
+  end
 end

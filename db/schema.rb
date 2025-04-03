@@ -28,26 +28,38 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.text "last_log"
     t.integer "import_count", default: 0, null: false
     t.string "imported_on"
-    t.string "website_url"
-    t.string "admin_url"
-    t.string "query_domains"
-    t.string "ip_addresses"
-    t.string "whois_names"
+    t.string "authority_label"
+    t.text "query_domains"
+    t.text "ip_addresses"
+    t.text "whois_names"
+    t.integer "broken_score"
     t.boolean "needs_import", default: true, null: false
     t.boolean "needs_generate", default: true, null: false
     t.datetime "import_triggered_at"
     t.string "import_trigger_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["broken_score"], name: "index_authorities_on_broken_score"
     t.index ["scraper_id"], name: "index_authorities_on_scraper_id"
     t.index ["short_name"], name: "index_authorities_on_short_name", unique: true
   end
 
-  create_table "authorities_pull_requests", id: false, force: :cascade do |t|
+  create_table "branches", force: :cascade do |t|
+    t.integer "scraper_id", null: false
+    t.string "name", null: false
+    t.integer "pull_request_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pull_request_id"], name: "index_branches_on_pull_request_id"
+    t.index ["scraper_id", "name"], name: "idx_scraper_branches", unique: true
+    t.index ["scraper_id"], name: "index_branches_on_scraper_id"
+  end
+
+  create_table "broken_authority_histories", id: false, force: :cascade do |t|
     t.integer "authority_id", null: false
-    t.integer "pull_request_id", null: false
-    t.index ["authority_id", "pull_request_id"], name: "index_authorities_prs_on_authority_id_and_pr_id", unique: true
-    t.index ["pull_request_id"], name: "index_authorities_pull_requests_on_pull_request_id"
+    t.integer "coverage_history_id", null: false
+    t.index ["authority_id", "coverage_history_id"], name: "idx_broken_authority_histories", unique: true
+    t.index ["coverage_history_id"], name: "index_broken_authority_histories_on_coverage_history_id"
   end
 
   create_table "coverage_histories", force: :cascade do |t|
@@ -55,7 +67,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.string "wayback_url"
     t.integer "authority_count", default: 0, null: false
     t.integer "broken_authority_count", default: 0, null: false
-    t.text "extra_broken_authorities", default: "[]", null: false
     t.integer "total_population", default: 0, null: false
     t.integer "broken_population", default: 0, null: false
     t.integer "pr_count", default: 0, null: false
@@ -70,30 +81,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.index ["wayback_url"], name: "index_coverage_histories_on_wayback_url", unique: true
   end
 
-  create_table "coverage_histories_authorities", id: false, force: :cascade do |t|
-    t.integer "coverage_history_id", null: false
-    t.integer "authority_id", null: false
-    t.index ["authority_id"], name: "index_coverage_histories_authorities_on_authority_id"
-    t.index ["coverage_history_id", "authority_id"], name: "idx_coverage_history_authorities", unique: true
-  end
-
-  create_table "github_users", force: :cascade do |t|
-    t.string "login", null: false
-    t.string "avatar_url"
-    t.string "user_view_type"
-    t.boolean "site_admin", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["login"], name: "index_github_users_on_login", unique: true
-  end
-
-  create_table "github_users_issues", id: false, force: :cascade do |t|
-    t.integer "github_user_id", null: false
-    t.integer "issue_id", null: false
-    t.index ["github_user_id", "issue_id"], name: "index_github_users_issues_on_github_user_id_and_issue_id", unique: true
-    t.index ["issue_id"], name: "index_github_users_issues_on_issue_id"
-  end
-
   create_table "http_cache_entries", force: :cascade do |t|
     t.string "url", null: false
     t.string "etag"
@@ -106,17 +93,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.index ["url"], name: "index_http_cache_entries_on_url", unique: true
   end
 
-  create_table "interesting_branches", force: :cascade do |t|
-    t.integer "scraper_id", null: false
-    t.string "branch_name", null: false
-    t.datetime "last_commit_at", null: false
-    t.string "last_commit_sha"
-    t.integer "pull_request_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index "\"html_url\", \"branch_name\"", name: "index_interesting_branches_on_html_url_and_branch", unique: true
-    t.index ["pull_request_id"], name: "index_interesting_branches_on_pull_request_id"
-    t.index ["scraper_id"], name: "index_interesting_branches_on_scraper_id"
+  create_table "issue_assignees", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "issue_id", null: false
+    t.index ["issue_id"], name: "index_issue_assignees_on_issue_id"
+    t.index ["user_id", "issue_id"], name: "index_issue_assignees_on_user_id_and_issue_id", unique: true
   end
 
   create_table "issue_labels", force: :cascade do |t|
@@ -139,7 +120,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
   create_table "issues", force: :cascade do |t|
     t.integer "number", null: false
     t.string "title", null: false
-    t.string "state", null: false
     t.boolean "locked", default: false, null: false
     t.datetime "closed_at"
     t.boolean "needs_import", default: true, null: false
@@ -147,27 +127,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.datetime "import_triggered_at"
     t.string "import_trigger_reason"
     t.integer "authority_id"
-    t.integer "scraper_id"
-    t.integer "user_id", null: false
+    t.integer "scraper_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["authority_id"], name: "index_issues_on_authority_id"
     t.index ["number"], name: "index_issues_on_number", unique: true
     t.index ["scraper_id"], name: "index_issues_on_scraper_id"
-    t.index ["user_id"], name: "index_issues_on_user_id"
+  end
+
+  create_table "pull_request_assignees", id: false, force: :cascade do |t|
+    t.integer "pull_request_id", null: false
+    t.integer "user_id", null: false
+    t.index ["pull_request_id", "user_id"], name: "idx_pull_request_assignees", unique: true
+    t.index ["user_id"], name: "index_pull_request_assignees_on_user_id"
   end
 
   create_table "pull_requests", force: :cascade do |t|
     t.integer "scraper_id", null: false
     t.integer "number", null: false
     t.string "title", null: false
-    t.string "state", null: false
     t.boolean "locked", default: false, null: false
     t.string "head_branch_name", null: false
     t.string "base_branch_name", null: false
     t.datetime "closed_at"
     t.datetime "merged_at"
-    t.string "merge_commit_sha"
+    t.boolean "needs_review", default: false, null: false
     t.boolean "needs_import", default: false, null: false
     t.datetime "import_triggered_at"
     t.string "import_trigger_reason"
@@ -175,7 +159,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["issue_id"], name: "index_pull_requests_on_issue_id"
-    t.index ["number"], name: "index_pull_requests_on_number", unique: true
     t.index ["scraper_id", "number"], name: "index_pull_requests_on_scraper_id_and_number", unique: true
     t.index ["scraper_id"], name: "index_pull_requests_on_scraper_id"
   end
@@ -185,29 +168,40 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.string "default_branch", default: "master", null: false
     t.string "scraper_path"
     t.string "authorities_path"
+    t.integer "broken_score"
     t.boolean "needs_import", default: true, null: false
     t.boolean "needs_generate", default: true, null: false
     t.datetime "update_requested_at"
     t.string "update_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["broken_score"], name: "index_scrapers_on_broken_score"
     t.index ["name"], name: "index_scrapers_on_name", unique: true
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "login", null: false
+    t.string "avatar_url"
+    t.string "user_view_type"
+    t.boolean "site_admin", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["login"], name: "index_users_on_login", unique: true
+  end
+
   add_foreign_key "authorities", "scrapers"
-  add_foreign_key "authorities_pull_requests", "authorities"
-  add_foreign_key "authorities_pull_requests", "pull_requests"
-  add_foreign_key "coverage_histories_authorities", "authorities"
-  add_foreign_key "coverage_histories_authorities", "coverage_histories"
-  add_foreign_key "github_users_issues", "github_users"
-  add_foreign_key "github_users_issues", "issues"
-  add_foreign_key "interesting_branches", "pull_requests"
-  add_foreign_key "interesting_branches", "scrapers"
+  add_foreign_key "branches", "pull_requests"
+  add_foreign_key "branches", "scrapers"
+  add_foreign_key "broken_authority_histories", "authorities"
+  add_foreign_key "broken_authority_histories", "coverage_histories"
+  add_foreign_key "issue_assignees", "issues"
+  add_foreign_key "issue_assignees", "users"
   add_foreign_key "issue_labels_issues", "issue_labels"
   add_foreign_key "issue_labels_issues", "issues"
   add_foreign_key "issues", "authorities"
-  add_foreign_key "issues", "github_users", column: "user_id"
   add_foreign_key "issues", "scrapers"
+  add_foreign_key "pull_request_assignees", "pull_requests"
+  add_foreign_key "pull_request_assignees", "users"
   add_foreign_key "pull_requests", "issues"
   add_foreign_key "pull_requests", "scrapers"
 end

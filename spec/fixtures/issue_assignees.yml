@@ -1,0 +1,13 @@
+# GitHub Users/Issues join table fixtures
+
+ianheggie_oaf_issue_1:
+  user: ianheggie_oaf
+  issue: issue_1
+
+ianheggie_oaf_issue_2:
+  user: ianheggie_oaf
+  issue: issue_2
+
+ianheggie_issue_2:
+  user: ianheggie
+  issue: issue_2

@@ -4,11 +4,13 @@ require 'mechanize'
 require 'json'
 require 'fileutils'
 require_relative '../helpers/application_helper'
+require_relative '../helpers/html_helper'
 require_relative 'scraper_base'
 
 # Class to fetch and parse detailed information for a single authority
 class AuthorityDetailsFetcher
   extend ApplicationHelper
+  extend HtmlHelper
   extend ScraperBase
 
   BASE_URL = 'https://www.planningalerts.org.au/authorities/'
@@ -23,8 +25,7 @@ class AuthorityDetailsFetcher
   # @example:
   #   {
   #     "short_name": "banyule",
-  #     "morph_url": "https://morph.io/planningalerts-scrapers/multiple_civica",
-  #     "github_url": "https://github.com/planningalerts-scrapers/multiple_civica",
+  #     "repo": "multiple_civica",
   #     "last_log": "0 applications found for Bayside City Council (Victoria), VIC with date from 2025-03-11\nTook 0 s to import applications from Bayside City Council (Victoria), VIC",
   #     "total_count": 0,
   #     "import_time": "0 s"
@@ -52,10 +53,9 @@ class AuthorityDetailsFetcher
 
     # Extract morph.io URL - look for 'Watch the scraper' link
     page.links.each do |link|
-      if link.text.strip.include?('Watch the scraper')
-        details['morph_url'] = link.href
-      elsif link.text.strip.include?('Fork the scraper on Github')
-        details['github_url'] = link.href
+      text = link.text.strip
+      if text.include?('Watch the scraper') || text.include?('Fork the scraper on Github')
+        details['repo'] = self.class.last_url_segment link.href
       end
     end
 
@@ -78,8 +78,7 @@ class AuthorityDetailsFetcher
       end
     end
 
-    raise("MISSING morph_url FROM: #{details.inspect}") if details['morph_url'].blank?
-    raise("MISSING github_url FROM: #{details.inspect}") if details['github_url'].blank?
+    raise("MISSING repo FROM: #{details.inspect}") if details['repo'].blank?
 
     details
   end

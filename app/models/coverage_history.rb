@@ -1,34 +1,37 @@
 # frozen_string_literal: true
 
+# Model to track historical coverage statistics from PlanningAlerts
+#
 # == Schema Information
 #
 # Table name: coverage_histories
 #
-#  id                       :integer          not null, primary key
-#  authority_count          :integer          default(0), not null
-#  broken_authority_count   :integer          default(0), not null
-#  broken_population        :integer          default(0), not null
-#  extra_broken_authorities :text             default("[]"), not null
-#  fixed_count              :integer          default(0), not null
-#  fixed_population         :integer          default(0), not null
-#  pr_count                 :integer          default(0), not null
-#  pr_population            :integer          default(0), not null
-#  recorded_on              :date             not null
-#  rejected_count           :integer          default(0), not null
-#  rejected_population      :integer          default(0), not null
-#  total_population         :integer          default(0), not null
-#  wayback_url              :string
-#  created_at               :datetime         not null
-#  updated_at               :datetime         not null
+#  id                     :integer          not null, primary key
+#  authority_count        :integer          default(0), not null
+#  broken_authority_count :integer          default(0), not null
+#  broken_population      :integer          default(0), not null
+#  fixed_count            :integer          default(0), not null
+#  fixed_population       :integer          default(0), not null
+#  pr_count               :integer          default(0), not null
+#  pr_population          :integer          default(0), not null
+#  recorded_on            :date             not null
+#  rejected_count         :integer          default(0), not null
+#  rejected_population    :integer          default(0), not null
+#  total_population       :integer          default(0), not null
+#  wayback_url            :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #
 # Indexes
 #
 #  index_coverage_histories_on_recorded_on  (recorded_on) UNIQUE
 #  index_coverage_histories_on_wayback_url  (wayback_url) UNIQUE
 #
-
-# Model to track historical coverage statistics from PlanningAlerts
 class CoverageHistory < ApplicationRecord
+  has_and_belongs_to_many :broken_authorities,
+                          class_name: 'Authority',
+                          join_table: 'broken_authority_histories'
+
   validates :recorded_on, presence: true, uniqueness: true
   validates :authority_count, numericality: { greater_than_or_equal_to: 0 }
   validates :broken_authority_count, numericality: { greater_than_or_equal_to: 0 }

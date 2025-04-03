@@ -27,12 +27,12 @@ main.wide-container
                   = pr.title
               td = pr.github_repo
               td
-                - if pr.github_user
-                  a href="#{pr.github_user.html_url}" target="_blank"
-                    - if pr.github_user.avatar_url.present?
-                      img.user-avatar src="#{pr.github_user.avatar_url}&s=40" title="#{pr.github_user.login}"
+                - if pr.user
+                  a href="#{pr.user.html_url}" target="_blank"
+                    - if pr.user.avatar_url.present?
+                      img.user-avatar src="#{pr.user.avatar_url}&s=40" title="#{pr.user.login}"
                     - else
-                      = pr.github_user.login
+                      = pr.user.login
               td
                 - if pr.github_state == 'closed'
                   - if pr.merged?

@@ -1,0 +1,9 @@
+# GitHub Users/Pull Requests join table fixtures
+
+ianheggie_oaf_pr18:
+  user: ianheggie_oaf
+  pull_request: pr18
+
+ianheggie_oaf_pr9:
+  user: ianheggie_oaf
+  pull_request: pr9

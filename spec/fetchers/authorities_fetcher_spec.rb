@@ -25,14 +25,13 @@ RSpec.describe AuthoritiesFetcher do
 
       # Check the structure of authorities
       authorities.each do |authority|
-        expect(authority).to include('state', 'name', 'url', 'short_name')
+        expect(authority).to include('state', 'name', 'population', 'possibly_broken', 'short_name',
+                                     'short_name')
         expect(authority['state']).to be_a(String)
         expect(authority['name']).to be_a(String)
-        expect(authority['url']).to include('https://www.planningalerts.org.au/authorities/')
         expect(authority['short_name']).to be_a(String)
         expect(authority).to have_key('population')
       end
     end
   end
 end
-

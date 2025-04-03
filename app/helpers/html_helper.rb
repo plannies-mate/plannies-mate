@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'uri'
+
 # Helper methods for Html string formatting in views
 module HtmlHelper
   # Add word break opportunities (<wbr>) after specified punctuation
@@ -23,5 +25,9 @@ module HtmlHelper
     elsif model.respond_to?(:html_url)
       model.html_url
     end
+  end
+
+  def last_url_segment(url)
+    URI(url).path.split('/').reject(&:empty?).last
   end
 end

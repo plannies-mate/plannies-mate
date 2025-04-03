@@ -9,11 +9,10 @@
 #  import_trigger_reason :string
 #  import_triggered_at   :datetime
 #  locked                :boolean          default(FALSE), not null
-#  merge_commit_sha      :string
 #  merged_at             :datetime
 #  needs_import          :boolean          default(FALSE), not null
+#  needs_review          :boolean          default(FALSE), not null
 #  number                :integer          not null
-#  state                 :string           not null
 #  title                 :string           not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
@@ -23,7 +22,6 @@
 # Indexes
 #
 #  index_pull_requests_on_issue_id               (issue_id)
-#  index_pull_requests_on_number                 (number) UNIQUE
 #  index_pull_requests_on_scraper_id             (scraper_id)
 #  index_pull_requests_on_scraper_id_and_number  (scraper_id,number) UNIQUE
 #
@@ -37,16 +35,21 @@
 pr18:
   title: "Fix many broken authorities, add debugging tools and reports, update to heroku-18 platform, and much more"
   number: 18
+  locked: false
+  head_branch_name: feature/fix-broken-authorities
+  base_branch_name: master
   created_at: "2025-02-11"
   updated_at: "2025-02-11"
-  github_user: ianheggie_oaf
-  scraper: 'multiple_atdis'
+  issue: "issue_2"
+  scraper: multiple_atdis
 
 pr9:
   title: "Updated to reflect changed css classes and move of pdf href to separate link"
   number: 9
+  locked: false
+  head_branch_name: feature/update-css-classes
+  base_branch_name: master
   created_at: "2025-02-19"
   updated_at: "2025-02-19"
-  github_user: ianheggie_oaf
+  issue: issue_1
   scraper: bankstown
-

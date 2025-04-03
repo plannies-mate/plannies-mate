@@ -6,6 +6,7 @@
 #
 #  id                  :integer          not null, primary key
 #  authorities_path    :string
+#  broken_score        :integer
 #  default_branch      :string           default("master"), not null
 #  name                :string           not null
 #  needs_generate      :boolean          default(TRUE), not null
@@ -18,21 +19,20 @@
 #
 # Indexes
 #
-#  index_scrapers_on_name  (name) UNIQUE
+#  index_scrapers_on_broken_score  (broken_score)
+#  index_scrapers_on_name          (name) UNIQUE
 #
 require_relative '../spec_helper'
 require_relative '../../app/models/scraper'
 
 RSpec.describe Scraper do
   let(:attributes1) do
-    { morph_url: 'https://morph.io/planningalerts-scrapers/test',
-      github_url: 'https://github.com/planningalerts-scrapers/test', }
+    { name: 'test' }
   end
 
   let(:attributes2) do
-    { morph_url: 'https://morph.io/planningalerts-scrapers/test2',
-      github_url: 'https://github.com/planningalerts-scrapers/test2',
-      scraper_file: 'scraper.rb', }
+    { name: 'test2',
+      scraper_path: 'scraper.rb', }
   end
 
   describe 'fixtures loading' do
@@ -42,11 +42,10 @@ RSpec.describe Scraper do
     end
 
     it 'loads ACT Scraper' do
-      act = Scraper.find_by(morph_url: 'https://morph.io/planningalerts-scrapers/act')
+      act = Scraper.find_by(name: 'act')
 
       expect(act).not_to be_nil
-      expect(act.github_url).to eq('https://github.com/planningalerts-scrapers/act')
-      expect(act.morph_url).to eq('https://morph.io/planningalerts-scrapers/act')
+      expect(act.name).to eq('act')
     end
   end
 
@@ -54,34 +53,26 @@ RSpec.describe Scraper do
     it 'accesses properties from all sources' do
       act = FixtureHelper.find(Scraper, :act)
 
-      expect(act.morph_url).to eq('https://morph.io/planningalerts-scrapers/act')
-      expect(act.github_url).to eq('https://github.com/planningalerts-scrapers/act')
+      expect(act.name).to eq('act')
     end
   end
 
   describe '#initialize' do
     it 'sets up basic attributes' do
       scraper1 = Scraper.new(attributes1)
-      expect(scraper1.morph_url).to eq('https://morph.io/planningalerts-scrapers/test')
-      expect(scraper1.github_url).to eq('https://github.com/planningalerts-scrapers/test')
+      expect(scraper1.name).to eq('test')
     end
 
     it 'requires a morph_url' do
       expect do
         Scraper.create!({})
-      end.to raise_error(ActiveRecord::RecordInvalid, /Morph url can't be blank, Github url can't be blank/)
+      end.to raise_error(ActiveRecord::RecordInvalid, /Name can't be blank/)
     end
   end
 
   describe '#name' do
     it 'returns the basename of the morph_url' do
       scraper = Scraper.new(attributes1)
-      expect(scraper.name).to eq('test')
-    end
-
-    it 'handles URLs with trailing slashes' do
-      scraper = Scraper.new(morph_url: 'https://morph.io/planningalerts-scrapers/test/',
-                            github_url: 'https://github.com/planningalerts-scrapers/test')
       expect(scraper.name).to eq('test')
     end
   end
@@ -91,30 +82,20 @@ RSpec.describe Scraper do
       scraper = Scraper.new(attributes1)
       expect(scraper.to_s).to eq('test')
     end
-
-    it 'returns name and github name when they differ' do
-      scraper = Scraper.new(
-        morph_url: 'https://morph.io/planningalerts-scrapers/different_name',
-        github_url: 'https://github.com/planningalerts-scrapers/github_name'
-      )
-      expect(scraper.to_s).to eq('different_name (github_name)')
-    end
   end
 
   describe '.import_from_hash' do
     it 'creates a new scraper when not found' do
       data = {
-        'morph_url' => 'https://morph.io/planningalerts-scrapers/new_scraper',
-        'github_url' => 'https://github.com/planningalerts-scrapers/new_scraper',
-        'scraper_file' => 'scraper.rb',
+        'name' => 'new_scraper',
+        'scraper_path' => 'scraper.rb',
       }
 
       expect do
         scraper = Scraper.import_from_hash(data)
-        expect(scraper.morph_url).to eq(data['morph_url'])
-        expect(scraper.github_url).to eq(data['github_url'])
-        # This test is fixed - scraper_file isn't in the IMPORT_KEYS so it won't be assigned
-        expect(scraper.scraper_file).to be_nil
+        expect(scraper.name).to eq(data['name'])
+        # This test is fixed - scraper_path isn't in the IMPORT_KEYS so it won't be assigned
+        expect(scraper.scraper_path).to be_nil
       end.to change(Scraper, :count).by(1)
     end
 
@@ -124,15 +105,14 @@ RSpec.describe Scraper do
 
       # Update with new data
       data = {
-        'morph_url' => attributes1[:morph_url],
-        'github_url' => 'https://github.com/planningalerts-scrapers/updated',
-        'scraper_file' => 'updated.rb',
+        'name' => attributes1[:name],
+        'scraper_path' => 'updated.rb',
       }
 
       expect do
         scraper = Scraper.import_from_hash(data)
         expect(scraper.id).to eq(initial.id)
-        expect(scraper.github_url).to eq(data['github_url'])
+        expect(scraper.github_url).to eq('https://github.com/planningalerts-scrapers/test')
       end.not_to change(Scraper, :count)
     end
 
@@ -146,8 +126,7 @@ RSpec.describe Scraper do
 
     it 'assigns only whitelisted attributes' do
       data = {
-        'morph_url' => 'https://morph.io/test',
-        'github_url' => 'https://github.com/test',
+        'name' => 'test',
         'id' => 999,
         'created_at' => Time.now,
         'other_field' => 'should be ignored',
@@ -155,8 +134,8 @@ RSpec.describe Scraper do
 
       scraper.assign_relevant_attributes(data)
 
-      expect(scraper.morph_url).to eq('https://morph.io/test')
-      expect(scraper.github_url).to eq('https://github.com/test')
+      expect(scraper.morph_url).to eq('https://morph.io/planningalerts-scrapers/test')
+      expect(scraper.github_url).to eq('https://github.com/planningalerts-scrapers/test')
       expect(scraper.id).not_to eq(999)
     end
 

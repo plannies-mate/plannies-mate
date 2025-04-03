@@ -10,6 +10,7 @@ require_relative 'application_record'
 #
 #  id                  :integer          not null, primary key
 #  authorities_path    :string
+#  broken_score        :integer
 #  default_branch      :string           default("master"), not null
 #  name                :string           not null
 #  needs_generate      :boolean          default(TRUE), not null
@@ -22,45 +23,42 @@ require_relative 'application_record'
 #
 # Indexes
 #
-#  index_scrapers_on_name  (name) UNIQUE
+#  index_scrapers_on_broken_score  (broken_score)
+#  index_scrapers_on_name          (name) UNIQUE
 #
 class Scraper < ApplicationRecord
-  validates :morph_url, presence: true, uniqueness: true
-  # @example: https://github.com/planningalerts-scrapers/multiple_icon
-  validates :github_url, presence: true
+  validates :name, presence: true, uniqueness: true
 
   has_many :authorities
 
-  def repo
-    github_url.split('/')[-1]
+  def morph_url(owner = nil)
+    self.class.morph_url(owner, name: name || 'nil')
   end
 
-  # Extract owner from html_url, "planningalerts-scrapers" in the examples above
-  def owner
-    github_url.split('/')[-2]
+  def self.morph_url(owner = nil, name: nil)
+    owner ||= Constants::PRODUCTION_OWNER
+    "#{Constants::MORPH_URL}/#{owner}#{name ? "/#{name}" : ''}"
+  end
+
+  def github_url(owner = nil)
+    owner ||= Constants::PRODUCTION_OWNER
+    "#{Constants::GITHUB_URL}/#{owner}/#{to_param}"
   end
 
   def to_s
-    gh_name = File.basename(github_url)
-    if name == gh_name
-      name
-    else
-      "#{name} (#{gh_name})"
-    end
+    name
   end
 
   def to_param
-    File.basename(morph_url)
+    name || 'nil'
   end
 
-  alias name to_param
-
-  IMPORT_KEYS = %w[morph_url github_url].freeze
+  IMPORT_KEYS = %w[name].freeze
 
   def self.import_from_hash(data)
-    return nil if data['morph_url'].blank?
+    return nil if data['name'].blank?
 
-    scraper = find_by(morph_url: data['morph_url']) || new
+    scraper = find_by(name: data['name']) || new
     scraper.assign_relevant_attributes(data)
     scraper.save!
     scraper

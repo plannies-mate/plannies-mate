@@ -8,6 +8,10 @@ require_relative '../controllers/webhooks_controller'
 
 # Application wide constants
 class Constants
+  MORPH_URL = 'https://morph.io' #  / owner / repo / resource
+  AUTHORITIES_URL = 'https://www.planningalerts.org.au/authorities'
+  GITHUB_URL = 'https://github.com' # / owner / repo / resource
+
   PRODUCTION_OWNER = 'planningalerts-scrapers'
   ISSUES_REPO = 'issues'
 

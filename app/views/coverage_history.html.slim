@@ -74,7 +74,7 @@ main.container
     document.addEventListener('DOMContentLoaded', function() {
       // Coverage Chart
       const ctxCoverage = document.getElementById('coverageChart').getContext('2d');
-      const coverageData = #{chart_data.to_json};
+      const coverageData = [] ; // FIXME:  #{chart_data.to_json};
       
       new Chart(ctxCoverage, {
         type: 'line',
@@ -109,7 +109,7 @@ main.container
       // Contribution Impact Chart
       const ctxContribution = document.getElementById('contributionChart').getContext('2d');
       const contributionData = {
-        labels: #{histories.map { |h| h.recorded_on.strftime('%Y-%m-%d') }.to_json.html_safe},
+        labels: #{histories.map { |h| h.recorded_on.strftime('%Y-%m-%d') }.to_json},
         datasets: [
           {
             label: 'PRs in Progress',

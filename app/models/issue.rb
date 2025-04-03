@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 require_relative 'application_record'
-require_relative 'concerns/repo_owner_number_html_url'
 
-# GitHub Label model
+# GitHub Issue model for tracking scraper issues
 #
 # == Schema Information
 #
@@ -17,44 +16,44 @@ require_relative 'concerns/repo_owner_number_html_url'
 #  needs_generate        :boolean          default(TRUE), not null
 #  needs_import          :boolean          default(TRUE), not null
 #  number                :integer          not null
-#  state                 :string           not null
 #  title                 :string           not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  authority_id          :integer
-#  scraper_id            :integer
-#  user_id               :integer          not null
+#  scraper_id            :integer          not null
 #
 # Indexes
 #
 #  index_issues_on_authority_id  (authority_id)
 #  index_issues_on_number        (number) UNIQUE
 #  index_issues_on_scraper_id    (scraper_id)
-#  index_issues_on_user_id       (user_id)
 #
 # Foreign Keys
 #
 #  authority_id  (authority_id => authorities.id)
 #  scraper_id    (scraper_id => scrapers.id)
-#  user_id       (user_id => github_users.id)
 #
 class Issue < ApplicationRecord
-  include RepoOwnerNumberHtmlUrl
-
-  belongs_to :authority, required: true
-  belongs_to :user, class_name: 'GithubUser', required: true
+  belongs_to :authority, optional: true
+  belongs_to :scraper, required: true
 
   has_and_belongs_to_many :assignees,
-                          class_name: 'GithubUser',
-                          join_table: 'github_users_issues',
-                          foreign_key: 'issue_id',
-                          association_foreign_key: 'github_user_id'
+                          class_name: 'User',
+                          join_table: 'issue_assignees'
 
   has_and_belongs_to_many :labels,
                           class_name: 'IssueLabel',
-                          join_table: 'issue_labels_issues',
-                          foreign_key: 'issue_id',
-                          association_foreign_key: 'issue_label_id'
+                          join_table: 'issue_labels_issues'
+
+  validates :number, presence: true, uniqueness: true
+  validates :title, presence: true
+
+  scope :open, -> { where(closed_at: nil) }
+  scope :closed, -> { where.not(closed_at: nil) }
+
+  def open?
+    closed_at.nil?
+  end
 
   IMPORT_KEYS = %i[html_url closed_at locked milestone state title].freeze
 
@@ -67,6 +66,10 @@ class Issue < ApplicationRecord
   end
 
   def to_param
-    html_url.sub(%r{\A.*/}, '')
+    number.to_s
+  end
+
+  def html_url
+    "#{scraper.github_url}/pull/#{number}"
   end
 end

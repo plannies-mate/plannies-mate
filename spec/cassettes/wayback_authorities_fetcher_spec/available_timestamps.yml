@@ -1,0 +1,169 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://web.archive.org/robots.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - web.archive.org
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 03 Apr 2025 14:06:09 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '146'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404
+        Not Found</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  recorded_at: Thu, 03 Apr 2025 14:06:09 GMT
+- request:
+    method: get
+    uri: http://web.archive.org/cdx/search/cdx?collapse=timestamp:8&from=20190301&output=json&url=https://www.planningalerts.org.au/authorities
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - web.archive.org
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 03 Apr 2025 14:06:10 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server-Timing:
+      - BYPASS
+      - TR;dur=0,Tw;dur=0,Tc;dur=0
+      - exclusion.robots;dur=0.059648, exclusion.robots.policy;dur=0.043780, esindex;dur=0.015810
+      X-App-Server:
+      - wwwb-app206
+      X-Ts:
+      - '200'
+      X-Tr:
+      - '954'
+      X-Location:
+      - cdx
+      X-Rl:
+      - '0'
+      X-Na:
+      - '0'
+      X-Page-Cache:
+      - BYPASS
+      X-Nid:
+      - "-"
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+      Permissions-Policy:
+      - interest-cohort=()
+    body:
+      encoding: UTF-8
+      string: |
+        [["urlkey","timestamp","original","mimetype","statuscode","digest","length"],
+        ["au,org,planningalerts)/authorities","20190301045654","https://www.planningalerts.org.au/authorities","text/html","200","Y3MJ4FQXSLYN67GOG74Q7MF4ALKWWB6E","10618"],
+        ["au,org,planningalerts)/authorities","20190306150441","https://www.planningalerts.org.au/authorities","text/html","200","MAUV24RMCV2JA43BFP3SBJG2ZLJRZOGI","10622"],
+        ["au,org,planningalerts)/authorities","20200301081915","https://www.planningalerts.org.au/authorities","text/html","200","PRSZYCCQQFDYPHY37HRBIPBXRNT7BG56","9972"],
+        ["au,org,planningalerts)/authorities","20200304050011","https://www.planningalerts.org.au/authorities","text/html","200","6ZR6KUNR2PTJKX6ZFCKA77WLZXTCMHEO","10031"],
+        ["au,org,planningalerts)/authorities","20200309153826","https://www.planningalerts.org.au/authorities","text/html","200","P75VJIJP3I7QNIZ7M7GILS3BQR3O4F3W","9971"],
+        ["au,org,planningalerts)/authorities","20200807114124","https://www.planningalerts.org.au/authorities","text/html","200","JOEARGP4IJG2SNDLBXDLXJKNCNANO2YW","10021"],
+        ["au,org,planningalerts)/authorities","20201001150429","https://www.planningalerts.org.au/authorities","text/html","200","V365XE22NYJTPDHWFPMKKZYHMNYLUO67","10085"],
+        ["au,org,planningalerts)/authorities","20201028163919","https://www.planningalerts.org.au/authorities","text/html","200","MSDPSBS7GXPL3VPOR7YWVN3NSYBESC2G","10088"],
+        ["au,org,planningalerts)/authorities","20201204133446","https://www.planningalerts.org.au/authorities","text/html","200","FRX3MKWTCL4QCZE2UJT7BQBAMBW2JN6B","10086"],
+        ["au,org,planningalerts)/authorities","20210123100503","https://www.planningalerts.org.au/authorities","text/html","200","FRKWAMAYYJO3CE4JNRBVTFAH4NONUSDC","10100"],
+        ["au,org,planningalerts)/authorities","20210226052524","https://www.planningalerts.org.au/authorities","text/html","200","JCSBLUKSNFRJLTUOLEKP73GXYADDGNSX","9932"],
+        ["au,org,planningalerts)/authorities","20210307075639","https://www.planningalerts.org.au/authorities","text/html","200","6XASLZAIBG7INJ4VN4I7AXPH4NVU3DF3","10086"],
+        ["au,org,planningalerts)/authorities","20210421102414","https://www.planningalerts.org.au/authorities","text/html","200","HV4FBVPJBQNCSAUGJR3O43DDEMGZQVD5","10099"],
+        ["au,org,planningalerts)/authorities","20210512134442","https://www.planningalerts.org.au/authorities","text/html","200","XYC2MEYTJSQTKETL5AMTS2MCQB3ZRTVJ","10103"],
+        ["au,org,planningalerts)/authorities","20210622222925","https://www.planningalerts.org.au/authorities","text/html","200","6KWNZVRQ6VMMQS3CF5USGZER4QDW6ZQC","8115"],
+        ["au,org,planningalerts)/authorities","20210928220457","https://www.planningalerts.org.au/authorities","text/html","200","JTOONIBIB5AVWV5ZYUZOWV5CADIUOBMD","12395"],
+        ["au,org,planningalerts)/authorities","20211024022438","https://www.planningalerts.org.au/authorities","text/html","200","WLWJFN6EO2CNYNFKUA7T2QHGYSPRLJ3W","12405"],
+        ["au,org,planningalerts)/authorities","20211203041207","https://www.planningalerts.org.au/authorities","text/html","200","AX2GIJXEPCSCLVDGTF2GE34EQSSA3VCN","8929"],
+        ["au,org,planningalerts)/authorities","20211209093621","https://www.planningalerts.org.au/authorities","text/html","200","ALBBTEL343E7JBSHG6RMCQO5OY4ZQASO","12710"],
+        ["au,org,planningalerts)/authorities","20220127225057","https://www.planningalerts.org.au/authorities","text/html","200","KSSWWNFKTOV46Q3HFDCXT2NSAGSEDSOU","12793"],
+        ["au,org,planningalerts)/authorities","20220221102637","https://www.planningalerts.org.au/authorities","text/html","200","FS7VQJGJC6XKFA5Y4H7UYWI5L4ZYRQYJ","12604"],
+        ["au,org,planningalerts)/authorities","20220222004155","https://www.planningalerts.org.au/authorities","text/html","200","7DIUSKRHB3KHRSJKUCECIOSF52NQLLUD","12595"],
+        ["au,org,planningalerts)/authorities","20220304221803","https://www.planningalerts.org.au/authorities","text/html","200","QL5OL7SDZD65AJM4KSFVDROUC3V7V3K6","12602"],
+        ["au,org,planningalerts)/authorities","20220528190516","https://www.planningalerts.org.au/authorities","text/html","200","VVVISIIK45J3OHK5GFC5RT5DCYZZXMNZ","12774"],
+        ["au,org,planningalerts)/authorities","20220624214758","https://www.planningalerts.org.au/authorities","text/html","200","MYG6Z6UFWAVCCTAGABMZX7XCFHM5AM3D","12730"],
+        ["au,org,planningalerts)/authorities","20220813173559","https://www.planningalerts.org.au/authorities","text/html","200","RAIPFLERXJD4XJJUWEFTGU4DZW3LISQ5","12896"],
+        ["au,org,planningalerts)/authorities","20220925164824","https://www.planningalerts.org.au/authorities","text/html","200","BHG2JKELHCJIFETLE2KPSYH5M7IIY5OB","12902"],
+        ["au,org,planningalerts)/authorities","20220930001119","https://www.planningalerts.org.au/authorities","text/html","200","CZXHFPVGERVQ2TSR65XIXDUSSTEESQPX","12743"],
+        ["au,org,planningalerts)/authorities","20221018041348","https://www.planningalerts.org.au/authorities","text/html","200","UVMZ23ZKX5EKOY3SIU2ML3M3S5A74R5H","12711"],
+        ["au,org,planningalerts)/authorities","20221021073809","https://www.planningalerts.org.au/authorities","text/html","200","CQQSL2OINEXZ3WGEXVRU3XY2EB3IUQNI","12730"],
+        ["au,org,planningalerts)/authorities","20221025031557","https://www.planningalerts.org.au/authorities","text/html","200","3VZN6YMBSAGZ7S6NOYO5OWGWICUJULXM","12947"],
+        ["au,org,planningalerts)/authorities","20221130025625","https://www.planningalerts.org.au/authorities","text/html","200","76DEPSNXUO76RQFTVEYUA263VF7WMFPS","13224"],
+        ["au,org,planningalerts)/authorities","20230201051459","https://www.planningalerts.org.au/authorities","text/html","200","L2NF3EB5MF7FBHUEPZIGWPENAR3YCPZS","8863"],
+        ["au,org,planningalerts)/authorities","20230302231158","https://www.planningalerts.org.au/authorities","text/html","200","6K7Z277WD4X5BWVFVILRE5NJYYVPBJDB","8619"],
+        ["au,org,planningalerts)/authorities","20230601153127","http://www.planningalerts.org.au/authorities","text/html","301","DFS4JFJMZDAIFJRQP3LHAYNFPKVWMMX2","334"],
+        ["au,org,planningalerts)/authorities","20230607081330","https://www.planningalerts.org.au/authorities","text/html","200","C22FLL3UV62FENRA7UKGAKHS5GSR4GJP","8864"],
+        ["au,org,planningalerts)/authorities","20230921175643","https://www.planningalerts.org.au/authorities","text/html","200","LO622W3DZDSPUIS2MXWTVZA5BQCNC3I2","8863"],
+        ["au,org,planningalerts)/authorities","20231020200809","https://www.planningalerts.org.au/authorities","text/html","200","KBHNFJKQHNP4GYF5IOXZRSAJTIL3FJJH","8645"],
+        ["au,org,planningalerts)/authorities","20231028123319","https://www.planningalerts.org.au/authorities","text/html","200","RTPUEXUMG7BHIUJ7BMMCBR4CNRWSROSX","8632"],
+        ["au,org,planningalerts)/authorities","20240116144246","https://www.planningalerts.org.au/authorities","text/html","200","2NVXT4Q5JCMK4QH5CQUXAFK2I6JNVXMU","9017"],
+        ["au,org,planningalerts)/authorities","20240228015554","https://www.planningalerts.org.au/authorities","text/html","200","7SB6I7RHLEPGV672ACDJ6RMS7ZRZGY7H","8818"],
+        ["au,org,planningalerts)/authorities","20240317011702","https://www.planningalerts.org.au/authorities","text/html","200","OHS67XU435JJTUW2OTJIK4453W74VJYP","8687"],
+        ["au,org,planningalerts)/authorities","20240405094643","https://www.planningalerts.org.au/authorities","text/html","200","HCRIZ2JFPTF4AH57DLJUTVNILGULG7YH","9006"],
+        ["au,org,planningalerts)/authorities","20240421112856","https://www.planningalerts.org.au/authorities","text/html","200","TYXG5KCEZ2PVOSLC36IYDZK2EO5NF6JR","8794"],
+        ["au,org,planningalerts)/authorities","20240525225221","https://www.planningalerts.org.au/authorities","text/html","200","XFDIQ77YKOSJ3IPWRLVFD4XC5VJQCZKI","8895"],
+        ["au,org,planningalerts)/authorities","20240622021559","https://www.planningalerts.org.au/authorities","text/html","200","4OQ7LWQ332TOKQ6BTZIM7U3XYK5OJGN7","8901"],
+        ["au,org,planningalerts)/authorities","20240716131047","https://www.planningalerts.org.au/authorities","text/html","200","YAMEXDV7OPBEAVYUKNCWTYBIX2E3FCOD","12216"],
+        ["au,org,planningalerts)/authorities","20240724021539","https://www.planningalerts.org.au/authorities","text/html","200","HRJCLTPLKH44QDIUOOYGIG4DKP35W467","11782"],
+        ["au,org,planningalerts)/authorities","20240809050628","https://www.planningalerts.org.au/authorities","text/html","200","MFXCK4IZYWXTION7R2TL6LDBIVJKUMJV","11886"],
+        ["au,org,planningalerts)/authorities","20240901100457","https://www.planningalerts.org.au/authorities","text/html","200","OC66ZYX2ROCPNQU63XGNZW6WNSWVNGAO","11850"],
+        ["au,org,planningalerts)/authorities","20240916152258","https://www.planningalerts.org.au/authorities","text/html","200","TEUPHY7QREVECLZ34VDDBG6WGKX24GGU","11453"],
+        ["au,org,planningalerts)/authorities","20240921021516","https://www.planningalerts.org.au/authorities","text/html","200","DLDZTPKK73CN7NN5NFS5DDUZIVQIOTRA","11860"],
+        ["au,org,planningalerts)/authorities","20241006154907","https://www.planningalerts.org.au/authorities","text/html","200","WN5AHQQ6OKJCVSH2GOTFS6BLWVTIUYZV","11459"],
+        ["au,org,planningalerts)/authorities","20241015174020","https://www.planningalerts.org.au/authorities","text/html","200","3WDAIZCMGL24WNMIWJEZBWPNUGMG7LWR","11269"],
+        ["au,org,planningalerts)/authorities","20241224005004","https://www.planningalerts.org.au/authorities","text/html","200","FJI4C24AD23ULLXTUIOD3M7QDVI3PU4E","12247"],
+        ["au,org,planningalerts)/authorities","20250115150208","https://www.planningalerts.org.au/authorities","text/html","200","WOGORWUE3DLV5OKP7FYPLQZ34YLDVRPC","11792"],
+        ["au,org,planningalerts)/authorities","20250202115601","https://www.planningalerts.org.au/authorities","text/html","200","QPXHPWTTVHD2KLVGH555Q5E2X3NLLLPR","12227"],
+        ["au,org,planningalerts)/authorities","20250307172432","https://www.planningalerts.org.au/authorities","text/html","200","Y7MEHFJLNP2PO45JYSYMZHPJRGTHGTFI","12228"],
+        ["au,org,planningalerts)/authorities","20250316005813","https://www.planningalerts.org.au/authorities","text/html","200","GGBHGVRULJW3DZWJXBAB6SLRB53SGS4W","11604"],
+        ["au,org,planningalerts)/authorities","20250328093946","https://www.planningalerts.org.au/authorities","text/html","200","RLMUOHYIFO6TVPQBNQAJVPQI2IJSQRUD","12243"]]
+  recorded_at: Thu, 03 Apr 2025 14:06:10 GMT
+recorded_with: VCR 6.3.1

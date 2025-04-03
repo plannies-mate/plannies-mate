@@ -6,7 +6,7 @@ module SlimHelper
   def render(view, locals = {})
     # Add default locals that all templates need
     locals[:title] ||= view.capitalize
-    layout = (locals[:layout] || 'with-menu').to_s
+    layout = (locals[:layout] || 'default').to_s
     pretty = locals.fetch(:pretty, true)
 
     # Get the template paths

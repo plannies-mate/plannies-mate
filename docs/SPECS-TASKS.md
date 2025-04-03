@@ -28,7 +28,7 @@ These tasks import data from external resources:
   html pages.
 
 * `import:issues` - imports [Issues](https://github.com/planningalerts-scrapers/issues/issues) using github API into
-  Issue, GithubUser and IssueLabel tables
+  Issue, User and IssueLabel tables
 
 * `import:pull_requests` - imports the pull requests I created
   targeting [planningalerts-scrapers repos](https://github.com/orgs/planningalerts-scrapers/repositories?q=archived%3Afalse)
@@ -83,7 +83,7 @@ Need a clear visual:
 
 * `site_dir/scrapers.html` - list of scrapers with a table of the associated authorities grouped under each
   class: `lib/scrapers_generator.rb`
-* `site_dir/scrapers/scraper_base_name.html` - details of scraper (currently just the github and auth links and a list
+* `site_dir/scrapers/scraper_name.html` - details of scraper (currently just the github and auth links and a list
   of
   authorities that use the scraper)
   class: `lib/scraper_generator.rb`

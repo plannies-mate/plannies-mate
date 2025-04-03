@@ -27,19 +27,18 @@ class CreateAuthorities < ActiveRecord::Migration[8.0]
       t.integer :import_count, default: 0, null: false
       t.string :imported_on
 
-      # Details from issue - project link
-      # The website for the council (from associated issue - project link details)
-      t.string :website_url
-      # The PA admin url
-      t.string :admin_url
-
       # Details from repo files => scraper.* and dns / whois lookup
-      # comma seperated list of domains used in code
-      t.string :query_domains
-      # comma seperated ip addresses these domains resolve to (or "FAIL" if DNS lookup failed)
-      t.string :ip_addresses
-      # whois descr
-      t.string :whois_names
+      # Authority label used in scraper for data records if different to name
+      t.string :authority_label
+      # unique list of domains found in code (JSON)
+      t.text :query_domains
+      # unique list of ip addresses these domains resolve to (or "FAIL" if DNS lookup failed) (JSON)
+      t.text :ip_addresses
+      # unique list of whois descr (JSON)
+      t.text :whois_names
+
+      # A score impact of it being broken
+      t.integer :broken_score, index: true, null: true
 
       # requires import of details, stats pages and github details
       t.boolean :needs_import, default: true, null: false

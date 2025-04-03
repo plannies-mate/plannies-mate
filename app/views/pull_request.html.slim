@@ -45,12 +45,12 @@ main.container
           tr
             th Author
             td
-              - if pull_request.github_user
-                a href="#{pull_request.github_user.html_url}" target="_blank"
-                  - if pull_request.github_user.avatar_url.present?
-                    img.user-avatar src="#{pull_request.github_user.avatar_url}&s=40" title="#{pull_request.github_user.login}"
+              - if pull_request.user
+                a href="#{pull_request.user.html_url}" target="_blank"
+                  - if pull_request.user.avatar_url.present?
+                    img.user-avatar src="#{pull_request.user.avatar_url}&s=40" title="#{pull_request.user.login}"
                   - else
-                    = pull_request.github_user.login
+                    = pull_request.user.login
           tr
             th Created
             td #{format_date(pull_request.created_at)}

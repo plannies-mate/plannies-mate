@@ -6,20 +6,24 @@ module FixtureHelper
 
   # Define the load order based on dependencies
   FIXTURES = [
+    ['http_cache_entries', HttpCacheEntry],
     ['coverage_histories', CoverageHistory],
-    ['github_users', GithubUser],
+    ['users', User],
     ['issue_labels', IssueLabel],
     ['scrapers', Scraper],
+
     # Tables with references
+    ['authorities', Authority], # Depends on scrapers,
+    ['issues', Issue], # Depends on authority, scrapers and user
     ['pull_requests', PullRequest], # references scraper
-    ['authorities', Authority], # depends on scraper
-    ['issues', Issue], # Depends on authority and github_user
+    ['branches', Branch], # Depends on scrapers,
     # Join tables with fixtures
-    ['authorities_pull_requests', nil],
+    ['broken_authority_histories', nil],
     ['issue_labels_issues', nil], # HABTM
-    ['github_users_issues', nil], # HABTM
+    ['issue_assignees', nil], # HABTM
+    ['pull_request_assignees', nil], # HABTM
   ].freeze
-  ASSOCIATIONS = %w[assignee authority github_user issue_label issue pull_request scraper user].freeze
+  ASSOCIATIONS = %w[authority branch coverage_history user issue_label issue pull_request scraper].freeze
 
   def self.id_for(value)
     (value.to_s.hash.abs % 0x7FFFFFFE) + 1
@@ -71,7 +75,7 @@ module FixtureHelper
             connection.execute(sql)
           end
         rescue StandardError, ActiveRecord::RecordInvalid => e
-          puts "ERROR: Creating fixture #{fixture_name}:#{key}: #{e}"
+          puts "ERROR: Creating fixture #{fixture_name}:#{key}: #{e}#{defined?(attributes) ? ", #{attributes.inspect}" : ''}"
           raise e
         end
         puts "Loaded #{model ? model.count : fixtures.size} #{fixture_name} records" if app_helpers.debug?

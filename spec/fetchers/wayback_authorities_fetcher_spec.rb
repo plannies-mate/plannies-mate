@@ -31,18 +31,53 @@ RSpec.describe WaybackAuthoritiesFetcher do
     end
   end
 
-  describe '#fetch_snapshot', vcr: { cassette_name: cassette_name('snapshot_20240315123456') } do
-    it 'fetches and processes a historical snapshot' do
-      # Use a real timestamp that exists in the VCR cassette
-      authorities = fetcher.fetch_snapshot('20240315123456')
+  %w[
+    20250115150208
+    20240116144246
+    20230201051459
+    20220127225057
+    20210123100503
+    20200301081915
+    20190301045654
+  ].each do |snapshot|
+    describe "#fetch_snapshot of #{snapshot}", vcr: { cassette_name: cassette_name("snapshot_#{snapshot}") } do
+      it 'fetches and processes state, authority, population and possibly broken labels' do
+        # Use a real timestamp that exists in the VCR cassette
+        authorities = fetcher.fetch_snapshot(snapshot)
 
-      expect(authorities).to be_an(Array)
-      expect(authorities.size).to be > 0
+        expect(authorities).to be_an(Array)
+        expect(authorities.size).to be > 100
 
-      # Check the structure matches what we expect
-      authorities.each do |authority|
-        expect(authority).to include('state', 'name', 'url', 'short_name')
+        # Check the structure matches what we expect
+        broken = 0
+        authorities.each do |authority|
+          expect(authority).to include('state', 'name', 'population', 'possibly_broken', 'short_name')
+          broken += 1 if authority['possibly_broken']
+        end
+        expect(broken).to be > 30
       end
     end
   end
+
+  # %w[20180313211051 20170218223403 20160302131413 20150316150700].each do |snapshot|
+  #   describe "#fetch_snapshot of #{snapshot}",
+  #            vcr: { cassette_name: cassette_name("snapshot_#{snapshot}") } do
+  #     it 'fetches and processes authority and possibly broken labels' do
+  #       # Use a real timestamp that exists in the VCR cassette
+  #       authorities = fetcher.fetch_snapshot(snapshot)
+  #
+  #       expect(authorities).to be_an(Array)
+  #       expect(authorities.size).to be > 0
+  #       broken = 0
+  #       # Check the structure matches what we expect
+  #       authorities.each do |authority|
+  #         expect(authority).to include('name', 'possibly_broken', 'short_name')
+  #         broken += 1 if authority['possibly_broken']
+  #       end
+  #       expect(broken).to be > 900
+  #     end
+  #   end
+  # end
+
+  # 2014 has internal scrapers
 end

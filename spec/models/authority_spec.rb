@@ -6,12 +6,13 @@
 #
 #  id                    :integer          not null, primary key
 #  added_on              :date
-#  admin_url             :string
+#  authority_label       :string
+#  broken_score          :integer
 #  import_count          :integer          default(0), not null
 #  import_trigger_reason :string
 #  import_triggered_at   :datetime
 #  imported_on           :string
-#  ip_addresses          :string
+#  ip_addresses          :text
 #  last_log              :text
 #  last_received         :date
 #  median_per_week       :integer          default(0), not null
@@ -21,22 +22,22 @@
 #  needs_import          :boolean          default(TRUE), not null
 #  population            :integer
 #  possibly_broken       :boolean          default(FALSE), not null
-#  query_domains         :string
+#  query_domains         :text
 #  removed_on            :date
 #  short_name            :string           not null
 #  state                 :string
 #  total_count           :integer          default(0), not null
-#  website_url           :string
 #  week_count            :integer          default(0), not null
-#  whois_names           :string
+#  whois_names           :text
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  scraper_id            :integer
 #
 # Indexes
 #
-#  index_authorities_on_scraper_id  (scraper_id)
-#  index_authorities_on_short_name  (short_name) UNIQUE
+#  index_authorities_on_broken_score  (broken_score)
+#  index_authorities_on_scraper_id    (scraper_id)
+#  index_authorities_on_short_name    (short_name) UNIQUE
 #
 # Foreign Keys
 #
@@ -46,7 +47,7 @@ require 'spec_helper'
 require_relative '../../app/models/authority'
 
 RSpec.describe Authority do
-  let(:attributes1) { { 'short_name' => 'test1', 'name' => 'Test Authority1', 'url' => 'https://example.com/test1' } }
+  let(:attributes1) { { 'short_name' => 'test1', 'name' => 'Test Authority1' } }
 
   describe 'fixtures loading' do
     it 'loads all authorities from fixtures' do
@@ -117,13 +118,13 @@ RSpec.describe Authority do
       authority1 = Authority.new(attributes1)
       expect(authority1.short_name).to eq('test1')
       expect(authority1.name).to eq('Test Authority1')
-      expect(authority1.url).to eq('https://example.com/test1')
+      expect(authority1.authorities_url).to eq('https://www.planningalerts.org.au/authorities/test1')
     end
 
     it 'requires a short_name' do
       expect do
         Authority.create!({})
-      end.to raise_error(ActiveRecord::RecordInvalid, /Short name .* Name .* Url .* Scraper can't be blank/)
+      end.to raise_error(ActiveRecord::RecordInvalid, /Short name .* Name .* Scraper can't be blank/)
     end
   end
 

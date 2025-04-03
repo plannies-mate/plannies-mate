@@ -3,20 +3,20 @@
 # Create PullRequest model to cache GitHub PR data
 class CreatePullRequests < ActiveRecord::Migration[8.0]
   def change
-    # Only MY_GITHUB_USER
+    # Only save pull requests created by MY_GITHUB_USER for repos owned by PRODUCTION_OWNER
+    # Recorded to a fix is available (not6 closed or merged) or a fix have been applied (merged)
     create_table :pull_requests, force: true do |t|
       # repo will set scraper
       t.references :scraper, null: false, foreign_key: true
-      t.integer :number, null: false, index: { unique: true }
+      t.integer :number, null: false
       t.string :title, null: false
-      t.string :state, null: false
       t.boolean :locked, null: false, default: false
-      # May disappear
       t.string :head_branch_name, null: false
       t.string :base_branch_name, null: false
       t.datetime :closed_at
       t.datetime :merged_at
-      t.string :merge_commit_sha
+      # if draft or I am one of the assignees (doesn't count when needs_review)
+      t.boolean :needs_review, null: false, default: false
 
       # Update triggers
       t.boolean :needs_import, default: false, null: false
@@ -30,12 +30,12 @@ class CreatePullRequests < ActiveRecord::Migration[8.0]
       t.index [:scraper_id, :number], unique: true, name: 'index_pull_requests_on_scraper_id_and_number'
     end
 
-    # Join tables
-    create_table :authorities_pull_requests, id: false do |t|
-      t.references :authority, null: false, foreign_key: true, index: false
-      t.references :pull_request, null: false, foreign_key: true
+    # This is used with summary and lists to indicate a fix is available for a possibly broken authority
+    create_table :pull_request_assignees, id: false do |t|
+      t.references :pull_request, null: false, foreign_key: true, index: false
+      t.references :user, null: false, foreign_key: true
 
-      t.index %i[authority_id pull_request_id], unique: true, name: 'index_authorities_prs_on_authority_id_and_pr_id'
+      t.index %i[pull_request_id user_id], unique: true, name: 'idx_pull_request_assignees'
     end
   end
 end

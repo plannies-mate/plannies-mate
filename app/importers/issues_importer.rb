@@ -70,7 +70,7 @@ class IssuesImporter
   def import_user(gh_user)
     return nil unless gh_user
 
-    user = GithubUser.find_or_initialize_by(id: gh_user.id)
+    user = User.find_or_initialize_by(id: gh_user.id)
     user.assign_relevant_attributes(gh_user.to_h)
     if user.changed?
       @user_changed += 1

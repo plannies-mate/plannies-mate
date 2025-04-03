@@ -6,7 +6,6 @@ require_relative '../lib/app_helpers_accessor'
 class IssueAuthorityMatcher
   include AppHelpersAccessor
 
-  MORPH_IO_SCRAPERS_URL = 'https://morph.io/planningalerts-scrapers/'
   # Common words that should be excluded from matching as they appear across many authorities
   COMMON_WORDS = %w[
     custom multiple a an the city council authority local region
@@ -53,7 +52,9 @@ class IssueAuthorityMatcher
 
   def potential_authorities_from_labels
     # Find unique scraper from labels if possible
-    morph_urls = @labels.map { |label| "#{MORPH_IO_SCRAPERS_URL}multiple_#{label.downcase}" }
+    morph_urls = @labels.map do |label|
+      "#{Constants::MORPH_URL}/#{Constants::PRODUCTION_OWNER}/multiple_#{label.downcase}"
+    end
     scrapers = Scraper.where(morph_url: morph_urls)
     scraper = scrapers.first if scrapers.size == 1
 

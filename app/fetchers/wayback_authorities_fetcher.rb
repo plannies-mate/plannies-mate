@@ -15,7 +15,7 @@ class WaybackAuthoritiesFetcher
   WAYBACK_CDX_URL = 'http://web.archive.org/cdx/search/cdx'
 
   # URL template for retrieving a specific snapshot
-  WAYBACK_SNAPSHOT_URL = 'http://web.archive.org/web/{timestamp}/{url}'
+  WAYBACK_SNAPSHOT_URL = 'https://web.archive.org/web/{timestamp}/{url}'
 
   # Max number of timestamps per request to avoid overwhelming the service
   BATCH_SIZE = 20
@@ -26,7 +26,7 @@ class WaybackAuthoritiesFetcher
   end
 
   # Get a list of available timestamps from the Wayback Machine
-  # @return [Array<String>] List of timestamps in format YYYYMMDDHHMMSS
+  # @return [Array<String>] List of timestamps in format YYYYMMDDHHMMSS in descending order
   def fetch_available_timestamps(from: nil, to: nil)
     params = {
       url: AuthoritiesFetcher::AUTHORITIES_URL,
@@ -34,7 +34,7 @@ class WaybackAuthoritiesFetcher
       collapse: 'timestamp:8', # Group by day to reduce results
     }
     # inclusive ranges are specified in 8 digit format: YYYYMMDD
-    params[:from] = from.strftime('%Y%m%d') if from
+    params[:from] = from ? from.strftime('%Y%m%d') : '20190301'
     params[:to] = to.strftime('%Y%m%d') if to
 
     url = "#{WAYBACK_CDX_URL}?#{URI.encode_www_form(params)}"
@@ -47,13 +47,14 @@ class WaybackAuthoritiesFetcher
     timestamps = results[1..-1].map { |row| row[1] }
     self.class.log "Found #{timestamps.size} historical snapshots"
 
-    timestamps
+    timestamps.reverse
   end
 
   # Fetch historical data for a specific timestamp
   # @param timestamp [String] Wayback Machine timestamp in format YYYYMMDDHHMMSS
   # @return [Hash, nil] Processed authorities data or nil if error/no data
   def fetch_snapshot(timestamp)
+    # https://web.archive.org/web/20200309153826/https://www.planningalerts.org.au/authorities
     url = WAYBACK_SNAPSHOT_URL.sub('{timestamp}', timestamp)
                               .sub('{url}', AuthoritiesFetcher::AUTHORITIES_URL)
 

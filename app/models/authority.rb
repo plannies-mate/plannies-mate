@@ -10,12 +10,13 @@ require_relative 'application_record'
 #
 #  id                    :integer          not null, primary key
 #  added_on              :date
-#  admin_url             :string
+#  authority_label       :string
+#  broken_score          :integer
 #  import_count          :integer          default(0), not null
 #  import_trigger_reason :string
 #  import_triggered_at   :datetime
 #  imported_on           :string
-#  ip_addresses          :string
+#  ip_addresses          :text
 #  last_log              :text
 #  last_received         :date
 #  median_per_week       :integer          default(0), not null
@@ -25,32 +26,36 @@ require_relative 'application_record'
 #  needs_import          :boolean          default(TRUE), not null
 #  population            :integer
 #  possibly_broken       :boolean          default(FALSE), not null
-#  query_domains         :string
+#  query_domains         :text
 #  removed_on            :date
 #  short_name            :string           not null
 #  state                 :string
 #  total_count           :integer          default(0), not null
-#  website_url           :string
 #  week_count            :integer          default(0), not null
-#  whois_names           :string
+#  whois_names           :text
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  scraper_id            :integer
 #
 # Indexes
 #
-#  index_authorities_on_scraper_id  (scraper_id)
-#  index_authorities_on_short_name  (short_name) UNIQUE
+#  index_authorities_on_broken_score  (broken_score)
+#  index_authorities_on_scraper_id    (scraper_id)
+#  index_authorities_on_short_name    (short_name) UNIQUE
 #
 # Foreign Keys
 #
 #  scraper_id  (scraper_id => scrapers.id)
 #
 class Authority < ApplicationRecord
-  validates :short_name, presence: true, uniqueness: true
-  validates :name, :url, :scraper, presence: true
+  has_and_belongs_to_many :coverage_histories_when_broken,
+                          class_name: 'CoverageHistory',
+                          join_table: 'broken_authority_histories'
 
-  belongs_to :scraper
+  validates :short_name, presence: true, uniqueness: true
+  validates :name, :scraper, presence: true
+
+  belongs_to :scraper, optional: true
   has_many :issues
 
   scope :working, -> { where(possibly_broken: false) }
@@ -64,6 +69,14 @@ class Authority < ApplicationRecord
   # Format for display in UI
   def to_s
     "#{name} (#{state})"
+  end
+
+  def authorities_url
+    self.class.authorities_url(short_name || 'nil')
+  end
+
+  def self.authorities_url(short_name = nil)
+    "#{Constants::AUTHORITIES_URL}#{short_name ? "/#{short_name}" : ''}"
   end
 
   IMPORT_KEYS =

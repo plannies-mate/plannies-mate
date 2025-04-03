@@ -4,14 +4,18 @@ require 'mechanize'
 require 'json'
 require 'fileutils'
 require_relative '../helpers/application_helper'
+require_relative '../helpers/html_helper'
 require_relative 'scraper_base'
 
 # Class to scrape authority list from PlanningAlerts website
 class AuthoritiesFetcher
   extend ApplicationHelper
+  extend HtmlHelper
   extend ScraperBase
 
   AUTHORITIES_URL = 'https://www.planningalerts.org.au/authorities'
+
+  STATES = %w[WA NSW VIC QLD SA TAS ACT NT]
 
   def initialize(agent = nil)
     @agent = agent || self.class.create_agent
@@ -24,7 +28,6 @@ class AuthoritiesFetcher
   #     {
   #       "state": "NSW",
   #       "name": "Albury City Council",
-  #       "url": "https://www.planningalerts.org.au/authorities/albury",
   #       "short_name": "albury",
   #       "possibly_broken": true,
   #       "population": 56093
@@ -54,16 +57,16 @@ class AuthoritiesFetcher
       cells = row.search('td')
       next if cells.empty? || cells.length < 3
 
-      authority_cell = cells[1]
-      authority_link = authority_cell.at('a')
+      cells[1]
+      authority_link = row.at('a')
       next unless authority_link
 
-      record['state'] = self.class.extract_text(cells[0])
+      state = self.class.extract_text(cells[0])
+      record['state'] = state if STATES.include?(state)
       record['name'] = self.class.extract_text(authority_link)
-      record['url'] = authority_link['href']
-      record['short_name'] = record['url'].split('/').last
-      record['possibly_broken'] = !authority_cell.at('div.bg-yellow').nil?
-      record['population'] = self.class.extract_number(cells[2].text)
+      record['short_name'] = self.class.last_url_segment authority_link['href']
+      record['possibly_broken'] = !self.class.extract_text(row).downcase.include?('possibly broken')
+      record['population'] = self.class.extract_number(cells[2]&.text)
       authorities << record
     end
 
