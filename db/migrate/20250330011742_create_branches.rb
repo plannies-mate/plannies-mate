@@ -8,6 +8,7 @@ class CreateBranches < ActiveRecord::Migration[8.0]
       # the associated scraper (otherwise we don't care)
       t.references :scraper, null: false, foreign_key: true
       t.string :name, null: false
+      # The open pull request using this branch
       t.references :pull_request, null: true, foreign_key: true
 
       t.timestamps null: false

@@ -13,11 +13,11 @@
 ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
   create_table "authorities", force: :cascade do |t|
     t.string "short_name", null: false
-    t.string "state"
+    t.string "state", limit: 3
     t.string "name", null: false
     t.boolean "possibly_broken", default: false, null: false
     t.integer "population"
-    t.date "removed_on"
+    t.date "delisted_on"
     t.date "last_received"
     t.integer "week_count", default: 0, null: false
     t.integer "month_count", default: 0, null: false
@@ -35,8 +35,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.integer "broken_score"
     t.boolean "needs_import", default: true, null: false
     t.boolean "needs_generate", default: true, null: false
-    t.datetime "import_triggered_at"
-    t.string "import_trigger_reason"
+    t.datetime "update_requested_at"
+    t.string "update_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["broken_score"], name: "index_authorities_on_broken_score"
@@ -84,7 +84,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
   create_table "http_cache_entries", force: :cascade do |t|
     t.string "url", null: false
     t.string "etag"
-    t.datetime "last_modified"
+    t.datetime "last_modified_at"
     t.datetime "last_success_at"
     t.datetime "last_other_response_at"
     t.datetime "last_not_modified_at"
@@ -124,8 +124,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.datetime "closed_at"
     t.boolean "needs_import", default: true, null: false
     t.boolean "needs_generate", default: true, null: false
-    t.datetime "import_triggered_at"
-    t.string "import_trigger_reason"
+    t.datetime "update_requested_at"
+    t.string "update_reason"
     t.integer "authority_id"
     t.integer "scraper_id", null: false
     t.datetime "created_at", null: false
@@ -152,9 +152,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.datetime "closed_at"
     t.datetime "merged_at"
     t.boolean "needs_review", default: false, null: false
-    t.boolean "needs_import", default: false, null: false
-    t.datetime "import_triggered_at"
-    t.string "import_trigger_reason"
+    t.boolean "needs_import", default: true, null: false
+    t.boolean "needs_generate", default: true, null: false
+    t.datetime "update_requested_at"
+    t.string "update_reason"
     t.integer "issue_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -183,7 +184,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.string "login", null: false
     t.string "avatar_url"
     t.string "user_view_type"
-    t.boolean "site_admin", default: false
+    t.boolean "site_admin", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["login"], name: "index_users_on_login", unique: true

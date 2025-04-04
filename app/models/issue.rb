@@ -8,19 +8,19 @@ require_relative 'application_record'
 #
 # Table name: issues
 #
-#  id                    :integer          not null, primary key
-#  closed_at             :datetime
-#  import_trigger_reason :string
-#  import_triggered_at   :datetime
-#  locked                :boolean          default(FALSE), not null
-#  needs_generate        :boolean          default(TRUE), not null
-#  needs_import          :boolean          default(TRUE), not null
-#  number                :integer          not null
-#  title                 :string           not null
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  authority_id          :integer
-#  scraper_id            :integer          not null
+#  id                  :integer          not null, primary key
+#  closed_at           :datetime
+#  locked              :boolean          default(FALSE), not null
+#  needs_generate      :boolean          default(TRUE), not null
+#  needs_import        :boolean          default(TRUE), not null
+#  number              :integer          not null
+#  title               :string           not null
+#  update_reason       :string
+#  update_requested_at :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  authority_id        :integer
+#  scraper_id          :integer          not null
 #
 # Indexes
 #

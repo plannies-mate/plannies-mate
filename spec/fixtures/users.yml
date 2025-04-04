@@ -7,7 +7,7 @@
 #  id             :integer          not null, primary key
 #  avatar_url     :string
 #  login          :string           not null
-#  site_admin     :boolean          default(FALSE)
+#  site_admin     :boolean          default(FALSE), not null
 #  user_view_type :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -18,18 +18,12 @@
 #
 ianheggie:
   login: ianheggie
-  user_view_type: public
-  site_admin: false
-
 
 ianheggie_oaf:
   login: ianheggie-oaf
-  user_view_type: public
-  site_admin: false
-
 
 planningalerts_bot:
   login: planningalerts-bot
-  user_view_type: public
-  site_admin: false
 
+mlandauer:
+  login: mlandauer

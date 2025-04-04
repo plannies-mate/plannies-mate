@@ -10,7 +10,7 @@ require_relative 'application_record'
 #
 #  id                     :integer          not null, primary key
 #  etag                   :string
-#  last_modified          :datetime
+#  last_modified_at       :datetime
 #  last_not_modified_at   :datetime
 #  last_other_response_at :datetime
 #  last_success_at        :datetime
@@ -48,8 +48,8 @@ class HttpCacheEntry < ApplicationRecord
     if response.header['last-modified'].present?
       begin
         last_mod = Time.parse(response.header['last-modified'])
-        if last_mod && last_mod != last_modified
-          self.last_modified = last_mod
+        if last_mod && last_mod != last_modified_at
+          self.last_modified_at = last_mod
           changed = true
         end
       rescue ArgumentError
@@ -80,7 +80,7 @@ class HttpCacheEntry < ApplicationRecord
     headers['If-None-Match'] = etag if etag.present?
 
     # Add If-Modified-Since header if we have a Last-Modified date
-    headers['If-Modified-Since'] = last_modified.httpdate if last_modified.present?
+    headers['If-Modified-Since'] = last_modified_at.httpdate if last_modified_at.present?
 
     headers
   end

@@ -11,7 +11,7 @@ require_relative 'application_record'
 #  id             :integer          not null, primary key
 #  avatar_url     :string
 #  login          :string           not null
-#  site_admin     :boolean          default(FALSE)
+#  site_admin     :boolean          default(FALSE), not null
 #  user_view_type :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

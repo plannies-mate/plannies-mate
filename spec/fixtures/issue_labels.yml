@@ -32,7 +32,6 @@ technology_one:
   name: technology one
   color: edaae8
   default: false
-  description: ""
 
 council_website_good:
   name: council website good

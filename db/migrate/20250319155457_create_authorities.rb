@@ -6,12 +6,13 @@ class CreateAuthorities < ActiveRecord::Migration[8.0]
     create_table :authorities, force: true do |t|
       # Basic authority information
       t.string :short_name, null: false, index: { unique: true }
-      t.string :state
+      # State of Australia, not open/closed
+      t.string :state, limit: 3
       t.string :name, null: false
       t.boolean :possibly_broken, default: false, null: false
       t.integer :population
       # date authority is no longer listed
-      t.date :removed_on
+      t.date :delisted_on
 
       # Stats data (Not checked for historical lists)
       t.date :last_received
@@ -44,8 +45,8 @@ class CreateAuthorities < ActiveRecord::Migration[8.0]
       t.boolean :needs_import, default: true, null: false
       # generate after needs_import
       t.boolean :needs_generate, default: true, null: false
-      t.datetime :import_triggered_at
-      t.string :import_trigger_reason
+      t.datetime :update_requested_at
+      t.string :update_reason
 
       t.timestamps null: false
     end

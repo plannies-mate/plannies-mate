@@ -26,7 +26,7 @@
 
 # Recent history
 recent:
-  recorded_on: 2025-03-15
+  recorded_on: 2025-04-04
   authority_count: 150
   broken_authority_count: 32
   total_population: 23450000
@@ -41,7 +41,7 @@ recent:
   updated_at: 2025-03-15 00:00:00
 
 previous:
-  recorded_on: 2025-03-08
+  recorded_on: 2025-03-28
   authority_count: 150
   broken_authority_count: 35
   total_population: 23450000
@@ -54,10 +54,11 @@ previous:
   rejected_population: 250000
   created_at: 2025-03-08 00:00:00
   updated_at: 2025-03-08 00:00:00
+  wayback_url: https://web.archive.org/web/20250328093946/https://www.planningalerts.org.au/authorities
 
 # Older data
 older:
-  recorded_on: 2025-02-01
+  recorded_on: 2025-02-03
   authority_count: 148
   broken_authority_count: 40
   total_population: 23200000
@@ -70,10 +71,11 @@ older:
   rejected_population: 100000
   created_at: 2025-02-01 00:00:00
   updated_at: 2025-02-01 00:00:00
+  wayback_url: https://web.archive.org/web/20250202115601/https://www.planningalerts.org.au/authorities
 
 # Historical data
 historical:
-  recorded_on: 2024-03-15
+  recorded_on: 2024-03-16
   authority_count: 145
   broken_authority_count: 38
   total_population: 22900000
@@ -86,6 +88,7 @@ historical:
   rejected_population: 0
   created_at: 2024-03-15 00:00:00
   updated_at: 2024-03-15 00:00:00
+  wayback_url: https://web.archive.org/web/20250316005813/https://www.planningalerts.org.au/authorities
 
 # Consecutive identical records for testing optimization
 identical1:

@@ -4,34 +4,34 @@
 #
 # Table name: authorities
 #
-#  id                    :integer          not null, primary key
-#  added_on              :date
-#  authority_label       :string
-#  broken_score          :integer
-#  import_count          :integer          default(0), not null
-#  import_trigger_reason :string
-#  import_triggered_at   :datetime
-#  imported_on           :string
-#  ip_addresses          :text
-#  last_log              :text
-#  last_received         :date
-#  median_per_week       :integer          default(0), not null
-#  month_count           :integer          default(0), not null
-#  name                  :string           not null
-#  needs_generate        :boolean          default(TRUE), not null
-#  needs_import          :boolean          default(TRUE), not null
-#  population            :integer
-#  possibly_broken       :boolean          default(FALSE), not null
-#  query_domains         :text
-#  removed_on            :date
-#  short_name            :string           not null
-#  state                 :string
-#  total_count           :integer          default(0), not null
-#  week_count            :integer          default(0), not null
-#  whois_names           :text
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  scraper_id            :integer
+#  id                  :integer          not null, primary key
+#  added_on            :date
+#  authority_label     :string
+#  broken_score        :integer
+#  delisted_on         :date
+#  import_count        :integer          default(0), not null
+#  imported_on         :string
+#  ip_addresses        :text
+#  last_log            :text
+#  last_received       :date
+#  median_per_week     :integer          default(0), not null
+#  month_count         :integer          default(0), not null
+#  name                :string           not null
+#  needs_generate      :boolean          default(TRUE), not null
+#  needs_import        :boolean          default(TRUE), not null
+#  population          :integer
+#  possibly_broken     :boolean          default(FALSE), not null
+#  query_domains       :text
+#  short_name          :string           not null
+#  state               :string(3)
+#  total_count         :integer          default(0), not null
+#  update_reason       :string
+#  update_requested_at :datetime
+#  week_count          :integer          default(0), not null
+#  whois_names         :text
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  scraper_id          :integer
 #
 # Indexes
 #
@@ -59,6 +59,9 @@ act:
   last_log: "64 applications found for ACT Planning & Land Authority, ACT with date from 2025-03-13\nTook 1 s to import applications from ACT Planning & Land Authority, ACT"
   import_count: 64
   imported_on: 1 s
+  query_domains: '["services1.arcgis.com"]'
+  whois_names: '["Amazon.com, Inc. (AMAZON-4)"]'
+  ip_addresses: '["18.64.50.76", "18.64.50.58", "18.64.50.88", "18.64.50.15"]'
 
 armidale:
   state: NSW
@@ -99,6 +102,11 @@ bathurst:
   name: Bathurst Regional Council
   short_name: bathurst
   possibly_broken: true
+  needs_generate: true
+  needs_import: true
+  update_reason: webhook
+  update_requested_at: 2025-03-04 05:06:07
+  broken_score: 1234
   population: 43567
   last_received: 2023-03-19
   week_count: 0

@@ -18,10 +18,12 @@ class CreatePullRequests < ActiveRecord::Migration[8.0]
       # if draft or I am one of the assignees (doesn't count when needs_review)
       t.boolean :needs_review, null: false, default: false
 
-      # Update triggers
-      t.boolean :needs_import, default: false, null: false
-      t.datetime :import_triggered_at
-      t.string :import_trigger_reason
+      # requires import of github details (because of webhook, manual request or nightly)
+      t.boolean :needs_import, default: true, null: false
+      # generate after needs_import
+      t.boolean :needs_generate, default: true, null: false
+      t.datetime :update_requested_at
+      t.string :update_reason
 
       # Will set issue: "issue_url": "https://api.github.com/repos/octocat/Hello-World/issues/1347",
       t.references :issue, null: false, foreign_key: true

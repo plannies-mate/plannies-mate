@@ -2,22 +2,23 @@
 #
 # Table name: pull_requests
 #
-#  id                    :integer          not null, primary key
-#  base_branch_name      :string           not null
-#  closed_at             :datetime
-#  head_branch_name      :string           not null
-#  import_trigger_reason :string
-#  import_triggered_at   :datetime
-#  locked                :boolean          default(FALSE), not null
-#  merged_at             :datetime
-#  needs_import          :boolean          default(FALSE), not null
-#  needs_review          :boolean          default(FALSE), not null
-#  number                :integer          not null
-#  title                 :string           not null
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  issue_id              :integer          not null
-#  scraper_id            :integer          not null
+#  id                  :integer          not null, primary key
+#  base_branch_name    :string           not null
+#  closed_at           :datetime
+#  head_branch_name    :string           not null
+#  locked              :boolean          default(FALSE), not null
+#  merged_at           :datetime
+#  needs_generate      :boolean          default(TRUE), not null
+#  needs_import        :boolean          default(TRUE), not null
+#  needs_review        :boolean          default(FALSE), not null
+#  number              :integer          not null
+#  title               :string           not null
+#  update_reason       :string
+#  update_requested_at :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  issue_id            :integer          not null
+#  scraper_id          :integer          not null
 #
 # Indexes
 #
@@ -38,10 +39,14 @@ pr18:
   locked: false
   head_branch_name: feature/fix-broken-authorities
   base_branch_name: master
-  created_at: "2025-02-11"
-  updated_at: "2025-02-11"
+  created_at: "2025-02-11 01:02:03"
+  updated_at: "2025-02-11 01:02:03"
   issue: "issue_2"
   scraper: multiple_atdis
+  update_reason: webhook
+  needs_import: true
+  closed_at: "2025-01-19 01:02:03"
+  update_requested_at: 2025-04-01 01:02:03
 
 pr9:
   title: "Updated to reflect changed css classes and move of pdf href to separate link"
@@ -49,7 +54,20 @@ pr9:
   locked: false
   head_branch_name: feature/update-css-classes
   base_branch_name: master
-  created_at: "2025-02-19"
-  updated_at: "2025-02-19"
+  created_at: "2025-02-19 01:02:03"
+  updated_at: "2025-02-19 01:02:03"
   issue: issue_1
+  scraper: bankstown
+
+pr1:
+  title: "Minor fix to bankstown"
+  number: 1
+  locked: false
+  head_branch_name: feature/minor-fix
+  base_branch_name: master
+  created_at: "2025-01-19 01:02:03"
+  updated_at: "2025-01-19 01:02:03"
+  issue: issue_1
+  merged_at: "2025-01-19 01:02:03"
+  closed_at: "2025-01-19 01:02:03"
   scraper: bankstown

@@ -4,19 +4,19 @@
 #
 # Table name: issues
 #
-#  id                    :integer          not null, primary key
-#  closed_at             :datetime
-#  import_trigger_reason :string
-#  import_triggered_at   :datetime
-#  locked                :boolean          default(FALSE), not null
-#  needs_generate        :boolean          default(TRUE), not null
-#  needs_import          :boolean          default(TRUE), not null
-#  number                :integer          not null
-#  title                 :string           not null
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  authority_id          :integer
-#  scraper_id            :integer          not null
+#  id                  :integer          not null, primary key
+#  closed_at           :datetime
+#  locked              :boolean          default(FALSE), not null
+#  needs_generate      :boolean          default(TRUE), not null
+#  needs_import        :boolean          default(TRUE), not null
+#  number              :integer          not null
+#  title               :string           not null
+#  update_reason       :string
+#  update_requested_at :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  authority_id        :integer
+#  scraper_id          :integer          not null
 #
 # Indexes
 #
@@ -38,10 +38,11 @@ issue_1:
   locked: false
   needs_import: true
   needs_generate: true
+  update_reason: webhook
+  update_requested_at: 2025-03-15T15:45:00Z
   created_at: 2025-03-01T10:30:00Z
   updated_at: 2025-03-15T15:45:00Z
-  closed_at: 
-
+  closed_at: 2025-03-15T15:45:00Z
 
 issue_2:
   number: 2

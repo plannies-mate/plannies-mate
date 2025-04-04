@@ -6,7 +6,7 @@
 #
 #  id                     :integer          not null, primary key
 #  etag                   :string
-#  last_modified          :datetime
+#  last_modified_at       :datetime
 #  last_not_modified_at   :datetime
 #  last_other_response_at :datetime
 #  last_success_at        :datetime
@@ -68,13 +68,13 @@ RSpec.describe HttpCacheEntry do
       end.to change { entry.reload.etag }.to('new-etag')
     end
 
-    it 'updates the last_modified when it changes' do
+    it 'updates the last_modified_at when it changes' do
       modified_time = Time.new(2025, 3, 19).httpdate
       allow(response).to receive(:header).and_return({ 'last-modified' => modified_time })
 
       expect do
         entry.update_from_response(response)
-      end.to(change { entry.reload.last_modified })
+      end.to(change { entry.reload.last_modified_at })
     end
 
     it 'updates last_success_at timestamp' do
@@ -91,9 +91,9 @@ RSpec.describe HttpCacheEntry do
       expect(headers['If-None-Match']).to eq('test-etag')
     end
 
-    it 'includes If-Modified-Since when last_modified is present' do
+    it 'includes If-Modified-Since when last_modified_at is present' do
       time = Time.new(2025, 3, 19)
-      entry = HttpCacheEntry.new(url: 'https://example.com', last_modified: time)
+      entry = HttpCacheEntry.new(url: 'https://example.com', last_modified_at: time)
       headers = entry.conditional_headers
       expect(headers['If-Modified-Since']).to eq(time.httpdate)
     end

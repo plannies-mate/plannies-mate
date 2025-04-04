@@ -28,10 +28,17 @@ act:
   default_branch: master
   created_at: 2025-03-30
   updated_at: 2025-03-30
+  authorities_path: scraper.rb
+  needs_generate: true
+  needs_import: true
+  scraper_path: scraper.rb
+  update_reason: webhook
+  update_requested_at: 2025-04-01 01:02:03
 
 'multiple_atdis':
   name: multiple_atdis
   default_branch: master
+  broken_score: 1234
   created_at: 2025-03-30
   updated_at: 2025-03-30
 
