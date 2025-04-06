@@ -5,14 +5,11 @@
 # Table name: authorities
 #
 #  id                  :integer          not null, primary key
-#  added_on            :date
+#  added_on            :date             not null
 #  authority_label     :string
 #  broken_score        :integer
 #  delisted_on         :date
-#  import_count        :integer          default(0), not null
-#  imported_on         :string
-#  ip_addresses        :text
-#  last_log            :text
+#  last_import_log     :text
 #  last_received       :date
 #  median_per_week     :integer          default(0), not null
 #  month_count         :integer          default(0), not null
@@ -21,14 +18,15 @@
 #  needs_import        :boolean          default(TRUE), not null
 #  population          :integer
 #  possibly_broken     :boolean          default(FALSE), not null
-#  query_domains       :text
+#  query_error         :string
+#  query_owner         :string
+#  query_url           :string
 #  short_name          :string           not null
 #  state               :string(3)
 #  total_count         :integer          default(0), not null
 #  update_reason       :string
 #  update_requested_at :datetime
 #  week_count          :integer          default(0), not null
-#  whois_names         :text
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  scraper_id          :integer
@@ -56,12 +54,9 @@ act:
   added_on: 2009-12-17
   median_per_week: 11
   scraper: act
-  last_log: "64 applications found for ACT Planning & Land Authority, ACT with date from 2025-03-13\nTook 1 s to import applications from ACT Planning & Land Authority, ACT"
-  import_count: 64
-  imported_on: 1 s
-  query_domains: '["services1.arcgis.com"]'
-  whois_names: '["Amazon.com, Inc. (AMAZON-4)"]'
-  ip_addresses: '["18.64.50.76", "18.64.50.58", "18.64.50.88", "18.64.50.15"]'
+  last_import_log: "64 applications found for ACT Planning & Land Authority, ACT with date from 2025-03-13\nTook 1 s to import applications from ACT Planning & Land Authority, ACT"
+  query_url: "https://services1.arcgis.com:8080/api"
+  query_owner: "cloudfront.com"
 
 armidale:
   state: NSW
@@ -76,9 +71,10 @@ armidale:
   added_on: 2016-08-16
   median_per_week: 2
   scraper: 'multiple_atdis'
-  last_log: "8 applications found for Armidale Regional Council, NSW with date from 2025-03-13\nTook 0 s to import applications from Armidale Regional Council, NSW\nAuthority Armidale Regional Council is fixed but github issue is still open. So labelling."
-  import_count: 8
-  imported_on: 0 s
+  authority_label: 'armidale'
+  query_url: "http://epathway.newengland.nsw.gov.au"
+  query_error: "epathway.newengland.nsw.gov.au is not a valid domain"
+  last_import_log: "8 applications found for Armidale Regional Council, NSW with date from 2025-03-13\nTook 0 s to import applications from Armidale Regional Council, NSW\nAuthority Armidale Regional Council is fixed but github issue is still open. So labelling."
 
 bankstown:
   state: NSW
@@ -93,9 +89,7 @@ bankstown:
   added_on: 2010-07-15
   median_per_week: 48
   scraper: bankstown
-  last_log: "Error 400 Bad Request while trying to save application DA-261/2025 for Canterbury-Bankstown Council, NSW. So, skipping\nError 400 Bad Request while trying to save application CC-117/2025 for Canterbury-Bankstown Council, NSW. So, skipping\n82 applications found for Canterbury-Bankstown Council, NSW with date from 2025-03-13\n2 applications errored for Canterbury-Bankstown Council, NSW with date from 2025-03-13\nTook 1 s to import applications from Canterbury-Bankstown Council, NSW"
-  import_count: 82
-  imported_on: 1 s
+  last_import_log: "Error 400 Bad Request while trying to save application DA-261/2025 for Canterbury-Bankstown Council, NSW. So, skipping\nError 400 Bad Request while trying to save application CC-117/2025 for Canterbury-Bankstown Council, NSW. So, skipping\n82 applications found for Canterbury-Bankstown Council, NSW with date from 2025-03-13\n2 applications errored for Canterbury-Bankstown Council, NSW with date from 2025-03-13\nTook 1 s to import applications from Canterbury-Bankstown Council, NSW"
 
 bathurst:
   state: NSW
@@ -115,9 +109,8 @@ bathurst:
   added_on: 2016-04-03
   median_per_week: 14
   scraper: 'multiple_atdis'
-  last_log: "0 applications found for Bathurst Regional Council, NSW with date from 2025-03-13\nTook 0 s to import applications from Bathurst Regional Council, NSW"
-  import_count: 0
-  imported_on: 0 s
+  last_import_log: "0 applications found for Bathurst Regional Council, NSW with date from 2025-03-13\nTook 0 s to import applications from Bathurst Regional Council, NSW"
+  query_url: "https://masterview.bathurst.nsw.gov.au"
 
 burwood:
   state: NSW
@@ -132,9 +125,7 @@ burwood:
   added_on: 2015-06-16
   median_per_week: 3
   scraper: 'multiple_civica'
-  last_log: "0 applications found for Burwood Council, NSW with date from 2025-03-12\nTook 0 s to import applications from Burwood Council, NSW"
-  import_count: 0
-  imported_on: 0 s
+  last_import_log: "0 applications found for Burwood Council, NSW with date from 2025-03-12\nTook 0 s to import applications from Burwood Council, NSW"
 
 burdekin:
   state: QLD
@@ -149,9 +140,7 @@ burdekin:
   added_on: 2015-11-28
   median_per_week: 1
   scraper: 'burdekin'
-  last_log: "0 applications found for Burdekin Shire Council, QLD with date from 2025-03-13\nTook 0 s to import applications from Burdekin Shire Council, QLD"
-  import_count: 0
-  imported_on: 0 s
+  last_import_log: "0 applications found for Burdekin Shire Council, QLD with date from 2025-03-13\nTook 0 s to import applications from Burdekin Shire Council, QLD"
 
 banyule:
   state: VIC
@@ -166,9 +155,7 @@ banyule:
   added_on: 2009-12-13
   median_per_week: 7
   scraper: banyule
-  last_log: "0 applications found for Banyule City Council, VIC with date from 2025-03-13\nTook 0 s to import applications from Banyule City Council, VIC"
-  import_count: 0
-  imported_on: 0 s
+  last_import_log: "0 applications found for Banyule City Council, VIC with date from 2025-03-13\nTook 0 s to import applications from Banyule City Council, VIC"
 
 baw_baw:
   state: VIC
@@ -183,9 +170,7 @@ baw_baw:
   added_on: 2015-06-20
   median_per_week: 3
   scraper: 'baw_baw'
-  last_log: "11 applications found for Baw Baw Shire Council, VIC with date from 2025-03-13\nTook 0 s to import applications from Baw Baw Shire Council, VIC\nAuthority Baw Baw Shire Council is fixed but github issue is still open. So labelling."
-  import_count: 11
-  imported_on: 0 s
+  last_import_log: "11 applications found for Baw Baw Shire Council, VIC with date from 2025-03-13\nTook 0 s to import applications from Baw Baw Shire Council, VIC\nAuthority Baw Baw Shire Council is fixed but github issue is still open. So labelling."
 
 bayside_vic:
   state: VIC
@@ -200,9 +185,7 @@ bayside_vic:
   added_on: 2011-02-03
   median_per_week: 17
   scraper: 'multiple_civica'
-  last_log: "0 applications found for Bayside City Council (Victoria), VIC with date from 2025-03-13\nTook 1 s to import applications from Bayside City Council (Victoria), VIC"
-  import_count: 0
-  imported_on: 1 s
+  last_import_log: "0 applications found for Bayside City Council (Victoria), VIC with date from 2025-03-13\nTook 1 s to import applications from Bayside City Council (Victoria), VIC"
 
 brimbank:
   state: VIC
@@ -217,9 +200,7 @@ brimbank:
   added_on: 2009-12-12
   median_per_week: 5
   scraper: brimbank
-  last_log: "39 applications found for Brimbank City Council, VIC with date from 2025-03-13\nTook 1 s to import applications from Brimbank City Council, VIC\nAuthority Brimbank City Council is fixed but github issue is still open. So labelling."
-  import_count: 39
-  imported_on: 1 s
+  last_import_log: "39 applications found for Brimbank City Council, VIC with date from 2025-03-13\nTook 1 s to import applications from Brimbank City Council, VIC\nAuthority Brimbank City Council is fixed but github issue is still open. So labelling."
 
 bunbury:
   state: WA
@@ -234,9 +215,7 @@ bunbury:
   added_on: 2019-07-21
   median_per_week: 19
   scraper: 'multiple_civica'
-  last_log: "0 applications found for City of Bunbury, WA with date from 2025-03-12\nTook 0 s to import applications from City of Bunbury, WA"
-  import_count: 0
-  imported_on: 0 s
+  last_import_log: "0 applications found for City of Bunbury, WA with date from 2025-03-12\nTook 0 s to import applications from City of Bunbury, WA"
 
 busselton:
   state: WA
@@ -251,6 +230,16 @@ busselton:
   added_on: 2016-09-15
   median_per_week: 1
   scraper: busselton
-  last_log: "0 applications found for City of Busselton, WA with date from 2025-03-13\nTook 0 s to import applications from City of Busselton, WA"
-  import_count: 0
-  imported_on: 0 s
+
+city_of_south_barwon:
+  name: City of South Barwon
+  short_name: southbarwon
+  possibly_broken: true
+  week_count: 0
+  month_count: 0
+  total_count: 0
+  added_on: 1857-06-02
+  median_per_week: 0
+  delisted_on: 1994-03-09
+  needs_import: false
+  needs_generate: false

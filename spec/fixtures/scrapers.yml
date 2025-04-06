@@ -37,6 +37,8 @@ act:
 
 'multiple_atdis':
   name: multiple_atdis
+  scraper_path: scraper.rb
+  authorities_path: scraper.rb
   default_branch: master
   broken_score: 1234
   created_at: 2025-03-30

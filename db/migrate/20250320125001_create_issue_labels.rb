@@ -7,7 +7,6 @@ class CreateIssueLabels < ActiveRecord::Migration[8.0]
     create_table :issue_labels do |t|
       t.string :name, null: false, index: { unique: true }
       t.string :color
-      t.boolean :default, default: false
       t.string :description
 
       t.timestamps null: false

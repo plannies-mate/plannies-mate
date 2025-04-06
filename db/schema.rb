@@ -22,16 +22,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.integer "week_count", default: 0, null: false
     t.integer "month_count", default: 0, null: false
     t.integer "total_count", default: 0, null: false
-    t.date "added_on"
+    t.date "added_on", null: false
     t.integer "median_per_week", default: 0, null: false
     t.integer "scraper_id"
-    t.text "last_log"
-    t.integer "import_count", default: 0, null: false
-    t.string "imported_on"
+    t.text "last_import_log"
     t.string "authority_label"
-    t.text "query_domains"
-    t.text "ip_addresses"
-    t.text "whois_names"
+    t.string "query_url"
+    t.string "query_error"
+    t.string "query_owner"
     t.integer "broken_score"
     t.boolean "needs_import", default: true, null: false
     t.boolean "needs_generate", default: true, null: false
@@ -103,7 +101,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
   create_table "issue_labels", force: :cascade do |t|
     t.string "name", null: false
     t.string "color"
-    t.boolean "default", default: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -183,8 +180,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
   create_table "users", force: :cascade do |t|
     t.string "login", null: false
     t.string "avatar_url"
-    t.string "user_view_type"
-    t.boolean "site_admin", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["login"], name: "index_users_on_login", unique: true

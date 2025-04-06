@@ -8,13 +8,11 @@ require_relative 'application_record'
 #
 # Table name: users
 #
-#  id             :integer          not null, primary key
-#  avatar_url     :string
-#  login          :string           not null
-#  site_admin     :boolean          default(FALSE), not null
-#  user_view_type :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id         :integer          not null, primary key
+#  avatar_url :string
+#  login      :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #

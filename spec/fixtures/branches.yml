@@ -27,6 +27,6 @@ feature_branch:
   name: feature/fix-armidale
   pull_request: pr18
 
-feature_branch:
+feature_branch2:
   scraper: multiple_atdis
   name: feature/fix-broken-authorities

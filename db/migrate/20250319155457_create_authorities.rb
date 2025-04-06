@@ -14,29 +14,28 @@ class CreateAuthorities < ActiveRecord::Migration[8.0]
       # date authority is no longer listed
       t.date :delisted_on
 
-      # Stats data (Not checked for historical lists)
+      # Stats from Information page (Not checked for historical lists)
       t.date :last_received
       t.integer :week_count, default: 0, null: false
       t.integer :month_count, default: 0, null: false
       t.integer :total_count, default: 0, null: false
-      t.date :added_on
+      # Use first observed in wayback if needed
+      t.date :added_on, null: false
       t.integer :median_per_week, default: 0, null: false
 
-      # Details data (Not checked for historical lists)
+      # "Under the hood" Details data (Not checked for historical lists)
       t.references :scraper, null: true, foreign_key: true
-      t.text :last_log
-      t.integer :import_count, default: 0, null: false
-      t.string :imported_on
+      t.text :last_import_log
 
-      # Details from repo files => scraper.* and dns / whois lookup
+      # Details from scraper.authorities_path file and dns / whois lookup
       # Authority label used in scraper for data records if different to name
       t.string :authority_label
-      # unique list of domains found in code (JSON)
-      t.text :query_domains
-      # unique list of ip addresses these domains resolve to (or "FAIL" if DNS lookup failed) (JSON)
-      t.text :ip_addresses
-      # unique list of whois descr (JSON)
-      t.text :whois_names
+      # Query url in authorities_path
+      t.string :query_url
+      # error message why query failed (DNS lookup, port closed, timeout etc)
+      t.string :query_error
+      # Who owns the IP numbers (either from CDN CNAME or from whois organisation / descr)
+      t.string :query_owner
 
       # A score impact of it being broken
       t.integer :broken_score, index: true, null: true

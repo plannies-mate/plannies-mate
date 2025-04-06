@@ -4,13 +4,11 @@
 #
 # Table name: users
 #
-#  id             :integer          not null, primary key
-#  avatar_url     :string
-#  login          :string           not null
-#  site_admin     :boolean          default(FALSE), not null
-#  user_view_type :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id         :integer          not null, primary key
+#  avatar_url :string
+#  login      :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #
@@ -18,12 +16,15 @@
 #
 ianheggie:
   login: ianheggie
+  avatar_url: https://avatars.githubusercontent.com/u/12345678?v=4
 
 ianheggie_oaf:
   login: ianheggie-oaf
+  avatar_url: https://avatars.githubusercontent.com/u/183138466?v=4
 
 planningalerts_bot:
   login: planningalerts-bot
+  avatar_url: https://avatars.githubusercontent.com/u/98765432?v=4
 
 mlandauer:
   login: mlandauer

@@ -9,14 +9,11 @@ require_relative 'application_record'
 # Table name: authorities
 #
 #  id                  :integer          not null, primary key
-#  added_on            :date
+#  added_on            :date             not null
 #  authority_label     :string
 #  broken_score        :integer
 #  delisted_on         :date
-#  import_count        :integer          default(0), not null
-#  imported_on         :string
-#  ip_addresses        :text
-#  last_log            :text
+#  last_import_log     :text
 #  last_received       :date
 #  median_per_week     :integer          default(0), not null
 #  month_count         :integer          default(0), not null
@@ -25,14 +22,15 @@ require_relative 'application_record'
 #  needs_import        :boolean          default(TRUE), not null
 #  population          :integer
 #  possibly_broken     :boolean          default(FALSE), not null
-#  query_domains       :text
+#  query_error         :string
+#  query_owner         :string
+#  query_url           :string
 #  short_name          :string           not null
 #  state               :string(3)
 #  total_count         :integer          default(0), not null
 #  update_reason       :string
 #  update_requested_at :datetime
 #  week_count          :integer          default(0), not null
-#  whois_names         :text
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  scraper_id          :integer
@@ -53,7 +51,7 @@ class Authority < ApplicationRecord
                           join_table: 'broken_authority_histories'
 
   validates :short_name, presence: true, uniqueness: true
-  validates :name, :scraper, presence: true
+  validates :name, presence: true
 
   belongs_to :scraper, optional: true
   has_many :issues
@@ -82,7 +80,7 @@ class Authority < ApplicationRecord
   IMPORT_KEYS =
     %w[short_name state name url possibly_broken population
        last_received week_count month_count total_count added_on median_per_week stats_etag
-       last_log import_count imported_on details_etag].freeze
+       last_import_log details_etag].freeze
 
   # Assign relevant attributes
   def assign_relevant_attributes(attributes)

@@ -26,7 +26,7 @@ class AuthorityDetailsFetcher
   #   {
   #     "short_name": "banyule",
   #     "repo": "multiple_civica",
-  #     "last_log": "0 applications found for Bayside City Council (Victoria), VIC with date from 2025-03-11\nTook 0 s to import applications from Bayside City Council (Victoria), VIC",
+  #     "last_import_log": "0 applications found for Bayside City Council (Victoria), VIC with date from 2025-03-11\nTook 0 s to import applications from Bayside City Council (Victoria), VIC",
   #     "total_count": 0,
   #     "import_time": "0 s"
   #   }
@@ -65,7 +65,7 @@ class AuthorityDetailsFetcher
       # Look for pre tag with logs
       pre_text = (import_section.at('pre')&.text || '').to_s.strip
       unless pre_text.empty?
-        details['last_log'] = pre_text
+        details['last_import_log'] = pre_text
 
         # Additionally extract some useful data from the log
         if (match = pre_text.match(/(\d+) applications found/))

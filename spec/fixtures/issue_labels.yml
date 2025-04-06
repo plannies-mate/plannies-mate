@@ -6,7 +6,6 @@
 #
 #  id          :integer          not null, primary key
 #  color       :string
-#  default     :boolean          default(FALSE)
 #  description :string
 #  name        :string           not null
 #  created_at  :datetime         not null
@@ -19,28 +18,22 @@
 bug:
   name: bug
   color: d73a4a
-  default: true
   description: Something isn't working
 
 enhancement:
   name: enhancement
   color: a2eeef
-  default: true
   description: New feature or request
 
 technology_one:
   name: technology one
-  color: edaae8
-  default: false
 
 council_website_good:
   name: council website good
   color: 0e8a16
-  default: false
   description: Council website provides good data
 
 pdf:
   name: PDF
   color: fbca04
-  default: false
   description: Need to parse PDF

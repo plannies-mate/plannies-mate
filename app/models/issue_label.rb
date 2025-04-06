@@ -10,7 +10,6 @@ require_relative 'application_record'
 #
 #  id          :integer          not null, primary key
 #  color       :string
-#  default     :boolean          default(FALSE)
 #  description :string
 #  name        :string           not null
 #  created_at  :datetime         not null

@@ -44,5 +44,4 @@ brisbane_authority:
 
 stale_entry:
   url: https://www.planningalerts.org.au/authorities/stale
-  last_modified_at: 2025-02-01 10:00:00
   last_other_response_at: 2025-02-01 10:00:00
