@@ -20,7 +20,7 @@ require_relative 'application_record'
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  authority_id        :integer
-#  scraper_id          :integer          not null
+#  scraper_id          :integer
 #
 # Indexes
 #
@@ -35,7 +35,7 @@ require_relative 'application_record'
 #
 class Issue < ApplicationRecord
   belongs_to :authority, optional: true
-  belongs_to :scraper, required: true
+  belongs_to :scraper, optional: true
 
   has_and_belongs_to_many :assignees,
                           class_name: 'User',
@@ -55,7 +55,7 @@ class Issue < ApplicationRecord
     closed_at.nil?
   end
 
-  IMPORT_KEYS = %i[html_url closed_at locked milestone state title].freeze
+  IMPORT_KEYS = %i[number closed_at locked title].freeze
 
   # Assign relevant attributes
   def assign_relevant_attributes(attributes)

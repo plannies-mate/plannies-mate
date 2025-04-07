@@ -5,59 +5,33 @@ require_relative '../../app/importers/github_base'
 
 RSpec.describe GithubBase do
   # Create a test class to use the module
-  class TestClass
-    extend GithubBase
-  end
-
-  describe '.owner' do
-    it 'returns the repository owner' do
-      expect(TestClass.owner).to eq('planningalerts-scrapers')
-    end
-  end
-
-  describe '.issues_repo' do
-    it 'returns the issues repository name' do
-      expect(TestClass.issues_repo).to eq('issues')
-    end
-  end
+  let(:test_class) { Class.new { extend GithubBase } }
 
   describe '.create_client' do
     context 'with token in ENV' do
       before do
-        allow(ENV).to receive(:fetch).with('GITHUB_PERSONAL_TOKEN', nil).and_return('test_token')
+        allow(ENV).to receive(:fetch).with('GITHUB_PERSONAL_TOKEN').and_return('test_token')
       end
-      
+
       it 'creates a client with authentication' do
-        client = TestClass.create_client
+        client = test_class.create_client
         expect(client).to be_a(Octokit::Client)
         expect(client.access_token).to eq('test_token')
       end
     end
-    
-    context 'with token in .env file' do
-      before do
-        allow(ENV).to receive(:fetch).with('GITHUB_PERSONAL_TOKEN', nil).and_return(nil)
-        allow(File).to receive(:size?).with('.env').and_return(true)
-        allow(File).to receive(:readlines).with('.env').and_return(["GITHUB_PERSONAL_TOKEN=env_token"])
-      end
-      
-      it 'reads token from file' do
-        client = TestClass.create_client
-        expect(client).to be_a(Octokit::Client)
-        expect(client.access_token).to eq('env_token')
-      end
-    end
-    
+
     context 'without token' do
       before do
-        allow(ENV).to receive(:fetch).with('GITHUB_PERSONAL_TOKEN', nil).and_return(nil)
-        allow(File).to receive(:size?).with('.env').and_return(nil)
+        @prev = ENV.fetch('GITHUB_PERSONAL_TOKEN')
+        ENV['GITHUB_PERSONAL_TOKEN'] = nil
       end
-      
-      it 'creates unauthenticated client' do
-        client = TestClass.create_client
-        expect(client).to be_a(Octokit::Client)
-        expect(client.access_token).to be_nil
+
+      after do
+        ENV['GITHUB_PERSONAL_TOKEN'] = @prev
+      end
+
+      it 'Throws an error' do
+        expect { test_class.create_client }.to raise_error(RuntimeError)
       end
     end
   end
@@ -66,9 +40,10 @@ RSpec.describe GithubBase do
     it 'returns a time one week ago' do
       now = Time.now
       allow(Time).to receive(:now).and_return(now)
-      
-      one_week_ago = TestClass.refresh_at
-      expect(one_week_ago).to be_within(1).of(now - 7.days)
+
+      one_week_ago = test_class.refresh_at
+      # within an hour and a second when DST changes
+      expect(one_week_ago).to be_within(3601).of(now - 7.days)
     end
   end
 end

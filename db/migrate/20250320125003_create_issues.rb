@@ -17,9 +17,9 @@ class CreateIssues < ActiveRecord::Migration[8.0]
       t.datetime :update_requested_at
       t.string :update_reason
 
-      # Relations
+      # Relations (optional)
       t.references :authority, foreign_key: true, null: true
-      t.references :scraper, foreign_key: true, null: false
+      t.references :scraper, foreign_key: true, null: true
 
       t.timestamps null: false # Use standard Rails timestamps
     end

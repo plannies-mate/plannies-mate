@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'time'
 require_relative '../spec_helper'
 require_relative '../../app/importers/authorities_importer'
 
@@ -16,55 +17,85 @@ RSpec.describe AuthoritiesImporter do
     it 'imports authorities and scrapers', vcr: { cassette_name: cassette_name('import_authorities_from_scratch') } do
       @importer.import
 
-      count = Authority.count
-      expect(count).to be > 100
+      authority_count = Authority.count
+      expect(authority_count).to be > 170
+
+      scraper_count = Scraper.count
+      expect(scraper_count).to be < authority_count
+      expect(scraper_count).to be_between(30, 120)
+    end
+
+    it 'imports authorities and scrapers, adding whats missing, updating what has changed',
+       vcr: { cassette_name: cassette_name('import_authorities_from_scratch_then_redo') } do
+      @importer.import
+
+      authority_count = Authority.count
+      expect(authority_count).to be > 100
+
+      scraper_count = Scraper.count
+      expect(scraper_count).to be_between(30, 50)
+
+      destroyed_scraper = Scraper.first
+      puts "Destroying scraper #{destroyed_scraper.name} and associated authorities: #{destroyed_scraper.authorities.pluck(:short_name).inspect}"
+      destroyed_authorities = destroyed_scraper.authorities.destroy_all
+      destroyed_scraper.destroy
+
+      updated_scraper = Scraper.last
+      updated_scraper_name = updated_scraper.name
+      puts "Changing scraper name: #{updated_scraper_name} to BadName"
+      updated_scraper.update! name: 'BadName'
+
+      updated_authority = updated_scraper.authorities.last
+      updated_authority_name = updated_authority.name
+      puts "Changing authority name: #{updated_authority_name} to BadName"
+      updated_authority.update! name: 'BadName'
+
+      latest_update = [Authority.maximum(:updated_at), Scraper.maximum(:updated_at)].compact.max
+      sleep(0.1) while Time.now.to_i <= latest_update.to_i
+
+      # puts 'Authorities:'
+      # Authority.order(:short_name).each do |authority|
+      #   puts "#{authority.short_name} #{authority.name}#{authority.delisted_on ? ' DELISTED' : ''}"
+      # end
+      puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
+
+      puts '-' * 50, 'NON FORCED IMPORT'
+      # Expect pages to all be the same
+      @importer.import
+
+      puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
+
+      expect(Authority.count).to eq(authority_count - 1)
+      expect(Scraper.count).to eq(scraper_count - 1)
+
+      scraper_names = Scraper.pluck(:name)
+      authority_names = Authority.pluck(:name)
+      expect(destroyed_scraper.name).not_to be_in(scraper_names)
+      expect(destroyed_authorities.first.name).not_to be_in(authority_names)
+      expect(updated_scraper_name).not_to be_in(scraper_names)
+      expect(updated_authority_name).not_to be_in(authority_names)
+      expect('BadName').to be_in(scraper_names)
+      expect('BadName').to be_in(authority_names)
+
+      puts '-' * 50, 'FORCING IMPORT'
+      # Everything should be updated when last checked 8 days ago
+      HttpCacheEntry.where.not(last_success_at: nil).update_all(last_success_at: 8.days.ago)
+      @importer.import
+
+      puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
+
+      expect(Authority.count).to eq(authority_count)
+      # BadName is not deleted
+      expect(Scraper.count).to eq(scraper_count + 1)
+
+      scraper_names = Scraper.pluck(:name)
+      authority_names = Authority.pluck(:name)
+      expect(destroyed_scraper.name).to be_in(scraper_names)
+      expect(destroyed_authorities.first.name).to be_in(authority_names)
+      expect(updated_scraper_name).to be_in(scraper_names)
+      expect(updated_authority_name).to be_in(authority_names)
+      expect('BadName').to be_in(scraper_names)
+      expect('BadName').not_to be_in(authority_names)
     end
   end
-
-  # # FIXME: use less mocking!!!
-  # context 'when updating unchanged authorities' do
-  #   # Use a separate context to avoid conflicts with the existing before block
-  #   let(:importer) { described_class.new }
-  #
-  #   before do
-  #     # Create a test authority
-  #     @authority = Authority.create!(
-  #       short_name: 'test_auth',
-  #       name: 'Test Authority',
-  #       url: 'https://example.com/test',
-  #       scraper: Scraper.create!(name: 'test_scraper')
-  #     )
-  #
-  #     # Setup mocks for fetchers
-  #     allow(importer.instance_variable_get(:@details_fetcher)).to receive(:fetch)
-  #       .with('test_auth')
-  #       .and_return({'name' => 'Test Authority'})
-  #
-  #     allow(importer.instance_variable_get(:@stats_fetcher)).to receive(:fetch)
-  #       .with('test_auth')
-  #       .and_return({'total_count' => 0})
-  #   end
-  #
-  #   it 'skips updating unchanged authorities' do
-  #     # Setup authority to report no changes
-  #     allow_any_instance_of(Authority).to receive(:changed?).and_return(false)
-  #
-  #     # Reset the counters
-  #     importer.instance_variable_set(:@count, 0)
-  #     importer.instance_variable_set(:@changed, 0)
-  #
-  #     # Mock Authority.all to only return our test authority
-  #     allow(Authority).to receive(:all).and_return([@authority])
-  #
-  #     # Mock list_fetcher to simulate unchanged list
-  #     allow(importer.instance_variable_get(:@list_fetcher)).to receive(:fetch).and_return(nil)
-  #
-  #     # Capture output
-  #     expect { importer.import }.to output(/Updated 0 of 1 authorities/).to_stdout
-  #
-  #     # Verify counters
-  #     expect(importer.count).to eq(1)
-  #     expect(importer.changed).to eq(0)
-  #   end
-  # end
 end

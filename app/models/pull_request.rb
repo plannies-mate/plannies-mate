@@ -21,7 +21,7 @@
 #  update_requested_at :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  issue_id            :integer          not null
+#  issue_id            :integer
 #  scraper_id          :integer          not null
 #
 # Indexes
@@ -39,9 +39,9 @@ class PullRequest < ApplicationRecord
   has_and_belongs_to_many :assignees,
                           join_table: 'pull_request_assignees',
                           class_name: 'User'
-  belongs_to :issue, required: true
+  belongs_to :issue, optional: true
   belongs_to :scraper, required: true
-  has_many :branches
+  has_one :branch, dependent: :nullify
 
   # Validations
   validates :base_branch_name,

@@ -27,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 03 Apr 2025 14:06:25 GMT
+      - Sun, 06 Apr 2025 14:38:21 GMT
       Content-Type:
       - text/plain
       Content-Length:
@@ -66,7 +66,7 @@ http_interactions:
         Disallow: /geocode_queries
 
 
-  recorded_at: Thu, 03 Apr 2025 14:06:25 GMT
+  recorded_at: Sun, 06 Apr 2025 14:38:21 GMT
 - request:
     method: get
     uri: https://www.planningalerts.org.au/authorities
@@ -94,7 +94,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 03 Apr 2025 14:06:25 GMT
+      - Sun, 06 Apr 2025 14:38:21 GMT
       Content-Type:
       - text/html; charset=utf-8
       Transfer-Encoding:
@@ -120,16 +120,16 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"c48a2076385d76b7936092160198c76f"
+      - W/"2869f9e65db3f48f0c0c9081e2ac24da"
       Cache-Control:
       - max-age=0, private, must-revalidate
       Set-Cookie:
-      - _planningalerts_app_session=PvUZyfUK0eor3kq384D7al7YhJLgNmhpVtPjixWZQzcG7nJ85qIzvsi9x1zpjVTbuduO%2BEetmgpXy4UpmmwKHjcN07zYZgwtTJhXYifX0YK5a2AX%2F6YU2G8iWN%2BliMsA5qljK36%2Ba%2B%2F0quWpN0sUckx%2FrC3EVKAF50k8S%2BlKTsaS%2FnHarQ9QFcQQ%2BpMqvIYlDR01f6GsTWDmacEUJNxJmjVWSMBLB28ovF75MkRz5lgF36ZsOUj0zj7SHQ%3D%3D--QoT6tktxP%2Biz%2BCF6--XctovORoKeUQvv9c%2Fa7U5Q%3D%3D;
+      - _planningalerts_app_session=lIPSgechqRAsgXawWWIXAC3q7Y84XhqMaw4eYr%2FIBuiigUgJw9u7tpJaOa9NvbLKqvRvbDon9AN%2BaJFax%2B32NpGLIMXvijNk0MxLUdpVcBXocR0s1JotLH74ey4RtGeBQtZnKzBQsfx1L1U0NVSUywQZDwvHoDxHmMqez2oKWYofw%2F%2B1AHZeCeL8%2FOOnrF%2FxvwYD3mG9C5fwjLi0ZVy%2F%2BlMPyLtMCyozgMFsdY6Bctl0z0hVsr2bEoc1aw%3D%3D--e6fKmNEsS9IGN7gI--mRjEsH52zdVwo9hnRxdf%2BQ%3D%3D;
         path=/; secure; httponly; samesite=lax
       X-Request-Id:
-      - f1fabb82-a36d-4131-bdbb-f6ff5c4c26a0
+      - 3a8ea0c8-f588-4185-a642-0885eb8ce853
       X-Runtime:
-      - '0.514551'
+      - '0.310680'
       Strict-Transport-Security:
       - max-age=3600; includeSubDomains
     body:
@@ -882,10 +882,10 @@ http_interactions:
         broken</div>\n  </td>\n  <td>\n    10683\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
         \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
         focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/golden_plains_shire\">Golden
-        Plains Shire Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
-        broken</div>\n  </td>\n  <td>\n    24985\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
-        \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
-        focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/greater_shepparton\">Greater
+        Plains Shire Council</a>\n  </td>\n  <td>\n    24985\n  </td>\n</tr>\n<tr>\n
+        \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
+        hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
+        underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/greater_shepparton\">Greater
         Shepparton City Council</a>\n  </td>\n  <td>\n    68409\n  </td>\n</tr>\n<tr>\n
         \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
         hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
@@ -962,10 +962,10 @@ http_interactions:
         \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
         hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
         underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/swan_hill\">Swan
-        Hill Rural City Council</a>\n  </td>\n  <td>\n    21403\n  </td>\n</tr>\n<tr>\n
-        \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
-        hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
-        underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/vcglr\">Victorian
+        Hill Rural City Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
+        broken</div>\n  </td>\n  <td>\n    21403\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
+        \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
+        focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/vcglr\">Victorian
         Gambling and Casino Control Commission</a>\n  </td>\n  <td>\n    \n  </td>\n</tr>\n<tr>\n
         \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
         hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
@@ -1095,6 +1095,6 @@ http_interactions:
         \         <img alt=\"ACNC Registered Charity Tick\" src=\"https://www.planningalerts.org.au/assets/charity-tick-80979eb45dfd041a327fa3957ebb1d3de7caaaca1431f7732583d1742c928a12.svg\"
         width=\"100\" height=\"100\" />\n</a>      </div>\n    </div>\n\n</div>\n</footer>\n\n
         \ </body>\n</html>\n"
-  recorded_at: Thu, 03 Apr 2025 14:06:25 GMT
+  recorded_at: Sun, 06 Apr 2025 14:38:21 GMT
 recorded_with: VCR 6.3.1
 ...

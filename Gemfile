@@ -5,6 +5,7 @@
 
 source 'https://rubygems.org'
 
+gem 'dotenv', '~> 3.1'
 gem 'slim', '~> 5.2' # Template for generating static html pages
 gem 'tilt', '~> 2.6' # Assists with using slim outside of rails
 gem 'tzinfo', '~> 2.0'

@@ -5,40 +5,33 @@ require 'octokit'
 # Module providing common functionality for web scrapers
 # use `extend ApplicationHelper` so everything (except InstanceMethods) become class methods
 module GithubBase
-  def owner
-    'planningalerts-scrapers'
-  end
-
-  def issues_repo
-    'issues'
-  end
-
   # Create an Octokit Client
   def create_client
     token_name = 'GITHUB_PERSONAL_TOKEN'
-    access_token = ENV.fetch(token_name, nil)
-    if access_token.nil? && File.size?('.env')
-      File.readlines('.env').each do |line|
-        access_token = ::Regexp.last_match(1) if line =~ /#{token_name}=(.*)$/
-      end
-    end
-    if access_token
-      puts 'Creating client using personal token...'
-      Octokit::Client.new(access_token: access_token, auto_paginate: true)
-    else
-      puts 'Creating client without authentication (rate limited to 60 calls per hour)'
-      Octokit::Client.new auto_paginate: true
-    end
-  end
+    access_token = ENV.fetch(token_name) { raise "Missing #{token_name}" }
 
-  # Instance Methods to be included
-  module InstanceMethods
-  end
+    puts "Creating client using #{token_name} ..."
+    client = Octokit::Client.new(access_token: access_token, auto_paginate: true)
 
-  send :include, InstanceMethods
+    # Verify the access token belongs to the right user
+    verify_org_access(client, Constants::PRODUCTION_OWNER)
+    client
+  end
 
   def refresh_at
     secs_per_week = (60 * 60 * 24 * 7).to_i
     Time.now - secs_per_week
+  end
+
+  def verify_org_access(client, org)
+    authenticated_user = client.user
+    puts "Authenticated as: #{authenticated_user.login}, checking access to org: #{org}"
+    # Try to get the user's membership in the organization
+    membership = client.organization_membership(org)
+    puts "✅ Successfully verified membership in #{org} organization as #{membership.role}"
+  rescue Octokit::NotFound, Octokit::Forbidden
+    puts "❌ Token does not have access to organization #{org}"
+    puts "   Please use a classic token with 'repo' and 'read:org' scopes"
+    # raise
   end
 end

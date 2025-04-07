@@ -16,7 +16,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  authority_id        :integer
-#  scraper_id          :integer          not null
+#  scraper_id          :integer
 #
 # Indexes
 #
@@ -40,11 +40,11 @@ RSpec.describe Issue do
 
     it 'loads issue correctly' do
       issue = FixtureHelper.find(Issue, :issue_1)
-      
+
       expect(issue).not_to be_nil
       expect(issue.number).to eq(1)
       expect(issue.title).to eq('Burdekin Shire Council')
-      expect(issue.scraper.name).to eq('burdekin')
+      expect(issue.scraper.name).to eq('BurdekinShire_DAs')
     end
   end
 
@@ -63,13 +63,13 @@ RSpec.describe Issue do
 
     it 'requires uniqueness of number' do
       existing = FixtureHelper.find(Issue, :issue_1)
-      
+
       duplicate = Issue.new(
         number: existing.number,
         title: 'Another Issue',
         scraper: Scraper.first
       )
-      
+
       expect(duplicate).not_to be_valid
       expect(duplicate.errors[:number]).to include('has already been taken')
     end
@@ -99,8 +99,9 @@ RSpec.describe Issue do
 
   describe 'scopes' do
     it 'has open scope' do
-      open_issues = Issue.open
-      expect(open_issues).to include(FixtureHelper.find(Issue, :issue_1))
+      open_issues = Issue.open.map(&:title)
+      expect(open_issues).not_to include(FixtureHelper.find(Issue, :issue_1).title)
+      expect(open_issues).to include(FixtureHelper.find(Issue, :issue_2).title)
     end
 
     it 'has closed scope' do
@@ -120,6 +121,7 @@ RSpec.describe Issue do
   describe '#open?' do
     it 'returns true when closed_at is nil' do
       issue = FixtureHelper.find(Issue, :issue_1)
+      issue.closed_at = nil
       expect(issue.open?).to be true
     end
 

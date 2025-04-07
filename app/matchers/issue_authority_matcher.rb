@@ -38,10 +38,10 @@ class IssueAuthorityMatcher
     return direct_match if direct_match.present?
 
     potential_authorities = potential_authorities_from_labels
-    if @title.include?('Whitehorse')
-      puts "DEBUG: potential_authorities: #{potential_authorities.map(&:short_name).join(', ')}", ''
-      puts "DEBUG: labels: #{@labels.sort.to_yaml}", '' if @debug
-    end
+    # if @title.include?('Whitehorse')
+    #   puts "DEBUG: potential_authorities: #{potential_authorities.map(&:short_name).join(', ')}", ''
+    #   puts "DEBUG: labels: #{@labels.sort.to_yaml}", '' if @debug
+    # end
 
     keywords = extract_keywords(potential_authorities)
 

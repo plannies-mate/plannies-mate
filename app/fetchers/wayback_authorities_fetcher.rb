@@ -42,10 +42,11 @@ class WaybackAuthoritiesFetcher
 
     page = @agent.get(url)
     results = JSON.parse(page.body)
+    return [] if results.nil?
 
     # First row is headers, skip it
-    timestamps = results[1..-1].map { |row| row[1] }
-    self.class.log "Found #{timestamps.size} historical snapshots"
+    timestamps = results[1..].map { |row| row[1] }
+    self.class.log "Found #{timestamps.size} timestamps of historical snapshots"
 
     timestamps.reverse
   end
@@ -65,7 +66,8 @@ class WaybackAuthoritiesFetcher
       authorities = @authorities_fetcher.fetch(url: url, force: true, agent: @agent)
 
       if authorities && !authorities.empty?
-        self.class.log "Successfully processed historical snapshot with #{authorities.size} authorities"
+        broken = authorities.select { |a| a['possibly_broken'] }.count
+        self.class.log "Successfully processed historical snapshot with #{authorities.size} authorities (#{broken} broken)"
         authorities
       else
         self.class.log 'No valid authorities data found in historical snapshot'

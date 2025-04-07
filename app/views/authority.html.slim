@@ -75,7 +75,7 @@ main.container
             tr
               th Ident
               th Name
-              th Assignee
+              th Assignees
               th Labels
           tbody
             - authority.issues.sort_by { |i| i.title }.each do |iss|
@@ -86,12 +86,13 @@ main.container
                     = "##{iss.to_param}"
                 td = iss.title
                 td
-                  - if (user = iss.assignee)
+                  - iss.assignees.each do |user|
                     a href="#{user.html_url}" target="_blank"
                       - if user.avatar_url.present?
                         img.user-avatar src="#{user.avatar_url}&s=40" title="#{user.login}"
                       - else
                         = user.login
+                    '
                 td
                   - iss.labels.sort_by { |l| l.name }.each do |label|
                     span.issue-label class="#{css_class_for_label(label, authority)}" style="background-color: ##{label.color};" title="#{iss_title}#{label.description}"

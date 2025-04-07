@@ -75,7 +75,7 @@ class AuthorityStatsFetcher
         stats['month_count'] = count
       elsif (added_match = label_text.match(/since ([^(]+).*when this authority was first added/))
         stats['total_count'] = count
-        stats['added'] = added_match[1].strip
+        stats['added_on'] = added_match[1].strip
       elsif label_text.include?('median') && label_text.include?('per week')
         stats['median_per_week'] = count
       end

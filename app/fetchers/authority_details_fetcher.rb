@@ -25,7 +25,7 @@ class AuthorityDetailsFetcher
   # @example:
   #   {
   #     "short_name": "banyule",
-  #     "repo": "multiple_civica",
+  #     "scraper_name": "multiple_civica",
   #     "last_import_log": "0 applications found for Bayside City Council (Victoria), VIC with date from 2025-03-11\nTook 0 s to import applications from Bayside City Council (Victoria), VIC",
   #     "total_count": 0,
   #     "import_time": "0 s"
@@ -55,7 +55,7 @@ class AuthorityDetailsFetcher
     page.links.each do |link|
       text = link.text.strip
       if text.include?('Watch the scraper') || text.include?('Fork the scraper on Github')
-        details['repo'] = self.class.last_url_segment link.href
+        details['scraper_name'] = self.class.last_url_segment link.href
       end
     end
 
@@ -78,7 +78,7 @@ class AuthorityDetailsFetcher
       end
     end
 
-    raise("MISSING repo FROM: #{details.inspect}") if details['repo'].blank?
+    raise("MISSING scraper name FROM: #{details.inspect}") if details['scraper_name'].blank?
 
     details
   end

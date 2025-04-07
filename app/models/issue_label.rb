@@ -24,7 +24,7 @@ class IssueLabel < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  IMPORT_KEYS = %i[color default description name].freeze
+  IMPORT_KEYS = %i[color description name].freeze
 
   # Assign relevant attributes
   def assign_relevant_attributes(attributes)

@@ -33,9 +33,9 @@ RSpec.describe Branch do
 
     it 'loads feature branch correctly' do
       branch = FixtureHelper.find(Branch, :feature_branch)
-      
+
       expect(branch).not_to be_nil
-      expect(branch.name).to eq('feature/fix-broken-authorities')
+      expect(branch.name).to eq('feature/fix-armidale')
       expect(branch.scraper.name).to eq('multiple_atdis')
       expect(branch.pull_request).not_to be_nil
     end
@@ -50,22 +50,22 @@ RSpec.describe Branch do
 
     it 'requires uniqueness of name scoped to scraper' do
       existing = FixtureHelper.find(Branch, :feature_branch)
-      
+
       duplicate = Branch.new(
         name: existing.name,
         scraper: existing.scraper
       )
-      
+
       expect(duplicate).not_to be_valid
       expect(duplicate.errors[:name]).to include('has already been taken')
-      
+
       # Different scraper should allow same name
       different_scraper = Scraper.where.not(id: existing.scraper_id).first
       non_duplicate = Branch.new(
         name: existing.name,
         scraper: different_scraper
       )
-      
+
       expect(non_duplicate.errors[:name]).not_to include('has already been taken')
     end
   end

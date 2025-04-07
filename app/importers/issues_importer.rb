@@ -32,11 +32,9 @@ class IssuesImporter
       issue.assign_relevant_attributes(gh_issue.to_h)
 
       # Associations
-      issue.assignee = import_user(gh_issue.assignee)
       issue.assignees = gh_issue.assignees&.map { |u| import_user(u) } || []
 
       issue.labels = gh_issue.labels&.map { |u| import_label(u) } || []
-      issue.user = import_user(gh_issue.user)
 
       a = IssueAuthorityMatcher.match(issue.title, issue.labels.pluck(:name))
       if a

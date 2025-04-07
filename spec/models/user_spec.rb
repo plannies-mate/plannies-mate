@@ -25,10 +25,9 @@ RSpec.describe User do
 
     it 'loads user correctly' do
       user = FixtureHelper.find(User, :ianheggie)
-      
+
       expect(user).not_to be_nil
       expect(user.login).to eq('ianheggie')
-      expect(user.site_admin).to be false
     end
   end
 
@@ -41,7 +40,7 @@ RSpec.describe User do
 
     it 'requires unique login' do
       existing = FixtureHelper.find(User, :ianheggie)
-      
+
       duplicate = User.new(login: existing.login)
       expect(duplicate).not_to be_valid
       expect(duplicate.errors[:login]).to include('has already been taken')
@@ -59,9 +58,9 @@ RSpec.describe User do
     it 'generates a GitHub issues URL for the user' do
       user = FixtureHelper.find(User, :ianheggie)
       url = user.issues_url
-      
+
       expect(url).to include('github.com')
-      expect(url).to include('assignee: "ianheggie"')
+      expect(url).to include('assignee%3A+%22ianheggie%22')
     end
   end
 end

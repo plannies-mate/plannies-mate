@@ -16,7 +16,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  authority_id        :integer
-#  scraper_id          :integer          not null
+#  scraper_id          :integer
 #
 # Indexes
 #
@@ -54,3 +54,10 @@ issue_2:
   created_at: 2025-03-10T09:15:00Z
   updated_at: 2025-03-18T14:20:00Z
   closed_at:
+
+issue_985:
+  number: 985
+  title: "Hobart City Council"
+  scraper: multiple_icon
+  created_at: 2025-03-01T10:30:00Z
+  updated_at: 2025-03-15T15:45:00Z

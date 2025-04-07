@@ -26,7 +26,7 @@ RSpec.describe IssueLabel do
 
     it 'loads bug label correctly' do
       label = FixtureHelper.find(IssueLabel, :bug)
-      
+
       expect(label).not_to be_nil
       expect(label.name).to eq('bug')
       expect(label.color).to eq('d73a4a')
@@ -42,7 +42,7 @@ RSpec.describe IssueLabel do
 
     it 'requires unique name' do
       existing = FixtureHelper.find(IssueLabel, :bug)
-      
+
       duplicate = IssueLabel.new(name: existing.name)
       expect(duplicate).not_to be_valid
       expect(duplicate.errors[:name]).to include('has already been taken')
@@ -60,9 +60,9 @@ RSpec.describe IssueLabel do
     it 'generates a GitHub issues URL for the label' do
       label = FixtureHelper.find(IssueLabel, :bug)
       url = label.issues_url
-      
+
       expect(url).to include('github.com')
-      expect(url).to include('label:"bug"')
+      expect(url).to include('label%3A%22bug%22')
     end
   end
 end

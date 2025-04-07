@@ -39,7 +39,7 @@ td
   - br = false
   - authority.issues.each do |iss|
     - iss_title = authority.issues.size > 1 ? "##{iss.to_param} " : ''
-    - if (user = iss.assignee)
+    - iss.assignees.each do |user|
       - if br
         br
       - br = true

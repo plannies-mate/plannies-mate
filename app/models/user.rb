@@ -27,7 +27,7 @@ class User < ApplicationRecord
 
   validates :login, presence: true, uniqueness: true
 
-  IMPORT_KEYS = %i[avatar_url html_url login site_admin user_view_type].freeze
+  IMPORT_KEYS = %i[avatar_url login].freeze
 
   # Assign relevant attributes
   def assign_relevant_attributes(attributes)

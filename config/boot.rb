@@ -3,12 +3,13 @@
 require 'rubygems'
 require 'bundler/setup'
 
-deploy_env = File.expand_path('deploy_env.rb', __dir__)
-require_relative 'deploy_env' if File.exist?(deploy_env)
-
 ENV['RACK_ENV'] ||= ENV['APP_ENV'] || ENV['RAILS_ENV'] || 'development'
 ENV['APP_ENV'] = nil
-ENV['RAILS_ENV'] = nil
+ENV['RAILS_ENV'] = ENV.fetch('RACK_ENV', nil)
+
+# Load order see: https://github.com/bkeepers/dotenv?tab=readme-ov-file#customizing-rails
+# Add "dotenv" to .envrc to load into terminal, or use dotenv command
+require 'dotenv/load'
 
 # Setup gems for sections, :app and/or :tasks
 def require_gems_for(*groups, description)

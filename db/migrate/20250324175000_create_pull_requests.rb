@@ -25,8 +25,8 @@ class CreatePullRequests < ActiveRecord::Migration[8.0]
       t.datetime :update_requested_at
       t.string :update_reason
 
-      # Will set issue: "issue_url": "https://api.github.com/repos/octocat/Hello-World/issues/1347",
-      t.references :issue, null: false, foreign_key: true
+      # If we can work it out ...
+      t.references :issue, null: true, foreign_key: true
 
       t.timestamps null: false # Use standard Rails timestamps
       t.index [:scraper_id, :number], unique: true, name: 'index_pull_requests_on_scraper_id_and_number'

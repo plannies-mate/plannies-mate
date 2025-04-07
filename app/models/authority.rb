@@ -59,11 +59,6 @@ class Authority < ApplicationRecord
   scope :working, -> { where(possibly_broken: false) }
   scope :broken, -> { where(possibly_broken: true) }
 
-  # Find an authority by its short_name
-  def self.find_by_short_name(short_name)
-    find_by(short_name: short_name)
-  end
-
   # Format for display in UI
   def to_s
     "#{name} (#{state})"
@@ -78,7 +73,7 @@ class Authority < ApplicationRecord
   end
 
   IMPORT_KEYS =
-    %w[short_name state name url possibly_broken population
+    %w[short_name state name possibly_broken population
        last_received week_count month_count total_count added_on median_per_week stats_etag
        last_import_log details_etag].freeze
 
@@ -86,8 +81,6 @@ class Authority < ApplicationRecord
   def assign_relevant_attributes(attributes)
     return unless attributes
 
-    this_scraper = Scraper.import_from_hash(attributes)
-    self.scraper = this_scraper if this_scraper && scraper != this_scraper
     relevant_attributes = attributes.slice(*IMPORT_KEYS)
     assign_attributes(relevant_attributes)
   end

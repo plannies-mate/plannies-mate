@@ -8,37 +8,56 @@ class AuthoritiesImporter
     @list_fetcher = AuthoritiesFetcher.new
     @details_fetcher = AuthorityDetailsFetcher.new
     @stats_fetcher = AuthorityStatsFetcher.new
-    @count = @changed = 0
+    @count = @changed = @orphaned = 0
   end
 
-  def import
+  def import(force: false)
     @count = @changed = 0
-    list = @list_fetcher.fetch
+    list = @list_fetcher.fetch(force: force)
+    orphaned_ids = Authority.where(delisted_on: nil).pluck(:id)
     if list
       list.each do |entry|
         short_name = entry['short_name']
         next if short_name.blank?
 
-        authority = Authority.find_by_short_name(short_name) || Authority.new(short_name: short_name)
+        authority = Authority.find_or_initialize_by(short_name: short_name)
+        authority.delisted_on = nil
         authority.assign_relevant_attributes(entry)
         import_stats_and_details(authority)
+        orphaned_ids -= [authority.id]
       end
+      orphaned_ids.each do |id|
+        Authority.find(id).update!(delisted_on: Date.today)
+      end
+      @orphaned = orphaned_ids.count
     else
       puts 'Authorities list has not changed, checking details'
       Authority.all.each do |authority|
-        import_stats_and_details(authority)
+        import_stats_and_details(authority, force: force)
       end
     end
-    puts "Updated #{@changed} of #{@count} authorities"
+    puts "Updated #{@changed} of #{@count} authorities (#{@orphaned} orphaned)"
   end
 
   private
 
-  def import_stats_and_details(authority)
+  def import_stats_and_details(authority, force: false)
     @count += 1
     short_name = authority.short_name
-    authority.assign_relevant_attributes @details_fetcher.fetch(short_name)
-    authority.assign_relevant_attributes @stats_fetcher.fetch(short_name)
+    details = @details_fetcher.fetch(short_name, force: force)
+    if details
+      authority.assign_relevant_attributes details
+
+      scraper_name = details['scraper_name']
+      this_scraper = Scraper.find_by(name: scraper_name)
+      if this_scraper.nil?
+        this_scraper = Scraper.create!(name: scraper_name)
+        puts "Created newly found scraper: #{scraper_name}"
+      end
+      authority.scraper = this_scraper
+    end
+    stats = @stats_fetcher.fetch(short_name, force: force)
+    authority.assign_relevant_attributes stats
     return unless authority.changed?
 
     @changed += 1

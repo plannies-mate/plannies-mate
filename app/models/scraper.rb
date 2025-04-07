@@ -40,9 +40,13 @@ class Scraper < ApplicationRecord
     "#{Constants::MORPH_URL}/#{owner}#{name ? "/#{name}" : ''}"
   end
 
-  def github_url(owner = nil)
+  def github_repo_name(owner = nil)
     owner ||= Constants::PRODUCTION_OWNER
-    "#{Constants::GITHUB_URL}/#{owner}/#{to_param}"
+    "#{owner}/#{to_param}"
+  end
+
+  def github_url(owner = nil)
+    "#{Constants::GITHUB_URL}/#{github_repo_name(owner)}"
   end
 
   def to_s

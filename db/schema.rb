@@ -124,7 +124,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.datetime "update_requested_at"
     t.string "update_reason"
     t.integer "authority_id"
-    t.integer "scraper_id", null: false
+    t.integer "scraper_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["authority_id"], name: "index_issues_on_authority_id"
@@ -153,7 +153,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.boolean "needs_generate", default: true, null: false
     t.datetime "update_requested_at"
     t.string "update_reason"
-    t.integer "issue_id", null: false
+    t.integer "issue_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["issue_id"], name: "index_pull_requests_on_issue_id"

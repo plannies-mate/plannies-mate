@@ -19,7 +19,7 @@
 #  update_requested_at :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  issue_id            :integer          not null
+#  issue_id            :integer
 #  scraper_id          :integer          not null
 #
 # Indexes

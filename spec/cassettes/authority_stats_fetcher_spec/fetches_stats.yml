@@ -27,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 03 Apr 2025 14:06:08 GMT
+      - Sun, 06 Apr 2025 14:38:15 GMT
       Content-Type:
       - text/plain
       Content-Length:
@@ -66,7 +66,7 @@ http_interactions:
         Disallow: /geocode_queries
 
 
-  recorded_at: Thu, 03 Apr 2025 14:06:08 GMT
+  recorded_at: Sun, 06 Apr 2025 14:38:15 GMT
 - request:
     method: get
     uri: https://www.planningalerts.org.au/authorities/sydney
@@ -94,7 +94,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 03 Apr 2025 14:06:08 GMT
+      - Sun, 06 Apr 2025 14:38:15 GMT
       Content-Type:
       - text/html; charset=utf-8
       Transfer-Encoding:
@@ -122,16 +122,16 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"47a45472963b1b3e7ef952cd2fd527b0"
+      - W/"ee73b2f2b3d793fd5b120ac319b618bd"
       Cache-Control:
       - max-age=0, private, must-revalidate
       Set-Cookie:
-      - _planningalerts_app_session=pDciKlXEcdZuzKv3kw44NcQiB1LQSGSYSzBRZWpyEGjaE0kfw8X8RPXIAgV%2Fr1NIvOa6ygRPE1zfcdgU1MHIx56q7q6vWqGtI5GWRIrkHLAAbZ7r7TXC26sqxjPmE3OjLcsoUWYhouPR7fqyr1%2Fd1L43iinPf1ehQ2ZKmhaNsmqCtOw4McFpNYG9bIaTxXopGXYw%2BA1aZhIFl6ZPM4V7%2BFQ6hGRJETED85xgz%2FA2MjziZqZsJnBb7cK24lMefZeiCnFtN5vr%2Bw%3D%3D--C9ebmSIcv8UJicVl--tHFuQ4%2F41IfKCIadt0KAXg%3D%3D;
+      - _planningalerts_app_session=zA5VCjK%2B87qQEZ5N2XOLU3muAz1viqt3x3voWdMvNZjaQss6esHA%2BW9Hx0pCfHLGDTcyka2vVK4ksf9Ok8ZF1NtNgFI9iI%2FoccDSQe6wIn0h0JcN0OPb6G1bPDBFST2fRpAGAf7b%2Bgw%2By3DpZzs2b6ylYd8vR5wNGxctRGJ4nnPczRKd9dCL0Nz%2FqStfcswB7AbO%2BbYC1LOZyaFI73mtEWri0D%2BdwGCB82ik7a9K1VDv%2Fg32trIySihJM5P5gnlpJGV4lkRM1g%3D%3D--oKT3d8i3qZ8LvjTR--Dx2nR66X2Xb3s3kw9n0PvQ%3D%3D;
         path=/; secure; httponly; samesite=lax
       X-Request-Id:
-      - 6797f937-38e3-41e8-9307-e1c36173bd50
+      - 1278edf2-e9ba-4066-8615-89d2008c6066
       X-Runtime:
-      - '0.107594'
+      - '0.067124'
       Strict-Transport-Security:
       - max-age=3600; includeSubDomains
     body:
@@ -268,12 +268,12 @@ http_interactions:
         font-display\">\n        Applications collected by Planning Alerts\n</h2>\n
         \       <table class=\"mt-8 text-xl text-navy\">\n          <tbody>\n            <tr
         class=\"flex flex-col pb-4 sm:table-row\">\n              <td class=\"pr-8
-        font-bold text-7xl\">33</td>\n              <th class=\"font-normal text-left\">in
+        font-bold text-7xl\">32</td>\n              <th class=\"font-normal text-left\">in
         the last week</th>\n            </tr>\n            <tr class=\"flex flex-col
-        pb-4 sm:table-row\">\n              <td class=\"pr-8 font-bold text-7xl\">127</td>\n
+        pb-4 sm:table-row\">\n              <td class=\"pr-8 font-bold text-7xl\">119</td>\n
         \             <th class=\"font-normal text-left\">in the last month</th>\n
         \           </tr>\n            <tr class=\"flex flex-col pb-4 sm:table-row\">\n
-        \             <td class=\"pr-8 font-bold text-7xl\">30500</td>\n              <th
+        \             <td class=\"pr-8 font-bold text-7xl\">30513</td>\n              <th
         class=\"font-normal text-left\">\n                since 13 Dec 2009\n                (when
         this authority was first added to Planning Alerts)\n              </th>\n
         \           </tr>\n            <tr class=\"flex flex-col pb-4 sm:table-row\">\n
@@ -369,6 +369,6 @@ http_interactions:
         \         <img alt=\"ACNC Registered Charity Tick\" src=\"https://www.planningalerts.org.au/assets/charity-tick-80979eb45dfd041a327fa3957ebb1d3de7caaaca1431f7732583d1742c928a12.svg\"
         width=\"100\" height=\"100\" />\n</a>      </div>\n    </div>\n\n</div>\n</footer>\n\n
         \ </body>\n</html>\n"
-  recorded_at: Thu, 03 Apr 2025 14:06:08 GMT
+  recorded_at: Sun, 06 Apr 2025 14:38:15 GMT
 recorded_with: VCR 6.3.1
 ...

@@ -85,3 +85,35 @@ busselton:
   default_branch: master
   created_at: 2025-03-30
   updated_at: 2025-03-30
+
+clarence:
+  name: clarence
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
+
+multiple_civica:
+  name: multiple_civica
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
+
+multiple_icon:
+  name: multiple_icon
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
+
+# Consider dropping
+multiple_masterview:
+  name: multiple_masterview
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
+
+multiple_technology_one:
+  name: multiple_technology_one
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
+
