@@ -37,15 +37,11 @@ main.wide-container
       table.sortable.sticky-header.data-table
         thead
           tr
-            th Scraper
             == render_partial 'authority_header'
         tbody
           - custom_scrapers.each do |scraper|
             - authority = scraper.authorities.first
             tr
-              td
-                a href="#{path_for scraper}"
-                  == add_word_breaks CGI::escape_html(scraper.name)
               == render_partial 'authority_row', authority: authority
     
     // Orphaned Scrapers

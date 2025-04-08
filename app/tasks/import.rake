@@ -6,7 +6,7 @@ require_relative '../importers/pull_requests_importer'
 
 namespace :import do
   desc 'Import all information from remote sites'
-  task all: %i[singleton authorities] do # issues pull_requests
+  task all: %i[singleton authorities issues pull_requests] do
     puts 'Finished'
   end
 
@@ -22,9 +22,22 @@ namespace :import do
     fetcher.import
   end
 
-  desc 'Import Pull Requests from GitHub (last 30 days by default)'
+  desc 'Import pull requests from GitHub (default since 2024-10-01)'
   task :pull_requests, [:since_days] => :singleton do |_t, args|
-    Rake::Task['pull_requests:import'].invoke(args[:since_days])
+    days_ago = args[:since_days] ? args[:since_days].to_i : 30
+    since = Time.now - (days_ago * 24 * 60 * 60)
+
+    puts "Importing pull requests from GitHub updated in the last #{days_ago} days..."
+
+    importer = PullRequestsImporter.new
+    result = importer.import(since: since)
+
+    puts 'Successfully imported pull requests from GitHub:'
+    puts "  - Imported/Created: #{result[:imported]}"
+    puts "  - Updated: #{result[:updated]}"
+    puts "  - Errors: #{result[:errors]}"
+
+    Rake::Task['pull_requests:update_metrics'].invoke if result[:imported] > 0 || result[:updated] > 0
   end
 
   desc 'Import historical coverage data from Wayback Machine'

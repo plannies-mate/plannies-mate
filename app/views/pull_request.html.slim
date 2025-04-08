@@ -19,61 +19,52 @@ main.container
           tr
             th URL
             td
-              a href="#{pull_request.url}" target="_blank" #{pull_request.url}
+              a href="#{pull_request.html_url}" target="_blank" #{pull_request.html_url}
           tr
             th Repository
-            td #{pull_request.github_repo}
+            td #{pull_request.scraper.name}
           tr
             th Number
-            td #{pull_request.github_number}
+            td #{pull_request.number}
           tr
             th Status
             td
-              - if pull_request.github_state == 'closed'
-                - if pull_request.merged?
-                  span.status-ok
-                    i.fas.fa-check
-                    |  Merged
-                - else
-                  span.status-warning
-                    i.fas.fa-times
-                    |  Closed
-              - else
+              - if pull_request.open?
                 span
                   i.fas.fa-clock
                   |  Open
-          tr
-            th Author
-            td
-              - if pull_request.user
-                a href="#{pull_request.user.html_url}" target="_blank"
-                  - if pull_request.user.avatar_url.present?
-                    img.user-avatar src="#{pull_request.user.avatar_url}&s=40" title="#{pull_request.user.login}"
-                  - else
-                    = pull_request.user.login
+              - elsif pull_request.merged?
+                span.status-ok
+                  i.fas.fa-check
+                  |  Merged
+              - else
+                span.status-warning
+                  i.fas.fa-times
+                  |  Closed
+
           tr
             th Created
             td #{format_date(pull_request.created_at)}
           tr
             th Closed
-            td #{format_date(pull_request.closed_at_date) if pull_request.closed_at_date}
+            td #{format_date(pull_request.closed_at) if pull_request.closed_at}
       
-      .details-card
-        h3 Associated Authorities
-        form action="/app/pull_requests/#{pull_request.id}" method="post"
-          .authority-selection
-            p Select the authorities that are affected by this pull request:
-            
-            .authority-checkboxes
-              - authorities.each do |authority|
-                .authority-checkbox
-                  label
-                    input type="checkbox" name="authority_ids[]" value="#{authority.id}" checked=pull_request.authority_ids.include?(authority.id)
-                    span #{authority.name} (#{authority.short_name})
-          
-          .form-actions
-            button.button type="submit" Save Changes
-            a.button href="/app/pull_requests" Cancel
+      / .details-card
+      /   h3 Associated Authorities
+      /   form action="/app/pull_requests/#{pull_request.id}" method="post"
+      /     .authority-selection
+      /       p Select the authorities that are affected by this pull request:
+      /
+      /       .authority-checkboxes
+      /         - authorities.each do |authority|
+      /           .authority-checkbox
+      /             label
+      /               input type="checkbox" name="authority_ids[]" value="#{authority.id}" checked=pull_request.authority_ids.include?(authority.id)
+      /               span #{authority.name} (#{authority.short_name})
+      /
+      /     .form-actions
+      /       button.button type="submit" Save Changes
+      /       a.button href="/app/pull_requests" Cancel
 
 style
   |

@@ -4,7 +4,9 @@ main.wide-container
       h2
         i.fas.fa-code-pull-request
         |  Pull Requests
-      p.subtitle GitHub pull requests for planningalerts-scrapers
+      p.subtitle
+        ' GitHub pull requests created by #{Constants::MY_GITHUB_NAME}
+        ' for repos owned by #{Constants::PRODUCTION_OWNER}
 
     .table-container
       table.sortable.sticky-header.data-table
@@ -15,26 +17,34 @@ main.wide-container
             th Repo
             th Author
             th Status
-            th.right Authorities
+            th.right # Issues
             th Created
-            th.right Actions
+            th Links
+            / th.right Actions
         tbody
           - pull_requests.each do |pr|
-            tr class="#{pr.github_state == 'closed' ? (pr.merged? ? 'status-ok' : 'status-warning') : ''}"
+            tr
               td = pr.id
               td
-                a href="#{pr.url}" target="_blank" title="#{pr.title}"
+                a href="#{path_for pr}" title="Pull Request Information"
                   = pr.title
-              td = pr.github_repo
               td
-                - if pr.user
-                  a href="#{pr.user.html_url}" target="_blank"
-                    - if pr.user.avatar_url.present?
-                      img.user-avatar src="#{pr.user.avatar_url}&s=40" title="#{pr.user.login}"
+                - if pr.scraper
+                  a href="#{path_for pr.scraper}" title="Scraper Information"
+                    == add_word_breaks CGI::escape_html(pr.scraper.name)
+              td
+                - pr.assignees.each do |user|
+                  a> href="#{user.issues_url}" target="_blank"
+                    - if user.avatar_url.present?
+                      img.user-avatar src="#{user.avatar_url}&s=40" title="#{user.login}"
                     - else
-                      = pr.user.login
+                      = user.login
               td
-                - if pr.github_state == 'closed'
+                - if pr.open?
+                  span
+                    i.fas.fa-clock
+                    |  Open
+                - else
                   - if pr.merged?
                     span.status-ok
                       i.fas.fa-check
@@ -43,16 +53,32 @@ main.wide-container
                     span.status-warning
                       i.fas.fa-times
                       |  Closed
+
+              td.right
+                - if pr.issue
+                  a href="#{pr.issue.html_url}" title="View GitHub Issue: #{pr.issue.title}" target="_blank"
+                    = "##{pr.issue.to_param}"
                 - else
-                  span
-                    i.fas.fa-clock
-                    |  Open
-              td.right
-                span class="#{pr.authorities.count == 0 ? 'status-warning' : ''}"
-                  = pr.authorities.count
+                  span class="status-warning"
+                    ' No matching issue
               td = format_date(pr.created_at)
-              td.right
-                a.button href="/app/pull_requests/#{pr.id}" Edit
+              td
+                '
+                a href="#{pr.html_url}" target="_blank" title="View Pull Request on GitHub"
+                  i.fab.fa-github
+                '
+                - if pr.scraper
+                  a href="#{path_for pr.scraper}" title="Scraper Information"
+                    i.fas.fa-code-branch
+                  '
+                  a href="#{pr.scraper.morph_url}" target="_blank" title="View scraper on morph.io"
+                    span.morph-icon
+                  '
+                  a href="#{pr.scraper.github_url}" target="_blank" title="View scraper on GitHub"
+                    i.fab.fa-github
+              / td.right
+              /   a.button href="/app/pull_requests/#{pr.id}" Edit
 
     .section-footer
-      p Total: #{pull_requests.size} pull requests, #{pull_requests.count { |pr| pr.authorities.empty? }} with no authorities assigned
+      p Total: #{pull_requests.size} pull requests
+      / , #{pull_requests.count { |pr| pr.authorities.empty? }} with no authorities assigned

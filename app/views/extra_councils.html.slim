@@ -30,7 +30,7 @@
             - councils.each do |council|
               tr
                 td
-                  a href="#{council.url}"
+                  a href="#{council.url}" title="View Council Site" target="_blank"
                     = council.name
                 td.right
                   - if council.population_k.zero?
@@ -42,8 +42,10 @@
                       => number_with_delimiter council.population_k
                 td
                   - council.issues.each do |issue|
-                    = a href = "#{path_for issue}"
-                    = issue.name
+                    a href="#{path_for issue}" title="View GitHub Issue: #{issue.title}" target="_blank"
+                      => issue.title
+                      ' #
+                      = issue.number
 
         .section-footer
           p Total: #{councils.size} councils, Est pop #{number_with_delimiter councils.map(&:population_k).sum} K

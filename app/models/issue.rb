@@ -70,6 +70,6 @@ class Issue < ApplicationRecord
   end
 
   def html_url
-    "#{scraper.github_url}/pull/#{number}"
+    "#{Constants::GITHUB_URL}/#{Constants::PRODUCTION_OWNER}/#{Constants::ISSUES_REPO}/issues/#{number}"
   end
 end

@@ -7,7 +7,7 @@ require_relative '../generators/scraper_generator'
 
 namespace :generate do
   desc 'Generate all reports'
-  task all: %i[singleton content authorities authority_pages scrapers scraper_pages] do # coverage_history
+  task all: %i[singleton roundup:flag_updating content authorities authority_pages scrapers scraper_pages pull_requests roundup:flag_finished] do # coverage_history
     puts 'All reports generated successfully'
   end
 
@@ -41,5 +41,24 @@ namespace :generate do
   desc 'Generate coverage history report'
   task :coverage_history do
     CoverageHistoryGenerator.generate
+  end
+
+  # Move to generate.rake
+  desc 'Generate static pages for pull requests'
+  task pull_requests: :singleton do
+    puts 'Generating static pages for pull requests...'
+
+    # Generate index page
+    index_result = PullRequestsGenerator.generate
+
+    if index_result
+      puts "Generated pull requests index page with #{index_result[:pull_requests].size} pull requests"
+
+      # Generate individual pages
+      detail_result = PullRequestGenerator.generate
+      puts "Generated #{detail_result[:count]} individual pull request pages"
+    else
+      puts 'No pull requests found to generate pages'
+    end
   end
 end

@@ -61,6 +61,14 @@ class PullRequest < ApplicationRecord
     closed_at.nil?
   end
 
+  def merged?
+    !merged_at.nil?
+  end
+
+  def rejected?
+    !open? && !merged?
+  end
+
   def html_url
     "#{scraper.github_url}/pull/#{number}"
   end

@@ -1,8 +1,6 @@
 td
-  a href="#{path_for authority}"
-    == add_word_breaks CGI::escape_html(authority.short_name)
-td
-  == add_word_breaks CGI::escape_html(authority.name)
+  a href="#{path_for authority}" title="Info on #{authority.short_name}"
+    == add_word_breaks CGI::escape_html(authority.name)
 td = authority.state
 td.right #{number_with_delimiter((authority.population / 1000.0).round) if authority.population}
 td.nowrap
@@ -23,40 +21,41 @@ td.nowrap
       |  OK
 td.right #{number_with_delimiter(authority.week_count) if authority.week_count}
 td.right #{number_with_delimiter(authority.month_count) if authority.month_count}
-/ td
-/   - if authority.issues && authority.issues.any?
-/     - br = false
-/     - authority.issues.each do |i|
-/       - if br
-/         br
-/       - br = true
-/       a href="#{i.html_url}" title="#{i.title}" target="_blank"
-/         = "##{i.to_param}"
-/   - elsif authority.possibly_broken?
-/     | Missing Issue
-/ td
-/   - br = false
-/   - authority.issues.each do |iss|
-/     - iss_title = authority.issues.size > 1 ? "##{iss.to_param} " : ''
-/     - iss.assignees.each do |user|
-/       - if br
-/         br
-/       - br = true
-/       a href="#{user.html_url}" target="_blank"
-/         - if user.avatar_url&.present?
-/           img.user-avatar src="#{user.avatar_url}&s=40" title="#{iss_title}#{user.login}"
-/         - else
-/           = user.login
-/ td
-/   - authority.issues.sort_by { |i| i.title }.each do |iss|
-/     - iss_title = authority.issues.size > 1 ? "##{iss.to_param} " : ''
-/     - iss.labels.sort_by{|l| l.name}.each do |label|
-/       span.issue-label class="#{css_class_for_label(label, authority)}" style="background-color: ##{label.color};" title="#{iss_title}#{label.description}"
-/         = label.name
-/       '
-/     - if suggest_close_issue?(authority, iss)
-/       span.issue-label class="issue-label-dark-text issue-label-light-border" style="background-color: #ededed;" title="#{iss_title} records have been received this week and month, but missing 'probably fixed' label"
-/         ' Add probably fixed?
+td
+  - if authority.issues && authority.issues.any?
+    - br = false
+    - authority.issues.each do |i|
+      - if br
+        br
+      - br = true
+      a href="#{i.html_url}" title="View GitHub Issue: #{i.title}" target="_blank"
+        = "##{i.to_param}"
+  - elsif authority.possibly_broken?
+    | Missing Issue
+td
+  - br = false
+  - authority.issues.each do |iss|
+    - iss_title = authority.issues.size > 1 ? ", related to ##{iss.to_param}" : ''
+    - iss.assignees.each do |user|
+      - if br
+        br
+      - br = true
+      a href="#{user.issues_url}" target="_blank"
+        - if user.avatar_url&.present?
+          img.user-avatar src="#{user.avatar_url}&s=40" title="View GitHub Issues assigned to: #{user.login}#{iss_title}"
+        - else
+          = user.login
+td
+  - authority.issues.sort_by { |i| i.title }.each do |iss|
+    - iss_title = authority.issues.size > 1 ? ", related to ##{iss.to_param}" : ''
+    - iss.labels.sort_by{|l| l.name}.each do |label|
+      span.issue-label class="#{css_class_for_label(label, authority)}" style="background-color: ##{label.color};" title="View GitHub Issues with this label; #{label.description}#{iss_title}"
+        a href="#{label.issues_url}" target="_blank" class="#{css_class_for_label_link(label, authority)}"
+          = label.name
+      '
+    - if suggest_close_issue?(authority, iss)
+      span.issue-label class="issue-label-dark-text issue-label-light-border" style="background-color: #ededed;" title="#{iss_title} records have been received this week and month, but missing 'probably fixed' label"
+        ' Add probably fixed?
 - unless locals[:hide_scraper]
   td
     - if authority.scraper
@@ -70,8 +69,8 @@ td
     a href="#{path_for authority.scraper}" title="Scraper Information"
       i.fas.fa-code-branch
     '
-    a href="#{authority.scraper.morph_url}" target="_blank" title="View on morph.io"
+    a href="#{authority.scraper.morph_url}" target="_blank" title="View scraper on morph.io"
       span.morph-icon
     '
-    a href="#{authority.scraper.github_url}" target="_blank" title="View on GitHub"
+    a href="#{authority.scraper.github_url}" target="_blank" title="View scraper on GitHub"
       i.fab.fa-github

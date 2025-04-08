@@ -57,7 +57,20 @@ module ViewHelper
       ''
     end +
       if is_light_color?(label.color)
-        'issue-label-dark-text issue-label-light-border'
+        'issue-label-light-border'
+      else
+        ''
+      end
+  end
+
+  def css_class_for_label_link(label, authority)
+    if label.name == 'probably fixed' && authority.month_count.zero?
+      ''
+    else
+      ''
+    end +
+      if is_light_color?(label.color)
+        'issue-label-dark-text'
       else
         'issue-label-light-text'
       end

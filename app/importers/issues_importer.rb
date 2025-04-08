@@ -21,9 +21,9 @@ class IssuesImporter
   end
 
   def import
-    self.class.log "Importing issues for owner #{self.class.owner}, repo #{self.class.issues_repo}"
+    self.class.log "Importing issues for owner #{Constants::PRODUCTION_OWNER}, repo #{Constants::ISSUES_REPO}"
 
-    repo = "#{self.class.owner}/#{self.class.issues_repo}"
+    repo = "#{Constants::PRODUCTION_OWNER}/#{Constants::ISSUES_REPO}"
     ids = []
     @client.issues(repo, state: 'open').each do |gh_issue|
       @count += 1

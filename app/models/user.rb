@@ -40,7 +40,7 @@ class User < ApplicationRecord
   # Link to github issue list for this label
   def issues_url
     base_url = 'https://github.com/planningalerts-scrapers/issues/issues'
-    params = { q: "is:issue state:open assignee: \"#{login}\"" }
+    params = { q: "is:issue state:open assignee:\"#{login}\"" }
     uri = URI(base_url)
     uri.query = URI.encode_www_form(params)
     uri.to_s

@@ -33,6 +33,7 @@ class CreatePullRequests < ActiveRecord::Migration[8.0]
     end
 
     # This is used with summary and lists to indicate a fix is available for a possibly broken authority
+
     create_table :pull_request_assignees, id: false do |t|
       t.references :pull_request, null: false, foreign_key: true, index: false
       t.references :user, null: false, foreign_key: true

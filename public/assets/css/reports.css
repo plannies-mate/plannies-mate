@@ -197,8 +197,23 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+/*a:hover {*/
+/*  text-decoration: underline;*/
+/*}*/
+
+/* External links - dotted underline on hover */
+a:not([href^="/"]):not([href^="#"]):not([href^="."]):hover,
+a[target="_blank"]:hover {
   text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+/* Internal links - normal underline on hover */
+a[href^="/"]:not([target]):hover,
+a[href^="#"]:hover,
+a[href^="."]:not([target="_blank"]):hover {
+  text-decoration: underline;
+  /* Default solid underline */
 }
 
 /* Icon styles for the application */

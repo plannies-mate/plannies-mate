@@ -21,7 +21,7 @@ module HtmlHelper
   # Path for resource
   def path_for(model)
     if model.respond_to?(:to_param)
-      "/#{model.class.name.downcase.pluralize}/#{model.to_param}"
+      "/#{model.class.name.underscore.pluralize}/#{model.to_param}"
     elsif model.respond_to?(:html_url)
       model.html_url
     end

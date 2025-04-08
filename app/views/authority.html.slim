@@ -98,7 +98,7 @@ main.container
                 td = iss.title
                 td
                   - iss.assignees.each do |user|
-                    a href="#{user.html_url}" target="_blank"
+                    a href="#{user.issues_url}" target="_blank"
                       - if user.avatar_url.present?
                         img.user-avatar src="#{user.avatar_url}&s=40" title="#{user.login}"
                       - else
