@@ -49,6 +49,9 @@ html lang="en"
             / a href="/issues"
             /   i.fas.fa-bug
             /   |  Issues
+            a href="/extra-councils"
+              i.fas.fa-map-marked-alt
+              |  Extra Councils
             a href="/scrapers"
               i.fas.fa-code-branch
               |  Scrapers
@@ -88,3 +91,22 @@ html lang="en"
             '  of Plannies Mate
 
     script src="/assets/js/version.js"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-table-headers/0.1.24/js/jquery.stickytableheaders.min.js"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/sorts/tablesort.number.min.js"
+
+
+    javascript:
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialize sticky headers (with jQuery)
+        if (typeof $ !== 'undefined' && $.fn.stickyTableHeaders) {
+          $('.sticky-header').stickyTableHeaders();
+        }
+
+        // Initialize table sorting (no jQuery dependency)
+        var sortableTables = document.querySelectorAll('table.sortable');
+        for (var i = 0; i < sortableTables.length; i++) {
+          new Tablesort(sortableTables[i]);
+        }
+      });

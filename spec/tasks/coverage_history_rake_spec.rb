@@ -76,7 +76,7 @@ RSpec.describe 'coverage_history.rake tasks' do
         output_file: '/tmp/coverage_history.html',
       }
 
-      expect(CoverageHistoryGenerator).to receive(:generate).and_return(result)
+      expect(CoverageHistoryGenerator).to receive(:generate_existing).and_return(result)
 
       Rake::Task['coverage_history:generate'].invoke
     end

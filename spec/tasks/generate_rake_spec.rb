@@ -37,7 +37,7 @@ RSpec.describe 'generate.rake tasks' do
 
   describe 'generate:authorities' do
     it 'calls AuthoritiesGenerator.generate' do
-      expect(AuthoritiesGenerator).to receive(:generate)
+      expect(AuthoritiesGenerator).to receive(:generate_existing)
       task = Rake::Task['generate:authorities']
       task.invoke
     end
@@ -53,7 +53,7 @@ RSpec.describe 'generate.rake tasks' do
 
   describe 'generate:scrapers' do
     it 'calls ScrapersGenerator.generate' do
-      expect(ScrapersGenerator).to receive(:generate)
+      expect(ScrapersGenerator).to receive(:generate_existing)
       task = Rake::Task['generate:scrapers']
       task.invoke
     end
@@ -71,9 +71,9 @@ RSpec.describe 'generate.rake tasks' do
     it 'calls all singleton task then generators in order' do
       expect(SimplePidFile).to receive(:new).ordered.with('plannies-mate-task')
       # We need to know the order, so we'll verify it with call counts
-      expect(AuthoritiesGenerator).to receive(:generate).ordered
+      expect(AuthoritiesGenerator).to receive(:generate_existing).ordered
       expect(AuthorityGenerator).to receive(:generate_all).ordered
-      expect(ScrapersGenerator).to receive(:generate).ordered
+      expect(ScrapersGenerator).to receive(:generate_existing).ordered
       expect(ScraperGenerator).to receive(:generate_all).ordered
 
       task = Rake::Task['generate:all']

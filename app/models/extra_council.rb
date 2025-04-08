@@ -15,13 +15,19 @@ class ExtraCouncil
     @data ||= YAML.load_file(File.join(app_helpers.root_dir, 'config', 'extra_councils.yml'))
   end
 
-  # defined states
+  # Returns a hash of available states and the source of the council lists
+  #
+  # @return [Hash<String,Hash>] Hash of state codes to name and url attributes e.g.
+  # {'VIC' => {name: "Some name", url: "https://some.source/page" }, "NSW" => ... }
   def self.states
-    data.keys
+    data.transform_values { |state_data| state_data['source'] }
   end
 
+  # Returns Authorities we don't or didn't have scrapers for
+  #
+  # @return [Array<ExtraCouncil>] Array of extra Authorities we don't have in the system (at time of creating the list)
   def self.where(state:)
-    (data[state] || []).map do |council_data|
+    (data[state]['councils'] || []).map do |council_data|
       new(
         state: state,
         name: council_data['name'],

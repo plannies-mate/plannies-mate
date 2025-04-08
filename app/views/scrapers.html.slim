@@ -16,7 +16,7 @@ main.wide-container
         h4
           a href="#{path_for scraper}" #{scraper.name}
         .table-container
-          table.data-table
+          table.sortable.sticky-header.data-table
             thead
               tr
                 == render_partial 'authority_header', hide_scraper: true
@@ -34,7 +34,7 @@ main.wide-container
       |  Custom Scrapers
     
     .table-container
-      table.data-table
+      table.sortable.sticky-header.data-table
         thead
           tr
             th Scraper
@@ -55,7 +55,7 @@ main.wide-container
         |  Orphaned Scrapers
       
       .table-container
-        table.data-table
+        table.sortable.sticky-header.data-table
           thead
             tr
               th Scraper

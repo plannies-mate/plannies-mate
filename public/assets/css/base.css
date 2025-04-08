@@ -101,3 +101,39 @@ input, button {
     border-radius: 4px;
     border: 1px solid var(--border-color);
 }
+
+.sticky-header thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f5f5f5;
+    z-index: 1;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.1); /* Optional shadow for better visibility */
+}
+
+.sortable th.sort-header {
+    cursor: pointer;
+}
+
+.sortable th.sort-header:after {
+    content: '';
+    float: right;
+    margin-top: 7px;
+    border-width: 0 4px 4px;
+    border-style: solid;
+    border-color: #404040 transparent;
+    visibility: hidden;
+}
+
+.sortable th.sort-header:hover:after {
+    visibility: visible;
+}
+
+.sortable th.sort-up:after {
+    border-bottom: none;
+    border-width: 4px 4px 0;
+}
+
+.sortable th.sort-down:after, .sortable th.sort-up:after {
+    visibility: visible;
+}
+

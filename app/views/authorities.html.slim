@@ -7,7 +7,7 @@ main.wide-container
       p.subtitle All planning authorities in Australia
 
     .table-container
-      table.data-table
+      table.sortable.sticky-header.data-table
         thead
           tr
             == render_partial 'authority_header'
@@ -19,9 +19,3 @@ main.wide-container
     .section-footer
       p Total: #{authorities.size} authorities, #{summarize_authorities authorities}
 
-
-== render_partial 'extra_nsw'
-== render_partial 'extra_qld'
-== render_partial 'extra_tas'
-== render_partial 'extra_vic'
-== render_partial 'extra_wa'

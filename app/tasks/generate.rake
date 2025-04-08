@@ -17,9 +17,10 @@ namespace :generate do
     ContentGenerator.generate_contents
   end
 
-  desc 'Generate authorities index page'
+  desc 'Generate authorities existing and new index page'
   task :authorities do
-    AuthoritiesGenerator.generate
+    AuthoritiesGenerator.generate_existing
+    AuthoritiesGenerator.generate_extra_councils
   end
 
   desc 'Generate individual authority pages'

@@ -1,0 +1,52 @@
+- states.each do |state, details|
+  - councils = councils_by_state[state]
+  main.container
+    section.content-section
+      .section-header
+        h2
+          i.fas.fa-map-marked-alt
+          |  Extra #{state} Councils
+        p.subtitle
+          ' Extra councils we don't or didn't have scrapers for, sourced from
+          a href="#{details['url']}"
+            = details['name']
+        p
+          ' Note
+          ul
+            li population is an Estimate from an AI - take it with a pinch or a kg of salt as needed ;)
+            li Some of these may be covered by other data sources
+            li
+              ' Focus first on the top 10% population across all states (>= #{significant_population_k} K) in
+              b bold
+
+      .table-container
+        table.sortable.sticky-header.data-table
+          thead
+            tr
+              th Name
+              th.right Est. Population
+              th Matching Issues
+          tbody
+            - councils.each do |council|
+              tr
+                td
+                  a href="#{council.url}"
+                    = council.name
+                td.right
+                  - if council.population_k.zero?
+                    ' < 1K
+                  - elsif council.population_k < significant_population_k
+                    => number_with_delimiter council.population_k
+                    ' K
+                  - else
+                    b
+                      => number_with_delimiter council.population_k
+                      ' K
+                td
+                  - council.issues.each do |issue|
+                    = a href = "#{path_for issue}"
+                    = issue.name
+
+        .section-footer
+          p Total: #{councils.size} councils, Est pop #{number_with_delimiter councils.map(&:population_k).sum} K
+
