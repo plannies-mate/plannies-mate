@@ -23,17 +23,17 @@ td.nowrap
       |  OK
 td.right #{number_with_delimiter(authority.week_count) if authority.week_count}
 td.right #{number_with_delimiter(authority.month_count) if authority.month_count}
-td
-  - if authority.issues && authority.issues.any?
-    - br = false
-    - authority.issues.each do |i|
-      - if br
-        br
-      - br = true
-      a href="#{i.html_url}" title="#{i.title}" target="_blank"
-        = "##{i.to_param}"
-  - elsif authority.possibly_broken?
-    | Missing Issue
+/ td
+/   - if authority.issues && authority.issues.any?
+/     - br = false
+/     - authority.issues.each do |i|
+/       - if br
+/         br
+/       - br = true
+/       a href="#{i.html_url}" title="#{i.title}" target="_blank"
+/         = "##{i.to_param}"
+/   - elsif authority.possibly_broken?
+/     | Missing Issue
 / td
 /   - br = false
 /   - authority.issues.each do |iss|
