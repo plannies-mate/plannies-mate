@@ -65,7 +65,7 @@ class AuthoritiesFetcher
       record['state'] = state if STATES.include?(state)
       record['name'] = self.class.extract_text(authority_link)
       record['short_name'] = self.class.last_url_segment authority_link['href']
-      record['possibly_broken'] = !self.class.extract_text(row).downcase.include?('possibly broken')
+      record['possibly_broken'] = self.class.extract_text(row).downcase.include?('possibly broken')
       record['population'] = self.class.extract_number(cells[2]&.text)
       authorities << record
     end
