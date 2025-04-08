@@ -2,7 +2,7 @@
 
 namespace :roundup do
   desc 'Roundup everything (import, generate)'
-  task all: %i[singleton import:all generate:all] do
+  task all: %i[singleton flag_updating import:all generate:all flag_finished] do
     # also  pull_requests:update_status coverage_history:import_current
     puts 'Finished roundup:all'
   end
@@ -15,5 +15,27 @@ namespace :roundup do
     else
       puts 'No roundup requested'
     end
+  end
+
+  desc "Set update status to UPDATING"
+  task :flag_updating do
+    css_dir = File.join(App.app_helpers.site_dir, 'assets', 'css')
+    status_file = File.join(css_dir, 'update_status.css')
+
+    FileUtils.rm_f(status_file)
+    File.symlink('updating.css', status_file)
+
+    puts "Update status set to UPDATING"
+  end
+
+  desc "Set update status to NOT UPDATING"
+  task :flag_finished do
+    css_dir = File.join(App.app_helpers.site_dir, 'assets', 'css')
+    status_file = File.join(css_dir, 'update_status.css')
+
+    FileUtils.rm_f(status_file)
+    File.symlink('not_updating.css', status_file)
+
+    puts "Update status set to NOT UPDATING"
   end
 end

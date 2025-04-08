@@ -18,12 +18,17 @@ html lang="en"
     link rel="stylesheet" href="/assets/css/base.css"
     link rel="stylesheet" href="/assets/css/theme.css"
     link rel="stylesheet" href="/assets/css/background.css"
+    link rel="stylesheet" href="/assets/css/update_status.css"
     - unless defined?(no_menu) && no_menu
       link rel="stylesheet" href="/assets/css/mini_menu.css"
       link rel="stylesheet" href="/assets/css/reports.css"
     meta name="theme-color" content="#00843D"
 
   body
+    .updating-indicator
+      i.fas.fa-sync-alt.fa-spin
+      | Site updating
+      
     - unless defined?(no_menu) && no_menu
       header.mini-hero
         .container
