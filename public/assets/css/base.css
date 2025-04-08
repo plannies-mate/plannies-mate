@@ -110,30 +110,36 @@ input, button {
     box-shadow: 0 1px 0 rgba(0,0,0,0.1); /* Optional shadow for better visibility */
 }
 
-.sortable th.sort-header {
+.sortable th {
     cursor: pointer;
+    position: relative;
+    padding-right: 20px;
 }
 
-.sortable th.sort-header:after {
+.sortable th:after {
     content: '';
-    float: right;
-    margin-top: 7px;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    margin-top: -4px;
     border-width: 0 4px 4px;
     border-style: solid;
     border-color: #404040 transparent;
     visibility: hidden;
 }
 
-.sortable th.sort-header:hover:after {
+.sortable th:hover:after {
     visibility: visible;
 }
 
-.sortable th.sort-up:after {
+.sortable th[aria-sort="ascending"]:after {
     border-bottom: none;
     border-width: 4px 4px 0;
+    visibility: visible;
 }
 
-.sortable th.sort-down:after, .sortable th.sort-up:after {
+.sortable th[aria-sort="descending"]:after {
+    border-width: 0 4px 4px;
     visibility: visible;
 }
 

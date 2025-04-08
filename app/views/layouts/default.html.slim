@@ -28,7 +28,7 @@ html lang="en"
     .updating-indicator title="No worries, Mate! We should be done in a few minutes!"
       i.fas.fa-sync-alt.fa-spin
       | Doing the Hard Yakka
-      
+
     - unless defined?(no_menu) && no_menu
       header.mini-hero
         .container
@@ -60,7 +60,7 @@ html lang="en"
               |  Sign Out
 
     == yield
-    
+
     footer
       .container
         .social-links
@@ -98,15 +98,17 @@ html lang="en"
 
 
     javascript:
-      document.addEventListener('DOMContentLoaded', function() {
-        // Initialize sticky headers (with jQuery)
-        if (typeof $ !== 'undefined' && $.fn.stickyTableHeaders) {
-          $('.sticky-header').stickyTableHeaders();
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize sticky headers (with jQuery)
+            if (typeof $ !== 'undefined' && $.fn.stickyTableHeaders) {
+                $('.sticky-header').stickyTableHeaders();
+            }
 
-        // Initialize table sorting (no jQuery dependency)
-        var sortableTables = document.querySelectorAll('table.sortable');
-        for (var i = 0; i < sortableTables.length; i++) {
-          new Tablesort(sortableTables[i]);
-        }
-      });
+            // Initialize table sorting (no jQuery dependency)
+            const sortableTables = document.querySelectorAll('table.sortable');
+            for (let i = 0; i < sortableTables.length; i++) {
+                const table = sortableTables[i];
+                const startDescending = table.classList.contains('start-descending');
+                new Tablesort(table, {descending: startDescending});
+            }
+        });

@@ -13,7 +13,7 @@
         p
           ' Note
           ul
-            li population is an Estimate from an AI - take it with a pinch or a kg of salt as needed ;)
+            li population is an Estimate from an AI - take it with a pinch or a kg of salt as needed ;) [Below 1K is listed as 1]
             li Some of these may be covered by other data sources
             li
               ' Focus first on the top 10% population across all states (>= #{significant_population_k} K) in
@@ -24,7 +24,7 @@
           thead
             tr
               th Name
-              th.right Est. Population
+              th.right Population K
               th Matching Issues
           tbody
             - councils.each do |council|
@@ -34,14 +34,12 @@
                     = council.name
                 td.right
                   - if council.population_k.zero?
-                    ' < 1K
+                    ' 0
                   - elsif council.population_k < significant_population_k
                     => number_with_delimiter council.population_k
-                    ' K
                   - else
                     b
                       => number_with_delimiter council.population_k
-                      ' K
                 td
                   - council.issues.each do |issue|
                     = a href = "#{path_for issue}"

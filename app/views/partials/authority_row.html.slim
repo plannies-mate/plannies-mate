@@ -4,7 +4,7 @@ td
 td
   == add_word_breaks CGI::escape_html(authority.name)
 td = authority.state
-td.right #{number_with_delimiter(authority.population) if authority.population}
+td.right #{number_with_delimiter((authority.population / 1000.0).round) if authority.population}
 td.nowrap
   - if authority.last_received
     span.status-warning
