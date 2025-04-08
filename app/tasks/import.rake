@@ -6,7 +6,7 @@ require_relative '../importers/pull_requests_importer'
 
 namespace :import do
   desc 'Import all information from remote sites'
-  task all: %i[singleton authorities issues pull_requests] do
+  task all: %i[singleton authorities] do # issues pull_requests
     puts 'Finished'
   end
 
@@ -21,7 +21,7 @@ namespace :import do
     fetcher = IssuesImporter.new
     fetcher.import
   end
-  
+
   desc 'Import Pull Requests from GitHub (last 30 days by default)'
   task :pull_requests, [:since_days] => :singleton do |_t, args|
     Rake::Task['pull_requests:import'].invoke(args[:since_days])

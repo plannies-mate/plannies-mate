@@ -1,9 +1,0 @@
-
-td
-  - if authority.scraper
-    a href="/scrapers/#{authority.scraper.name}"
-      == add_word_breaks CGI::escape_html(authority.scraper.name)
-    a href="#{authority.scraper.morph_url}" target="_blank" title="View on morph.io"
-      span.morph-icon
-    a href="#{authority.scraper.github_url}" target="_blank" title="View on GitHub"
-      i.fab.fa-github

@@ -7,7 +7,7 @@ require_relative '../generators/scraper_generator'
 
 namespace :generate do
   desc 'Generate all reports'
-  task all: %i[singleton authorities authority_pages scrapers scraper_pages coverage_history] do
+  task all: %i[singleton content authorities authority_pages scrapers scraper_pages] do # coverage_history
     puts 'All reports generated successfully'
   end
 

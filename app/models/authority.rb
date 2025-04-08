@@ -85,8 +85,8 @@ class Authority < ApplicationRecord
     assign_attributes(relevant_attributes)
   end
 
-  def to_parem
-    short_name
+  def to_param
+    short_name || 'nil'
   end
 
   def issues_url

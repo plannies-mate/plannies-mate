@@ -11,13 +11,10 @@ main.wide-container
         thead
           tr
             == render_partial 'authority_header'
-            th Scraper
         tbody
           - authorities.each do |authority|
             tr
               == render_partial 'authority_row', authority: authority
-              == render_partial 'scraper_cell', authority: authority
-
 
     .section-footer
       p Total: #{authorities.size} authorities, #{summarize_authorities authorities}
