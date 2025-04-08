@@ -26,18 +26,29 @@ main.container
           tr
             th Possibly Broken
             td #{authority.possibly_broken ? 'Yes' : 'No'}
-      
+
+
       .details-card
         h3 Scraper Details
         table.details-table
-          tr
-            th Morph URL
-            td
-              a href="#{authority.scraper.morph_url}" target="_blank" #{authority.scraper.morph_url}
-          tr
-            th GitHub URL
-            td
-              a href="#{authority.scraper.github_url}" target="_blank" #{authority.scraper.github_url}
+          - if authority.scraper
+            tr
+              th Scraper
+              td
+                a href="#{path_for authority.scraper}"
+                  = authority.scraper.name
+              tr
+                th Morph URL
+                td
+                  a href="#{authority.scraper.morph_url}" target="_blank" #{authority.scraper.morph_url}
+              tr
+                th GitHub URL
+                td
+                  a href="#{authority.scraper.github_url}" target="_blank" #{authority.scraper.github_url}
+          - else
+            tr
+              th Scraper
+              td None Found
           tr
             th Application Count
             td #{number_with_delimiter(authority.total_count) if authority.total_count}
