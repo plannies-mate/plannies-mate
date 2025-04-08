@@ -52,10 +52,8 @@ class IssueAuthorityMatcher
 
   def potential_authorities_from_labels
     # Find unique scraper from labels if possible
-    morph_urls = @labels.map do |label|
-      "#{Constants::MORPH_URL}/#{Constants::PRODUCTION_OWNER}/multiple_#{label.downcase}"
-    end
-    scrapers = Scraper.where(morph_url: morph_urls)
+    scraper_names = @labels.map(&:downcase)
+    scrapers = Scraper.where(name: scraper_names)
     scraper = scrapers.first if scrapers.size == 1
 
     if scraper && !@labels.include?('custom')
@@ -63,7 +61,7 @@ class IssueAuthorityMatcher
       Authority.where(scraper: scraper)
     elsif @labels.include?('custom') && !scraper
       puts 'DEBUG: selecting custom authority authorities', '' if @debug
-      multiple = Scraper.where('morph_url like ?', "#{MORPH_IO_SCRAPERS_URL}multiple_%")
+      multiple = Scraper.where('name like ?', 'multiple_%')
       Authority.where.not(scraper: multiple)
     else
       puts 'DEBUG: selecting all authorities', '' if @debug
