@@ -23,7 +23,6 @@ td.nowrap
       |  OK
 td.right #{number_with_delimiter(authority.week_count) if authority.week_count}
 td.right #{number_with_delimiter(authority.month_count) if authority.month_count}
-td.right #{number_with_delimiter(authority.total_count) if authority.total_count}
 td
   - if authority.issues && authority.issues.any?
     - br = false
