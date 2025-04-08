@@ -25,7 +25,7 @@ html lang="en"
     meta name="theme-color" content="#00843D"
 
   body
-    .updating-indicator
+    .updating-indicator title="No worries, Mate! We should be done in a few minutes!"
       i.fas.fa-sync-alt.fa-spin
       | Doing the Hard Yakka
       
@@ -67,14 +67,18 @@ html lang="en"
             i.fab.fa-github
           a.social-link href="https://www.linkedin.com/in/ianheggie/" title="Professional networking"
             i.fab.fa-linkedin
+          a.social-link href="https://github.com/plannies-mate/plannies-mate" title="Plannies Mate source code"
+            i.fas.fa-code
           a.social-link href="https://github.com/plannies-mate/plannies-deploy" title="Ansible deployment for Plannies Mate"
-            img.ansible-icon src="/assets/images/Ansible-Mark-RGB.svg" alt="Ansible"
+            img.ansible-icon src="/assets/images/Ansible-Community-Mark-Black.png" alt="Ansible"
         p
           span#deployed
           |  Made with
+          '
           a.social-link href="https://www.australia.com/en" title="Come and say G'Day!"
             i.fas.fa-heart
-          '  in Australia at
+          '
+          ' in Australia at
           - melbourne_time = Time.now.in_time_zone('Australia/Melbourne')
           => melbourne_time.strftime("%H:%M on %d %b %Y %Z")
           - if git_commit
