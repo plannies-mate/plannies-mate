@@ -27,7 +27,7 @@ html lang="en"
   body
     .updating-indicator
       i.fas.fa-sync-alt.fa-spin
-      | Site updating
+      | Doing the Hard Yakka
       
     - unless defined?(no_menu) && no_menu
       header.mini-hero
@@ -74,6 +74,11 @@ html lang="en"
             i.fas.fa-heart
           '  in Australia at
           - melbourne_time = Time.now.in_time_zone('Australia/Melbourne')
-          = melbourne_time.strftime("%H:%M on %d %b %Y %Z")
+          => melbourne_time.strftime("%H:%M on %d %b %Y %Z")
+          - if git_commit
+            ' using version
+            a.version-link href="https://github.com/plannies-mate/plannies-mate/commit/#{git_commit}" title="View this version on GitHub"
+              span.commit-hash = git_commit[0..6]
+            '  of Plannies Mate
 
     script src="/assets/js/version.js"

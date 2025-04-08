@@ -52,6 +52,17 @@ module ApplicationHelper
     end
   end
 
+  def git_commit
+    begin
+      commit_file = File.join(root_dir, 'REVISION')
+      @git_commit ||= File.read(commit_file).strip if File.exist?(commit_file)
+      @git_commit ||= `git rev-parse HEAD`.strip
+    rescue StandardError => e
+      puts "Error getting git commit: #{e.message}"
+    end
+    @git_commit.presence
+  end
+
   def force?
     !ENV['FORCE'].blank?
   end
