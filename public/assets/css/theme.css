@@ -114,6 +114,19 @@ body {
     color: var(--primary-color);
 }
 
+/* Styling for SVG icons like Ansible logo */
+.social-link img {
+    height: 1.5rem;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    vertical-align: middle;
+}
+
+.social-link:hover img {
+    opacity: 1;
+}
+
 /* Drop zone styling */
 .drop-zone {
     border: 3px dashed var(--border-color);
