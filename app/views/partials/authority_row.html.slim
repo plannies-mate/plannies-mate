@@ -61,14 +61,14 @@ td
 - unless locals[:hide_scraper]
   td
     - if authority.scraper
-      a href="#{path_for authority.scraper}"
+      a href="#{path_for authority.scraper}" title="Scraper Information"
         == add_word_breaks CGI::escape_html(authority.scraper.name)
 td
-  a href="#{path_for authority}"
+  a href="#{path_for authority}" title="Authority Information"
     i.fas.fa-building
   '
   - if authority.scraper
-    a href="#{path_for authority.scraper}"
+    a href="#{path_for authority.scraper}" title="Scraper Information"
       i.fas.fa-code-branch
     '
     a href="#{authority.scraper.morph_url}" target="_blank" title="View on morph.io"
