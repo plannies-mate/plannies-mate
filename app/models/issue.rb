@@ -36,6 +36,7 @@ require_relative 'application_record'
 class Issue < ApplicationRecord
   belongs_to :authority, optional: true
   belongs_to :scraper, optional: true
+  has_many :pull_requests, dependent: :nullify
 
   has_and_belongs_to_many :assignees,
                           class_name: 'User',
@@ -53,6 +54,24 @@ class Issue < ApplicationRecord
 
   def open?
     closed_at.nil?
+  end
+
+  def mine?
+    assignees.where(login: Constants::MY_GITHUB_NAME).exists?
+  end
+
+  def others?
+    assignees.any? && !mine?
+  end
+
+  def open_pull_requests?
+    pull_requests.where(closed_at: nil).any?
+  end
+
+  BLOCKING_LABELS = ['waiting on authority', 'anti scraping technology', 'council website bad',
+                     'blocked by authority',].freeze
+  def blocked?
+    labels.where(name: BLOCKING_LABELS).any?
   end
 
   IMPORT_KEYS = %i[number closed_at locked title].freeze

@@ -24,11 +24,12 @@ class ScrapersGenerator
 
   # Returns a locals hash to use with view
   def self.locals
-    scrapers = Scraper.all.sort_by(&:to_param)
+    scrapers = Scraper.all.sort_by do |s|
+      [s.broken_score&.positive? ? -s.broken_score : 0, -s.authorities.size, s.to_param]
+    end
 
     # Group scrapers by type
     multi_scrapers = scrapers.select { |s| s.authorities.size > 1 }
-                             .sort_by { |s| [-s.authorities.size, s.to_param] }
     custom_scrapers = scrapers.select { |s| s.authorities.size == 1 }
     orphaned_scrapers = scrapers.select { |s| s.authorities.empty? }
 

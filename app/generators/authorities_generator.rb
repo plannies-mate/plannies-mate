@@ -13,7 +13,9 @@ class AuthoritiesGenerator
   extend ApplicationHelper
 
   def self.generate_existing
-    authorities = Authority.all.sort_by { |a| [a.state || 'ZZZ', a.name.downcase] }
+    authorities = Authority.active.sort_by do |a|
+      [a.broken_score&.positive? ? -a.broken_score : 0, a.state, a.name.downcase]
+    end
     locals = { authorities: authorities }
 
     locals[:output_file] =

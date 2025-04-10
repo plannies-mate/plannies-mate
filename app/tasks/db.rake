@@ -3,7 +3,7 @@ namespace :db do
   task :stats do
     puts format('%-30s %8s %-30s', 'Table', 'Count', 'Last Modified')
     puts format('%-30s %8s %-30s', '-' * 30, '-' * 8, '-' * 30)
-    ActiveRecord::Base.connection.tables.each do |t|
+    ActiveRecord::Base.connection.tables.sort.each do |t|
       res = begin
         ActiveRecord::Base.connection.exec_query("select count(*), max(updated_at) from #{t}")
       rescue StandardError

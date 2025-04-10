@@ -10,8 +10,8 @@ require_relative 'app/lib/constants'
 Dir.glob(File.join(File.dirname(__FILE__), 'config/initializers/*.rb')).each { |file| require file }
 
 # pull in the models, helpers and controllers, they will pull in what they need
-Dir.glob(File.join(File.dirname(__FILE__),
-                   'app/{helpers,models,fetchers,generators,importers,lib,matchers,services}/**/*.rb')).each do |file|
+glob_pattern = 'app/{helpers,models,fetchers,generators,importers,lib,analyzers,matchers,services}/**/*.rb'
+Dir.glob(File.join(File.dirname(__FILE__), glob_pattern)).each do |file|
   require file
 end
 

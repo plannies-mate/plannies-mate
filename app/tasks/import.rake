@@ -37,7 +37,7 @@ namespace :import do
     puts "  - Updated: #{result[:updated]}"
     puts "  - Errors: #{result[:errors]}"
 
-    Rake::Task['pull_requests:update_metrics'].invoke if result[:imported] > 0 || result[:updated] > 0
+    #Rake::Task['pull_requests:update_metrics'].invoke if result[:imported] > 0 || result[:updated] > 0
   end
 
   desc 'Import historical coverage data from Wayback Machine'

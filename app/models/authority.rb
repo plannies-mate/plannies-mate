@@ -59,6 +59,8 @@ class Authority < ApplicationRecord
   scope :working, -> { where(possibly_broken: false) }
   scope :broken, -> { where(possibly_broken: true) }
 
+  scope :active, -> { where(delisted_on: nil) }
+
   # Format for display in UI
   def to_s
     "#{name} (#{state})"
@@ -95,5 +97,21 @@ class Authority < ApplicationRecord
     uri = URI(base_url)
     uri.query = URI.encode_www_form(params)
     uri.to_s
+  end
+
+  def mine?
+    issues.any?(&:mine?)
+  end
+
+  def open_pull_requests?
+    issues.any?(&:open_pull_requests?)
+  end
+
+  def blocked?
+    issues.all?(&:blocked?)
+  end
+
+  def others?
+    !mine? && issues.any?(&:others?)
   end
 end

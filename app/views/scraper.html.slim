@@ -2,7 +2,7 @@ main.wide-container
   section.content-section
     .section-header
       h2
-        i.fas.fa-code-branch
+        i.fa-solid.fa-code
         |  #{scraper.name}
       p.subtitle Planning Authority Scraper
     
@@ -33,6 +33,6 @@ main.wide-container
           tr
             == render_partial 'authority_header', hide_scraper: true
         tbody
-          - scraper.authorities.sort_by { |a| [a.state, a.name.downcase] }.each do |authority|
+          - scraper.authorities.sort_by { |a| [a.broken_score&.positive? ? -a.broken_score : 0, a.state || 'ZZZ', a.name.downcase] }.each do |authority|
             tr
               == render_partial 'authority_row', authority: authority, hide_scraper: true

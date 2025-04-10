@@ -65,7 +65,7 @@ class IssueAuthorityMatcher
       Authority.where.not(scraper: multiple)
     else
       puts 'DEBUG: selecting all authorities', '' if @debug
-      Authority.all
+      Authority.active
     end
   end
 

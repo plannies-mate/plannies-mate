@@ -71,12 +71,55 @@
   background-color: #f9f9f9;
 }
 
+/* Add a subtle background to make statuses more distinct */
+.authority-status {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  margin: 0.1em 0.2em 0.1em 0;
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1.5;
+  border-radius: 1em;
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
 .status-ok {
-  color: #00843D;
+  color: #00843D; /* Keep your existing green */
+  font-weight: 500;
+  background-color: rgba(0, 132, 61, 0.1);
+}
+
+.status-mine {
+  color: #8c00ff; /* Slightly adjusted purple for better visibility */
+  font-weight: 600; /* Make it a bit bolder */
+  text-shadow: 0 0 1px rgba(140, 0, 255, 0.3); /* Subtle shadow for emphasis */
+  background-color: rgba(140, 0, 255, 0.1);
+}
+
+.status-others {
+  color: #9a8301; /* Neutral gray for issues assigned to others */
+  font-weight: 500;
+  background-color: rgba(108, 117, 125, 0.1);
+}
+
+.status-blocked {
+  color: #6c757d; /* Neutral gray for issues assigned to others */
+  font-weight: 500;
+  background-color: rgba(108, 117, 125, 0.1);
+}
+
+.status-pull-request {
+  color: #0066cc; /* Blue for pull requests */
+  font-weight: 500;
+  background-color: rgba(0, 102, 204, 0.1);
 }
 
 .status-warning {
-  color: #ff9900;
+  color: #e67700; /* Darker orange for better readability */
+  font-weight: 500;
+  background-color: rgba(230, 119, 0, 0.1);
 }
 
 .details-card {

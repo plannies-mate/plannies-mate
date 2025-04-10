@@ -26,7 +26,7 @@ class AuthorityGenerator
 
   # Generate pages for all authorities
   def self.generate_all
-    Authority.all.each do |authority|
+    Authority.active.each do |authority|
       generate(authority)
     end
     log 'Generated all authority pages'

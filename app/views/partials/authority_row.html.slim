@@ -4,21 +4,10 @@ td
 td = authority.state
 td.right #{number_with_delimiter((authority.population / 1000.0).round) if authority.population}
 td.nowrap
-  - if authority.last_received
-    span.status-warning
-      i.fas.fa-exclamation-triangle
-      '
-      = authority.last_received.strftime('%b %Y')
-  - elsif authority.possibly_broken?
-    span.status-warning
-      i.fas.fa-exclamation-triangle
-      '
-      | Possibly Broken
-  - else
-    span.status-ok
-      i.fas.fa-check-circle
-      '
-      |  OK
+  span.authority-status class="#{authority_status_class(authority)}" title="#{authority_status_title(authority)}"
+    i class="#{authority_status_icon_class(authority)}"
+    =< authority_status_description authority
+
 td.right #{number_with_delimiter(authority.week_count) if authority.week_count}
 td.right #{number_with_delimiter(authority.month_count) if authority.month_count}
 td
@@ -28,8 +17,17 @@ td
       - if br
         br
       - br = true
-      a href="#{i.html_url}" title="View GitHub Issue: #{i.title}" target="_blank"
-        = "##{i.to_param}"
+      span.nowrap
+        a href="#{i.html_url}" title="#{i.title} - Issue ##{i.to_param} on GitHub" target="_blank"
+          i.fa-regular.fa-circle-dot
+          =< i.to_param
+        - i.pull_requests.each do |pr|
+          '
+          a href="#{pr.html_url}" target="_blank" title="View Pull Request on GitHub"
+            i.fas.fa-code-pull-request
+            '
+            = pr.number
+
   - elsif authority.possibly_broken?
     | Missing Issue
 td
@@ -48,7 +46,7 @@ td
 td
   - authority.issues.sort_by { |i| i.title }.each do |iss|
     - iss_title = authority.issues.size > 1 ? ", related to ##{iss.to_param}" : ''
-    - iss.labels.sort_by{|l| l.name}.each do |label|
+    - iss.labels.sort_by { |l| l.name }.each do |label|
       span.issue-label class="#{css_class_for_label(label, authority)}" style="background-color: ##{label.color};" title="View GitHub Issues with this label; #{label.description}#{iss_title}"
         a href="#{label.issues_url}" target="_blank" class="#{css_class_for_label_link(label, authority)}"
           = label.name
@@ -62,15 +60,15 @@ td
       a href="#{path_for authority.scraper}" title="Scraper Information"
         == add_word_breaks CGI::escape_html(authority.scraper.name)
 td
-  a href="#{path_for authority}" title="Authority Information"
-    i.fas.fa-building
+  - if authority.broken_score&.positive?
+    = authority.broken_score
+td
+  a href="#{authority.authorities_url}" target="_blank" title="Planning Alerts Details"
+    img src="/assets/images/PA-16x16.png" alt="PA icon"
   '
   - if authority.scraper
-    a href="#{path_for authority.scraper}" title="Scraper Information"
-      i.fas.fa-code-branch
-    '
     a href="#{authority.scraper.morph_url}" target="_blank" title="View scraper on morph.io"
       span.morph-icon
     '
     a href="#{authority.scraper.github_url}" target="_blank" title="View scraper on GitHub"
-      i.fab.fa-github
+      i.fa-solid.fa-code

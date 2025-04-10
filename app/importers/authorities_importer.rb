@@ -32,7 +32,7 @@ class AuthoritiesImporter
       @orphaned = orphaned_ids.count
     else
       puts 'Authorities list has not changed, checking details'
-      Authority.all.each do |authority|
+      Authority.active.each do |authority|
         import_stats_and_details(authority, force: force)
       end
     end

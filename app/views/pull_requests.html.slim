@@ -12,19 +12,21 @@ main.wide-container
       table.sortable.sticky-header.data-table
         thead
           tr
-            th ID
+            th Number
             th Title
-            th Repo
-            th Author
+            th Scraper
+            th PR Branch
+            th Assignees
             th Status
-            th.right # Issues
+            th Issue
             th Created
             th Links
             / th.right Actions
+
         tbody
           - pull_requests.each do |pr|
             tr
-              td = pr.id
+              td = pr.number
               td
                 a href="#{path_for pr}" title="Pull Request Information"
                   = pr.title
@@ -32,6 +34,7 @@ main.wide-container
                 - if pr.scraper
                   a href="#{path_for pr.scraper}" title="Scraper Information"
                     == add_word_breaks CGI::escape_html(pr.scraper.name)
+              td = pr.head_branch_name
               td
                 - pr.assignees.each do |user|
                   a> href="#{user.issues_url}" target="_blank"
@@ -40,6 +43,10 @@ main.wide-container
                     - else
                       = user.login
               td
+                - if pr.locked?
+                  span.status-warning
+                    i.fas.fa-lock
+                    '  Locked
                 - if pr.open?
                   span
                     i.fas.fa-clock
@@ -48,34 +55,34 @@ main.wide-container
                   - if pr.merged?
                     span.status-ok
                       i.fas.fa-check
-                      |  Merged
+                      ' Merged
+                      = pr.merged_at.strftime('%b %Y')
                   - else
                     span.status-warning
                       i.fas.fa-times
-                      |  Closed
+                      ' Closed
+                      = pr.closed_at.strftime('%b %Y')
 
-              td.right
+              td
                 - if pr.issue
-                  a href="#{pr.issue.html_url}" title="View GitHub Issue: #{pr.issue.title}" target="_blank"
-                    = "##{pr.issue.to_param}"
+                  a.nowrap href="#{pr.issue.html_url}" title="View GitHub Issue: #{pr.issue.title}" target="_blank"
+                    i.fa-regular.fa-circle-dot
+                    '
+                    = "#{pr.issue.to_param}"
                 - else
                   span class="status-warning"
-                    ' No matching issue
+                    ' ?
               td = format_date(pr.created_at)
               td
-                '
                 a href="#{pr.html_url}" target="_blank" title="View Pull Request on GitHub"
-                  i.fab.fa-github
+                  i.fas.fa-code-pull-request
                 '
                 - if pr.scraper
-                  a href="#{path_for pr.scraper}" title="Scraper Information"
-                    i.fas.fa-code-branch
-                  '
                   a href="#{pr.scraper.morph_url}" target="_blank" title="View scraper on morph.io"
                     span.morph-icon
                   '
                   a href="#{pr.scraper.github_url}" target="_blank" title="View scraper on GitHub"
-                    i.fab.fa-github
+                    i.fa-solid.fa-code
               / td.right
               /   a.button href="/app/pull_requests/#{pr.id}" Edit
 

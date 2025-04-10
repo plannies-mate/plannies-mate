@@ -43,6 +43,8 @@
                 td
                   - council.issues.each do |issue|
                     a href="#{path_for issue}" title="View GitHub Issue: #{issue.title}" target="_blank"
+                      i.fa-regular.fa-circle-dot
+                      '
                       => issue.title
                       ' #
                       = issue.number
