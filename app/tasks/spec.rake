@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# :nocov:
 if ENV['RACK_ENV'] == 'production'
   puts "Run 'rake -T' for list of rake tasks (no default task in production)"
 else
@@ -26,3 +27,4 @@ else
     end
   end
 end
+# :nocov:

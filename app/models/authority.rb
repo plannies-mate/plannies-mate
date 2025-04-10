@@ -91,13 +91,13 @@ class Authority < ApplicationRecord
     short_name || 'nil'
   end
 
-  def issues_url
-    base_url = 'https://github.com/planningalerts-scrapers/issues/issues'
-    params = { q: "is:issue state:open #{name}" }
-    uri = URI(base_url)
-    uri.query = URI.encode_www_form(params)
-    uri.to_s
-  end
+  # def issues_url
+  #   base_url = 'https://github.com/planningalerts-scrapers/issues/issues'
+  #   params = { q: "is:issue state:open #{name}" }
+  #   uri = URI(base_url)
+  #   uri.query = URI.encode_www_form(params)
+  #   uri.to_s
+  # end
 
   def mine?
     issues.any?(&:mine?)

@@ -60,7 +60,7 @@ RSpec.describe User do
       url = user.issues_url
 
       expect(url).to include('github.com')
-      expect(url).to include('assignee%3A+%22ianheggie%22')
+      expect(url).to include('assignee%3A%22ianheggie%22')
     end
   end
 end

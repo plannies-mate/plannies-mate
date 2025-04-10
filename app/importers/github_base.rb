@@ -8,12 +8,16 @@ module GithubBase
   # Create an Octokit Client
   def create_client
     token_name = 'GITHUB_PERSONAL_TOKEN'
-    access_token = ENV.fetch(token_name) { raise "Missing #{token_name}" }
+    access_token = ENV.fetch(token_name) do
+      raise "Missing #{token_name}" unless App.app_helpers.test?
 
-    puts "Creating client using #{token_name} ..."
+      puts 'Normally would raise an error, but running in test mode without access to private repos.'
+      nil
+    end
+
+    puts "Creating client #{access_token ? "using #{token_name}}" : 'without access token (only valid in test)'} ..."
     client = Octokit::Client.new(access_token: access_token, auto_paginate: true)
 
-    # Verify the access token belongs to the right user
     verify_org_access(client, Constants::PRODUCTION_OWNER)
     client
   end
@@ -32,6 +36,6 @@ module GithubBase
   rescue Octokit::NotFound, Octokit::Forbidden
     puts "❌ Token does not have access to organization #{org}"
     puts "   Please use a classic token with 'repo' and 'read:org' scopes"
-    # raise
+    raise unless App.app_helpers.test?
   end
 end

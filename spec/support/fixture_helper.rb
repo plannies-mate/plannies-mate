@@ -11,7 +11,6 @@ module FixtureHelper
     ['users', User],
     ['issue_labels', IssueLabel],
     ['scrapers', Scraper],
-
     # Tables with references
     ['authorities', Authority], # Depends on scrapers,
     ['issues', Issue], # Depends on authority, scrapers and user

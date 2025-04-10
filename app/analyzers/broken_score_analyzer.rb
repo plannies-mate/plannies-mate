@@ -69,7 +69,7 @@ class BrokenScoreAnalyzer
   end
 
   def self.calculate_scraper_score(scraper)
-    broken_authorities = scraper.authorities.where(possibly_broken: true)
+    broken_authorities = scraper.authorities.active.where(possibly_broken: true)
     base_score = broken_authorities.sum(:broken_score)
 
     # 10% boost per additional broken authority to incentivize fixing scrapers that address multiple issues

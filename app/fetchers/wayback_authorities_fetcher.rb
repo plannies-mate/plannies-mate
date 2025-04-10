@@ -42,7 +42,7 @@ class WaybackAuthoritiesFetcher
 
     page = @agent.get(url)
     results = JSON.parse(page.body)
-    return [] if results.nil?
+    return [] unless results&.any?
 
     # First row is headers, skip it
     timestamps = results[1..].map { |row| row[1] }
@@ -51,13 +51,17 @@ class WaybackAuthoritiesFetcher
     timestamps.reverse
   end
 
+  def wayback_url(timestamp)
+    # https://web.archive.org/web/20200309153826/https://www.planningalerts.org.au/authorities
+    WAYBACK_SNAPSHOT_URL.sub('{timestamp}', timestamp)
+                        .sub('{url}', AuthoritiesFetcher::AUTHORITIES_URL)
+  end
+
   # Fetch historical data for a specific timestamp
   # @param timestamp [String] Wayback Machine timestamp in format YYYYMMDDHHMMSS
   # @return [Hash, nil] Processed authorities data or nil if error/no data
   def fetch_snapshot(timestamp)
-    # https://web.archive.org/web/20200309153826/https://www.planningalerts.org.au/authorities
-    url = WAYBACK_SNAPSHOT_URL.sub('{timestamp}', timestamp)
-                              .sub('{url}', AuthoritiesFetcher::AUTHORITIES_URL)
+    url = wayback_url(timestamp)
 
     self.class.log "Fetching historical snapshot from #{url}"
 

@@ -14,6 +14,8 @@ class CreateScrapers < ActiveRecord::Migration[8.0]
       # Path to file that contains the list of authorities and their query domains.
       # Typically custom scrapes will use the same file
       t.string :authorities_path
+      # date scraper is no longer listed on under the hood pages
+      t.date :delisted_on
 
       # A score impact of it being broken
       t.integer :broken_score, index: true, null: true

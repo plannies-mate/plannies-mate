@@ -243,3 +243,44 @@ city_of_south_barwon:
   delisted_on: 1994-03-09
   needs_import: false
   needs_generate: false
+
+bayside:
+  short_name: bayside
+  scraper: multiple_icon
+  name: Bayside Council
+  state: NSW
+  population: 175000
+  week_count: 61
+  month_count: 161
+  added_on: 2020-02-20
+
+blue_mountains:
+  short_name: blue_mountains
+  scraper: multiple_icon
+  name: Blue Mountains City Council
+  state: NSW
+  population:  78000
+  week_count: 36
+  month_count: 129
+  added_on: 2020-02-20
+
+blacktown:
+  short_name: blacktown
+  scraper: multiple_technology_one
+  name: Blacktown City Council
+  state: NSW
+  population: 397
+  week_count: 112
+  month_count: 706
+  added_on: 2020-02-20
+
+ryde:
+  short_name: ryde
+  scraper: multiple_technology_one
+  name: City of Ryde
+  state: NSW
+  population: 129
+  week_count: 0
+  month_count: 0
+  possibly_broken: true
+  added_on: 2020-02-20

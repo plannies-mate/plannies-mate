@@ -24,7 +24,7 @@ class ScrapersGenerator
 
   # Returns a locals hash to use with view
   def self.locals
-    scrapers = Scraper.all.sort_by do |s|
+    scrapers = Scraper.active.sort_by do |s|
       [s.broken_score&.positive? ? -s.broken_score : 0, -s.authorities.size, s.to_param]
     end
 

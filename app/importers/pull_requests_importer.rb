@@ -130,6 +130,14 @@ class PullRequestsImporter
                       .compact
       issue = issues.first if issues.size == 1
     end
+    unless issue
+      desc = 'Authorities>issue.title'
+      issues = Authority.all
+                        .select { |a| title.include?(a.name) }
+                        .map { |a| Issue.find_by(title: a.name) }
+                        .compact
+      issue = issues.first if issues.size == 1
+    end
     return unless issue
 
     pull_request.issue = issue

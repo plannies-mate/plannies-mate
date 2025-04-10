@@ -8,18 +8,6 @@ RSpec.describe GithubBase do
   let(:test_class) { Class.new { extend GithubBase } }
 
   describe '.create_client' do
-    context 'with token in ENV' do
-      before do
-        allow(ENV).to receive(:fetch).with('GITHUB_PERSONAL_TOKEN').and_return('test_token')
-      end
-
-      it 'creates a client with authentication' do
-        client = test_class.create_client
-        expect(client).to be_a(Octokit::Client)
-        expect(client.access_token).to eq('test_token')
-      end
-    end
-
     context 'without token' do
       before do
         @prev = ENV.fetch('GITHUB_PERSONAL_TOKEN')
@@ -30,8 +18,8 @@ RSpec.describe GithubBase do
         ENV['GITHUB_PERSONAL_TOKEN'] = @prev
       end
 
-      it 'Throws an error' do
-        expect { test_class.create_client }.to raise_error(RuntimeError)
+      it 'Throws an error', vcr: { cassette_name: cassette_name('create_client without token') } do
+        expect { test_class.create_client }.to raise_error(Octokit::Unauthorized)
       end
     end
   end

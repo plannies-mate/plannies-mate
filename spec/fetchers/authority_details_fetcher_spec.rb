@@ -22,7 +22,11 @@ RSpec.describe AuthorityDetailsFetcher do
       details = fetcher.fetch(short_name)
       expect(details).to be_a(Hash)
 
-      expect(details).to include('short_name', 'repo')
+      expect(details).to include('import_time',
+                                 'last_import_log',
+                                 'scraper_name',
+                                 'short_name',
+                                 'total_count')
       expect(details['short_name']).to eq(short_name)
     end
 

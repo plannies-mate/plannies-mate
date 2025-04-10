@@ -89,42 +89,6 @@ RSpec.describe CoverageHistory do
     end
   end
 
-  describe '.create_from_authorities' do
-    it 'creates a coverage history record from authorities data' do
-      authorities = [
-        { 'short_name' => 'auth1', 'possibly_broken' => false, 'population' => 50_000 },
-        { 'short_name' => 'auth2', 'possibly_broken' => true, 'population' => 30_000 },
-        { 'short_name' => 'auth3', 'possibly_broken' => false, 'population' => 70_000 },
-      ]
-
-      history = CoverageHistory.create_from_authorities(authorities)
-
-      expect(history).to be_persisted
-      expect(history.recorded_on).to eq(Date.today)
-      expect(history.authority_count).to eq(3)
-      expect(history.broken_authority_count).to eq(1)
-      expect(history.total_population).to eq(150_000)
-      expect(history.broken_population).to eq(30_000)
-    end
-
-    it 'handles nil population values' do
-      authorities = [
-        { 'short_name' => 'auth1', 'possibly_broken' => false, 'population' => nil },
-        { 'short_name' => 'auth2', 'possibly_broken' => true, 'population' => 30_000 },
-      ]
-
-      history = CoverageHistory.create_from_authorities(authorities)
-
-      expect(history.total_population).to eq(30_000)
-      expect(history.broken_population).to eq(30_000)
-    end
-
-    it 'returns nil when given nil or empty authorities' do
-      expect(CoverageHistory.create_from_authorities(nil)).to be_nil
-      expect(CoverageHistory.create_from_authorities([])).to be_nil
-    end
-  end
-
   describe '.optimize_storage' do
     it 'removes middle records when three consecutive records have identical stats' do
       # Our fixtures have identical1, identical2, and identical3 with the same stats

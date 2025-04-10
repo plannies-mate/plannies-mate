@@ -50,7 +50,7 @@ RSpec.describe Authority do
   describe 'fixtures loading' do
     it 'loads all authorities from fixtures' do
       # Verify total count
-      expect(Authority.count).to eq(13)
+      expect(Authority.count).to eq(17)
     end
 
     it 'loads ACT Planning & Land Authority correctly' do
@@ -104,8 +104,9 @@ RSpec.describe Authority do
 
   describe '.all' do
     it 'It reports records' do
-      authorities = Authority.all.order(:short_name)
-      expect(authorities.size).to eq(13)
+      authorities = Authority.active.order(:short_name)
+      expect(authorities.size).to eq(16)
+      expect(Authority.count).to eq(17)
       expect(authorities.first).to be_a(Authority)
       expect(authorities.first.short_name).to eq('act')
     end

@@ -8,6 +8,7 @@
 #  authorities_path    :string
 #  broken_score        :integer
 #  default_branch      :string           default("master"), not null
+#  delisted_on         :date
 #  name                :string           not null
 #  needs_generate      :boolean          default(TRUE), not null
 #  needs_import        :boolean          default(TRUE), not null
@@ -38,7 +39,8 @@ RSpec.describe Scraper do
   describe 'fixtures loading' do
     it 'loads all authorities from fixtures' do
       # Verify total count
-      expect(Scraper.count).to eq(9)
+      expect(Scraper.count).to eq(14)
+      expect(Scraper.active.count).to eq(13)
     end
 
     it 'loads ACT Scraper' do

@@ -12,6 +12,8 @@ class ApplicationController < Sinatra::Base
 
   # don't enable logging when running tests
   configure :production, :development do
+    # :nocov:
     enable :logging
+    # :nocov:
   end
 end

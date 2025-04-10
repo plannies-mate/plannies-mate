@@ -1,0 +1,172 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.github.com/user
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.github.v3+json
+      User-Agent:
+      - Octokit Ruby Gem 9.2.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - token <GITHUB_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Apr 2025 18:50:37 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With
+      Etag:
+      - W/"c816d4222bc5237e04e0d5debe54bb29b9f0de26bd621e3ca8d9f5cb6065de90"
+      Last-Modified:
+      - Tue, 25 Mar 2025 10:46:22 GMT
+      X-Oauth-Scopes:
+      - read:audit_log, read:discussion, read:enterprise, read:gpg_key, read:network_configurations,
+        read:org, read:packages, read:project, read:public_key, read:repo_hook, read:ssh_signing_key,
+        read:user, repo
+      X-Accepted-Oauth-Scopes:
+      - ''
+      Github-Authentication-Token-Expiration:
+      - 2026-04-06 14:00:00 UTC
+      X-Github-Media-Type:
+      - github.v3; format=json
+      X-Github-Api-Version-Selected:
+      - '2022-11-28'
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4999'
+      X-Ratelimit-Reset:
+      - '1744314637'
+      X-Ratelimit-Used:
+      - '1'
+      X-Ratelimit-Resource:
+      - core
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Frame-Options:
+      - deny
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
+      Transfer-Encoding:
+      - chunked
+      Server:
+      - github.com
+      X-Github-Request-Id:
+      - D508:2CEC49:4C596:6D7CC:67F812FC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"login":"ianheggie-oaf","id":183138466,"node_id":"U_kgDOCup4og","avatar_url":"https://avatars.githubusercontent.com/u/183138466?v=4","gravatar_id":"","url":"https://api.github.com/users/ianheggie-oaf","html_url":"https://github.com/ianheggie-oaf","followers_url":"https://api.github.com/users/ianheggie-oaf/followers","following_url":"https://api.github.com/users/ianheggie-oaf/following{/other_user}","gists_url":"https://api.github.com/users/ianheggie-oaf/gists{/gist_id}","starred_url":"https://api.github.com/users/ianheggie-oaf/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/ianheggie-oaf/subscriptions","organizations_url":"https://api.github.com/users/ianheggie-oaf/orgs","repos_url":"https://api.github.com/users/ianheggie-oaf/repos","events_url":"https://api.github.com/users/ianheggie-oaf/events{/privacy}","received_events_url":"https://api.github.com/users/ianheggie-oaf/received_events","type":"User","user_view_type":"private","site_admin":false,"name":null,"company":null,"blog":"","location":"Australia","email":"ian+oaf@heggie.biz","hireable":null,"bio":null,"twitter_username":null,"notification_email":"ian+oaf@heggie.biz","public_repos":8,"public_gists":0,"followers":0,"following":1,"created_at":"2024-09-27T18:33:29Z","updated_at":"2025-03-25T10:46:22Z","private_gists":0,"total_private_repos":10,"owned_private_repos":2,"disk_usage":127847,"collaborators":3,"two_factor_authentication":true,"plan":{"name":"free","space":976562499,"collaborators":0,"private_repos":10000}}'
+  recorded_at: Thu, 10 Apr 2025 18:50:37 GMT
+- request:
+    method: get
+    uri: https://api.github.com/user/memberships/orgs/planningalerts-scrapers
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.github.v3+json
+      User-Agent:
+      - Octokit Ruby Gem 9.2.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - token <GITHUB_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Apr 2025 18:50:37 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With
+      Etag:
+      - W/"193138ac0225070daf76ce58fc5dc258ad2bb4d44c73a1bedd776c26d732b20f"
+      X-Oauth-Scopes:
+      - read:audit_log, read:discussion, read:enterprise, read:gpg_key, read:network_configurations,
+        read:org, read:packages, read:project, read:public_key, read:repo_hook, read:ssh_signing_key,
+        read:user, repo
+      X-Accepted-Oauth-Scopes:
+      - admin:org, read:org, repo, user, write:org
+      Github-Authentication-Token-Expiration:
+      - 2026-04-06 14:00:00 UTC
+      X-Github-Media-Type:
+      - github.v3; format=json
+      X-Github-Api-Version-Selected:
+      - '2022-11-28'
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4998'
+      X-Ratelimit-Reset:
+      - '1744314637'
+      X-Ratelimit-Used:
+      - '2'
+      X-Ratelimit-Resource:
+      - core
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Frame-Options:
+      - deny
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
+      Transfer-Encoding:
+      - chunked
+      Server:
+      - github.com
+      X-Github-Request-Id:
+      - E580:37872F:4BBD9:6CE21:67F812FD
+    body:
+      encoding: ASCII-8BIT
+      string: '{"url":"https://api.github.com/orgs/planningalerts-scrapers/memberships/ianheggie-oaf","state":"active","role":"member","organization_url":"https://api.github.com/orgs/planningalerts-scrapers","user":{"login":"ianheggie-oaf","id":183138466,"node_id":"U_kgDOCup4og","avatar_url":"https://avatars.githubusercontent.com/u/183138466?v=4","gravatar_id":"","url":"https://api.github.com/users/ianheggie-oaf","html_url":"https://github.com/ianheggie-oaf","followers_url":"https://api.github.com/users/ianheggie-oaf/followers","following_url":"https://api.github.com/users/ianheggie-oaf/following{/other_user}","gists_url":"https://api.github.com/users/ianheggie-oaf/gists{/gist_id}","starred_url":"https://api.github.com/users/ianheggie-oaf/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/ianheggie-oaf/subscriptions","organizations_url":"https://api.github.com/users/ianheggie-oaf/orgs","repos_url":"https://api.github.com/users/ianheggie-oaf/repos","events_url":"https://api.github.com/users/ianheggie-oaf/events{/privacy}","received_events_url":"https://api.github.com/users/ianheggie-oaf/received_events","type":"User","user_view_type":"public","site_admin":false},"organization":{"login":"planningalerts-scrapers","id":6440888,"node_id":"MDEyOk9yZ2FuaXphdGlvbjY0NDA4ODg=","url":"https://api.github.com/orgs/planningalerts-scrapers","repos_url":"https://api.github.com/orgs/planningalerts-scrapers/repos","events_url":"https://api.github.com/orgs/planningalerts-scrapers/events","hooks_url":"https://api.github.com/orgs/planningalerts-scrapers/hooks","issues_url":"https://api.github.com/orgs/planningalerts-scrapers/issues","members_url":"https://api.github.com/orgs/planningalerts-scrapers/members{/member}","public_members_url":"https://api.github.com/orgs/planningalerts-scrapers/public_members{/member}","avatar_url":"https://avatars.githubusercontent.com/u/6440888?v=4","description":"Scrapers
+        that power PlanningAlerts, hosted on Morph.io"}}'
+  recorded_at: Thu, 10 Apr 2025 18:50:37 GMT
+recorded_with: VCR 6.3.1

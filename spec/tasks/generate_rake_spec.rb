@@ -27,9 +27,9 @@ RSpec.describe 'generate.rake tasks' do
   end
 
   describe 'generate:content' do
-    it 'calls ContentGenerator.generate_public and generate_content' do
+    it 'calls ContentGenerator.generate_public and generate_contents' do
       expect(ContentGenerator).to receive(:generate_public)
-      expect(ContentGenerator).to receive(:generate_content)
+      expect(ContentGenerator).to receive(:generate_contents)
       task = Rake::Task['generate:authorities']
       task.invoke
     end
@@ -53,7 +53,7 @@ RSpec.describe 'generate.rake tasks' do
 
   describe 'generate:scrapers' do
     it 'calls ScrapersGenerator.generate' do
-      expect(ScrapersGenerator).to receive(:generate_existing)
+      expect(ScrapersGenerator).to receive(:generate)
       task = Rake::Task['generate:scrapers']
       task.invoke
     end
@@ -73,7 +73,7 @@ RSpec.describe 'generate.rake tasks' do
       # We need to know the order, so we'll verify it with call counts
       expect(AuthoritiesGenerator).to receive(:generate_existing).ordered
       expect(AuthorityGenerator).to receive(:generate_all).ordered
-      expect(ScrapersGenerator).to receive(:generate_existing).ordered
+      expect(ScrapersGenerator).to receive(:generate).ordered
       expect(ScraperGenerator).to receive(:generate_all).ordered
 
       task = Rake::Task['generate:all']

@@ -26,7 +26,7 @@ class ScraperGenerator
 
   # Generate pages for all authorities
   def self.generate_all
-    Scraper.all.each do |scraper|
+    Scraper.active.each do |scraper|
       generate(scraper)
     end
     log 'Generated all scraper pages'

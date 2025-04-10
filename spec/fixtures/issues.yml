@@ -61,3 +61,23 @@ issue_985:
   scraper: multiple_icon
   created_at: 2025-03-01T10:30:00Z
   updated_at: 2025-03-15T15:45:00Z
+
+issue_1065:
+  number: 1065
+  title: "greater dandenong - a new authority to multiple_technology_one requires a bit of customization"
+  created_at: 2025-03-01T10:30:00Z
+  updated_at: 2025-03-15T15:45:00Z
+
+issue_1023:
+  number: 1023
+  title: "Burwood Council"
+  scraper: multiple_civica
+  created_at: 2025-03-01T10:30:00Z
+  updated_at: 2025-03-15T15:45:00Z
+
+issue_1024:
+  number: 1024
+  title: City of Ryde
+  scraper: multiple_technology_one
+  created_at: 2025-03-01T10:30:00Z
+  updated_at: 2025-03-15T15:45:00Z

@@ -37,12 +37,12 @@ pr18:
   title: "Fix many broken authorities, add debugging tools and reports, update to heroku-18 platform, and much more"
   number: 18
   locked: false
-  head_branch_name: feature/fix-broken-authorities
+  head_branch_name: "feature/fix-broken-authorities"
   base_branch_name: master
   created_at: "2025-02-11 01:02:03"
   updated_at: "2025-02-11 01:02:03"
   issue: "issue_2"
-  scraper: multiple_atdis
+  scraper: "multiple_atdis"
   update_reason: webhook
   needs_import: true
   closed_at: "2025-01-19 01:02:03"
@@ -52,22 +52,41 @@ pr9:
   title: "Updated to reflect changed css classes and move of pdf href to separate link"
   number: 9
   locked: false
-  head_branch_name: feature/update-css-classes
+  head_branch_name: "feature/update-css-classes"
   base_branch_name: master
   created_at: "2025-02-19 01:02:03"
   updated_at: "2025-02-19 01:02:03"
   issue: issue_1
-  scraper: bankstown
+  scraper: "bankstown"
 
 pr1:
   title: "Minor fix to bankstown"
   number: 1
   locked: false
-  head_branch_name: feature/minor-fix
+  head_branch_name: "feature/minor-fix"
   base_branch_name: master
   created_at: "2025-01-19 01:02:03"
   updated_at: "2025-01-19 01:02:03"
   issue: issue_1
   merged_at: "2025-01-19 01:02:03"
   closed_at: "2025-01-19 01:02:03"
-  scraper: bankstown
+  scraper: "bankstown"
+
+pr22:
+  number: 22
+  scraper: multiple_technology_one
+  title: "Fixes City of Ryde url and updates test data accordingly"
+  head_branch_name: "ryde"
+  base_branch_name: master
+  created_at: "2025-01-19 01:02:03"
+  updated_at: "2025-01-19 01:02:03"
+
+pr24:
+  title: "Update test data"
+  number: 24
+  locked: false
+  head_branch_name: "update_test_data"
+  base_branch_name: master
+  created_at: "2025-01-19 01:02:03"
+  updated_at: "2025-01-19 01:02:03"
+  scraper: "multiple_technology_one"

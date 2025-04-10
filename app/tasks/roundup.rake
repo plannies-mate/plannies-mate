@@ -20,6 +20,7 @@ namespace :roundup do
   desc 'Set update status to UPDATING'
   task :flag_updating do
     css_dir = File.join(App.app_helpers.site_dir, 'assets', 'css')
+    FileUtils.mkdir_p(css_dir)
     status_file = File.join(css_dir, 'update_status.css')
 
     FileUtils.rm_f(status_file)

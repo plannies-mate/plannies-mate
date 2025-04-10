@@ -27,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sun, 06 Apr 2025 14:38:21 GMT
+      - Thu, 10 Apr 2025 18:51:11 GMT
       Content-Type:
       - text/plain
       Content-Length:
@@ -66,7 +66,7 @@ http_interactions:
         Disallow: /geocode_queries
 
 
-  recorded_at: Sun, 06 Apr 2025 14:38:21 GMT
+  recorded_at: Thu, 10 Apr 2025 18:51:11 GMT
 - request:
     method: get
     uri: https://www.planningalerts.org.au/authorities
@@ -94,7 +94,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sun, 06 Apr 2025 14:38:21 GMT
+      - Thu, 10 Apr 2025 18:51:11 GMT
       Content-Type:
       - text/html; charset=utf-8
       Transfer-Encoding:
@@ -120,16 +120,16 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"2869f9e65db3f48f0c0c9081e2ac24da"
+      - W/"d6c74e254d93e7955d70f5503f817067"
       Cache-Control:
       - max-age=0, private, must-revalidate
       Set-Cookie:
-      - _planningalerts_app_session=lIPSgechqRAsgXawWWIXAC3q7Y84XhqMaw4eYr%2FIBuiigUgJw9u7tpJaOa9NvbLKqvRvbDon9AN%2BaJFax%2B32NpGLIMXvijNk0MxLUdpVcBXocR0s1JotLH74ey4RtGeBQtZnKzBQsfx1L1U0NVSUywQZDwvHoDxHmMqez2oKWYofw%2F%2B1AHZeCeL8%2FOOnrF%2FxvwYD3mG9C5fwjLi0ZVy%2F%2BlMPyLtMCyozgMFsdY6Bctl0z0hVsr2bEoc1aw%3D%3D--e6fKmNEsS9IGN7gI--mRjEsH52zdVwo9hnRxdf%2BQ%3D%3D;
+      - _planningalerts_app_session=0d0GDFmyWpIrFPxzK0fuL%2BTN8QQh8UYZR%2Fpk6LQPDKja02Dwlwz7xU3FlrJngaWTIlfLwIOosbNJ2aLhQp5I1ostjMRsyKjEe%2FKU2MtaYy2rRleSWhokcL4MbZSP47Rzw0AFIOeSZExBhYxOh44zAT%2F29Bm2OwHUDlq3AbJSFX7o85NJi5rvTI6YEY8WB8ryA5%2FYYe3IxRvODNyJIyC5IdwGgWvgPb6h885BN1zwMhGdgOLGId2MVEh65w%3D%3D--Z%2BN41xiGTUOl6Rfu--bvK6FENRtRYiqOf7xq%2F2rA%3D%3D;
         path=/; secure; httponly; samesite=lax
       X-Request-Id:
-      - 3a8ea0c8-f588-4185-a642-0885eb8ce853
+      - 7b46306f-bba5-4ba4-ba5a-83a1c82b402c
       X-Runtime:
-      - '0.310680'
+      - '0.323857'
       Strict-Transport-Security:
       - max-age=3600; includeSubDomains
     body:
@@ -634,9 +634,8 @@ http_interactions:
         Council</a>\n  </td>\n  <td>\n    68605\n  </td>\n</tr>\n<tr>\n  <td>\n    NSW\n
         \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
         focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/weddin\">Weddin
-        Shire Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
-        broken</div>\n  </td>\n  <td>\n    3608\n  </td>\n</tr>\n<tr>\n  <td>\n    NSW\n
-        \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
+        Shire Council</a>\n  </td>\n  <td>\n    3608\n  </td>\n</tr>\n<tr>\n  <td>\n
+        \   NSW\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
         focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/willoughby\">Willoughby
         City Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
         broken</div>\n  </td>\n  <td>\n    75613\n  </td>\n</tr>\n<tr>\n  <td>\n    NSW\n
@@ -950,10 +949,10 @@ http_interactions:
         \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
         hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
         underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/south_gippsland_shire\">South
-        Gippsland Shire Council</a>\n  </td>\n  <td>\n    30577\n  </td>\n</tr>\n<tr>\n
-        \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
-        hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
-        underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/spear_victoria\">Streamlined
+        Gippsland Shire Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
+        broken</div>\n  </td>\n  <td>\n    30577\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
+        \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
+        focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/spear_victoria\">Streamlined
         Planning through Electronic Applications and Referrals</a>\n  </td>\n  <td>\n
         \   \n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n
         \   <a class=\"text-fuchsia hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow
@@ -962,10 +961,10 @@ http_interactions:
         \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
         hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
         underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/swan_hill\">Swan
-        Hill Rural City Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
-        broken</div>\n  </td>\n  <td>\n    21403\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
-        \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
-        focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/vcglr\">Victorian
+        Hill Rural City Council</a>\n  </td>\n  <td>\n    21403\n  </td>\n</tr>\n<tr>\n
+        \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
+        hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
+        underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/vcglr\">Victorian
         Gambling and Casino Control Commission</a>\n  </td>\n  <td>\n    \n  </td>\n</tr>\n<tr>\n
         \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
         hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
@@ -1095,6 +1094,6 @@ http_interactions:
         \         <img alt=\"ACNC Registered Charity Tick\" src=\"https://www.planningalerts.org.au/assets/charity-tick-80979eb45dfd041a327fa3957ebb1d3de7caaaca1431f7732583d1742c928a12.svg\"
         width=\"100\" height=\"100\" />\n</a>      </div>\n    </div>\n\n</div>\n</footer>\n\n
         \ </body>\n</html>\n"
-  recorded_at: Sun, 06 Apr 2025 14:38:21 GMT
+  recorded_at: Thu, 10 Apr 2025 18:51:11 GMT
 recorded_with: VCR 6.3.1
 ...

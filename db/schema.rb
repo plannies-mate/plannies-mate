@@ -166,6 +166,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.string "default_branch", default: "master", null: false
     t.string "scraper_path"
     t.string "authorities_path"
+    t.date "delisted_on"
     t.integer "broken_score"
     t.boolean "needs_import", default: true, null: false
     t.boolean "needs_generate", default: true, null: false

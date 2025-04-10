@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# :nocov:
 namespace :spec do
   namespace :vcr do
     desc 'Clobber VCR cassettes so next spec run will re-record them'
@@ -12,3 +13,4 @@ namespace :spec do
     end
   end
 end
+# :nocov:

@@ -23,6 +23,10 @@ RSpec.describe PullRequestsImporter do
 
       # Assert that at least one PR in `prs` has a non-nil issue
       prs_have_issues = prs.any? { |pr| pr.issue.present? }
+      puts "DEBUG prs: #{prs.map(&:attributes).to_yaml}" unless prs_have_issues
+      # title: Added Burwood Council (ex civica)
+      # title: Fix many broken authorities, add debugging tools and reports, update to heroku-18
+      #     platform, and much more ... [Rejected Ben Hur]
       puts "DEBUG ISSUES: #{Issue.pluck(:title).to_yaml}" unless prs_have_issues
       expect(prs_have_issues).to be true
     end

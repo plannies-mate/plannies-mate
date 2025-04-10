@@ -12,8 +12,8 @@ namespace :import do
 
   desc 'Import planning authority list from PlanningAlerts'
   task authorities: :singleton do
-    authorities_scraper = AuthoritiesImporter.new
-    authorities_scraper.import
+    authorities_importer = AuthoritiesImporter.new
+    authorities_importer.import
   end
 
   desc 'Import Open Issues'
@@ -37,7 +37,7 @@ namespace :import do
     puts "  - Updated: #{result[:updated]}"
     puts "  - Errors: #{result[:errors]}"
 
-    #Rake::Task['pull_requests:update_metrics'].invoke if result[:imported] > 0 || result[:updated] > 0
+    # Rake::Task['pull_requests:update_metrics'].invoke if result[:imported] > 0 || result[:updated] > 0
   end
 
   desc 'Import historical coverage data from Wayback Machine'

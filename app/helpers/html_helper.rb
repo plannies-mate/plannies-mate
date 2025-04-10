@@ -32,25 +32,26 @@ module HtmlHelper
   end
 
   def authority_status_class(authority)
-    if authority.mine?
-      'status-mine'
-    elsif authority.open_pull_requests?
-      'status-pull-request'
-    elsif authority.others?
-      if authority.blocked?
-        'status-blocked'
-      else
-        'status-others'
-      end
-    elsif authority.last_received || authority.possibly_broken?
-      if authority.blocked?
-        'status-blocked'
-      else
-        'status-warning'
-      end
-    else
-      'status-ok'
-    end
+    status_class = if authority.mine?
+                     'status-mine'
+                   elsif authority.open_pull_requests?
+                     'status-pull-request'
+                   elsif authority.others?
+                     if authority.blocked?
+                       'status-blocked'
+                     else
+                       'status-others'
+                     end
+                   elsif authority.last_received || authority.possibly_broken?
+                     if authority.blocked?
+                       'status-blocked'
+                     else
+                       'status-warning'
+                     end
+                   else
+                     'status-ok'
+                   end
+    "authority-status #{status_class}"
   end
 
   def authority_status_title(authority)

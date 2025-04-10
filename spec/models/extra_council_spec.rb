@@ -36,10 +36,12 @@ RSpec.describe ExtraCouncil do
       end
 
       context 'when there are issues with matching names in the system' do
-        let!(:more_issue) { Issue.first.update!(title: "Fix #{extra_council.name}") }
-        let!(:exact_issue) { Issue.last.update!(title: extra_council.name) }
+        let!(:more_issue) { Issue.first.tap { |issue| issue.update!(title: "Fix #{extra_council.name}") } }
+        let!(:exact_issue) { Issue.last.tap { |issue| issue.update!(title: extra_council.name) } }
 
         it 'returns issues that have a name similar to the council name' do
+          expect(more_issue).to be_a(Issue)
+          expect(exact_issue).to be_a(Issue)
           expect(extra_council.issues).to contain_exactly(more_issue, exact_issue)
         end
       end
@@ -55,16 +57,23 @@ RSpec.describe ExtraCouncil do
       end
 
       context 'when there is an exact match for the name' do
-        let!(:authority) { Authority.where(state: 'NSW').first.update!(name: extra_council.name) }
+        let!(:authority) do
+          Authority.where(state: 'NSW').first.tap { |auth| auth.update!(name: extra_council.name) }
+        end
 
         it 'returns the exact matching authority' do
+          expect(authority).to be_a(Authority)
           expect(extra_council.authority).to eq(authority)
         end
       end
 
       context 'when there are similar names but not exact matches' do
-        let!(:best_authority) { Authority.where(state: 'NSW').first.update!(name: "City #{extra_council.name}") }
-        let!(:worst_authority) { Authority.where(state: 'NSW').first.update!(name: "City #{extra_council.name} (NSW)") }
+        let!(:best_authority) do
+          Authority.where(state: 'NSW').first.tap { |auth| auth.update!(name: "City #{extra_council.name}") }
+        end
+        let!(:worst_authority) do
+          Authority.where(state: 'NSW').last.tap { |auth| auth.update!(name: "City #{extra_council.name} (NSW)") }
+        end
 
         # before do
         #   Authority.where(state: 'NSW').first.update!(name: "City #{extra_council.name}")
@@ -72,6 +81,9 @@ RSpec.describe ExtraCouncil do
         # end
 
         it 'returns the best matching authority based on normalized name and name size' do
+          expect(best_authority).to be_a(Authority)
+          expect(worst_authority).to be_a(Authority)
+
           expect(extra_council.authority).to eq(best_authority)
         end
       end

@@ -6,6 +6,7 @@
 #  authorities_path    :string
 #  broken_score        :integer
 #  default_branch      :string           default("master"), not null
+#  delisted_on         :date
 #  name                :string           not null
 #  needs_generate      :boolean          default(TRUE), not null
 #  needs_import        :boolean          default(TRUE), not null
@@ -117,3 +118,9 @@ multiple_technology_one:
   created_at: 2025-03-30
   updated_at: 2025-03-30
 
+casey:
+  name: casey
+  default_branch: master
+  created_at: 2025-03-30
+  updated_at: 2025-03-30
+  delisted_on: 2021-05-15

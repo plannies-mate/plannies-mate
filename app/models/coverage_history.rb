@@ -66,60 +66,37 @@ class CoverageHistory < ApplicationRecord
   end
 
   # Calculate PR coverage percentage (population that will be covered when PRs are accepted)
-  def pr_impact_percentage
-    return 0 if total_population.zero?
-
-    (pr_population.to_f / total_population * 100).round(1)
-  end
+  # def pr_impact_percentage
+  #   return 0 if total_population.zero?
+  #
+  #   (pr_population.to_f / total_population * 100).round(1)
+  # end
 
   # Calculate percentage of broken authorities with PRs in progress
-  def pr_authority_percentage
-    return 0 if broken_authority_count.zero?
-
-    (pr_count.to_f / broken_authority_count * 100).round(1)
-  end
+  # def pr_authority_percentage
+  #   return 0 if broken_authority_count.zero?
+  #
+  #   (pr_count.to_f / broken_authority_count * 100).round(1)
+  # end
 
   # Calculate fixed percentage (population covered by accepted PRs)
-  def fixed_percentage
-    return 0 if total_population.zero?
-
-    (fixed_population.to_f / total_population * 100).round(1)
-  end
+  # def fixed_percentage
+  #   return 0 if total_population.zero?
+  #
+  #   (fixed_population.to_f / total_population * 100).round(1)
+  # end
 
   # Calculate rejected percentage (population affected by rejected PRs)
-  def rejected_percentage
-    return 0 if total_population.zero?
-
-    (rejected_population.to_f / total_population * 100).round(1)
-  end
-
-  # Create a record from authorities fetcher results
-  def self.create_from_authorities(authorities)
-    return nil if authorities.nil? || authorities.empty?
-
-    # Calculate counts and population
-    authority_count = authorities.size
-    broken_count = authorities.count { |a| a['possibly_broken'] }
-
-    # Sum populations, handling nil values
-    total_pop = authorities.sum { |a| a['population'].to_i }
-    broken_pop = authorities.select { |a| a['possibly_broken'] }
-                            .sum { |a| a['population'].to_i }
-
-    # Create the record for today
-    create(
-      recorded_on: Date.today,
-      authority_count: authority_count,
-      broken_authority_count: broken_count,
-      total_population: total_pop,
-      broken_population: broken_pop
-    )
-  end
+  # def rejected_percentage
+  #   return 0 if total_population.zero?
+  #
+  #   (rejected_population.to_f / total_population * 100).round(1)
+  # end
 
   # Update PR impact metrics - delegates to service
-  def self.update_pr_metrics
-    PrMetricsService.update_coverage_history_metrics
-  end
+  # def self.update_pr_metrics
+  #   PrMetricsService.update_coverage_history_metrics
+  # end
 
   # Remove redundant records where three or more consecutive records have identical stats
   def self.optimize_storage
@@ -163,6 +140,8 @@ class CoverageHistory < ApplicationRecord
       rec1.fixed_count == rec2.fixed_count &&
       rec1.fixed_population == rec2.fixed_population &&
       rec1.rejected_count == rec2.rejected_count &&
-      rec1.rejected_population == rec2.rejected_population
+      rec1.rejected_population == rec2.rejected_population &&
+      rec1.broken_authority_ids.sort == rec2.broken_authority_ids.sort
+    # does NOT compare wayback_url!
   end
 end

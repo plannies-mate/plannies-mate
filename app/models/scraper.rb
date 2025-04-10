@@ -12,6 +12,7 @@ require_relative 'application_record'
 #  authorities_path    :string
 #  broken_score        :integer
 #  default_branch      :string           default("master"), not null
+#  delisted_on         :date
 #  name                :string           not null
 #  needs_generate      :boolean          default(TRUE), not null
 #  needs_import        :boolean          default(TRUE), not null
@@ -30,6 +31,8 @@ class Scraper < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   has_many :authorities
+
+  scope :active, -> { where(delisted_on: nil) }
 
   def morph_url(owner = nil)
     self.class.morph_url(owner, name: name || 'nil')
