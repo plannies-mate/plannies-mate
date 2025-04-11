@@ -109,4 +109,20 @@ module HtmlHelper
       'fa-solid fa-check-circle'
     end
   end
+
+  def google_planning_applications_url(council_name)
+    query = [
+      "\"#{council_name}\" DA planning applications AND (ePathway",
+      't1cloud',
+      'eProperty',
+      'civica',
+      'daEnquiryInit',
+      'EPlanning',
+      'XC.Track',
+      'masterview',
+      'atdis)',
+    ].join(' OR ')
+    encoded_query = URI.encode_www_form_component(query)
+    "https://www.google.com/search?q=#{encoded_query}"
+  end
 end

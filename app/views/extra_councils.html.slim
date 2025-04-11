@@ -32,6 +32,7 @@
               th.right Pop K
               th Matching Issues
               th Authority
+              th Links
           tbody
             - councils.each do |council|
               tr
@@ -60,6 +61,9 @@
                       = council.authority.name
                     '
                     = authority.delisted_on&.strftime('[Delisted %b %Y]')
+                td
+                  a href=google_planning_applications_url(council.name) target="_blank" title="Google Planning Applications"
+                    i.fa-brands.fa-google
 
         .section-footer
           p Total: #{councils.size} councils, Est pop #{number_with_delimiter councils.map(&:population_k).sum} K
