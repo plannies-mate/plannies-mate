@@ -6,7 +6,7 @@ require_relative '../helpers/application_helper'
 require_relative '../models/coverage_history'
 require_relative 'generator_base'
 
-# Generates `site_dir/coverage_history.html` with graph of authority coverage over time
+# Generates `site_dir/coverage-history.html` with graph of authority coverage over time
 class CoverageHistoryGenerator
   extend GeneratorBase
   extend ApplicationHelper
@@ -53,7 +53,7 @@ class CoverageHistoryGenerator
       labels: labels,
     }
 
-    locals[:output_file] = render_to_file('coverage_history', 'coverage_history', locals)
+    locals[:output_file] = render_to_file('coverage_history', 'coverage-history', locals)
     log "Generated coverage history page with #{histories.size} data points"
     locals
   end
