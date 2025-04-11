@@ -60,6 +60,7 @@ class Authority < ApplicationRecord
   scope :broken, -> { where(possibly_broken: true) }
 
   scope :active, -> { where(delisted_on: nil) }
+  scope :delisted, -> { where.not(delisted_on: nil) }
 
   # Format for display in UI
   def to_s

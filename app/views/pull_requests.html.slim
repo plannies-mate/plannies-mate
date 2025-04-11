@@ -2,7 +2,7 @@ main.wide-container
   section.content-section
     .section-header
       h2
-        i.fas.fa-code-pull-request
+        i.fa-solid.fa-code-pull-request
         |  Pull Requests
       p.subtitle
         ' GitHub pull requests created by #{Constants::MY_GITHUB_NAME}
@@ -45,21 +45,21 @@ main.wide-container
               td
                 - if pr.locked?
                   span.status-warning
-                    i.fas.fa-lock
+                    i.fa-solid.fa-lock
                     '  Locked
                 - if pr.open?
                   span
-                    i.fas.fa-clock
+                    i.fa-solid.fa-clock
                     |  Open
                 - else
                   - if pr.merged?
                     span.status-ok
-                      i.fas.fa-check
+                      i.fa-solid.fa-check
                       ' Merged
                       = pr.merged_at.strftime('%b %Y')
                   - else
                     span.status-warning
-                      i.fas.fa-times
+                      i.fa-solid.fa-times
                       ' Closed
                       = pr.closed_at.strftime('%b %Y')
 
@@ -75,7 +75,7 @@ main.wide-container
               td = format_date(pr.created_at)
               td
                 a href="#{pr.html_url}" target="_blank" title="View Pull Request on GitHub"
-                  i.fas.fa-code-pull-request
+                  i.fa-solid.fa-code-pull-request
                 '
                 - if pr.scraper
                   a href="#{pr.scraper.morph_url}" target="_blank" title="View scraper on morph.io"

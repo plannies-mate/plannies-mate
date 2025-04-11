@@ -2,7 +2,7 @@ main.container
   section.content-section
     .section-header
       h2
-        i.fas.fa-code-pull-request
+        i.fa-solid.fa-code-pull-request
         |  #{pull_request.title}
       p.subtitle Edit Pull Request ##{pull_request.id}
     
@@ -31,15 +31,15 @@ main.container
             td
               - if pull_request.open?
                 span
-                  i.fas.fa-clock
+                  i.fa-solid.fa-clock
                   |  Open
               - elsif pull_request.merged?
                 span.status-ok
-                  i.fas.fa-check
+                  i.fa-solid.fa-check
                   |  Merged
               - else
                 span.status-warning
-                  i.fas.fa-times
+                  i.fa-solid.fa-times
                   |  Closed
 
           tr

@@ -32,6 +32,20 @@
   color: #666;
 }
 
+.float-right {
+  float: right;
+  margin-top: -2.5rem; /* Adjust this value to vertically align with the title */
+}
+
+@media (max-width: 768px) {
+  .float-right {
+    float: none;
+    margin-top: 0.5rem;
+    display: block;
+    width: fit-content;
+  }
+}
+
 .table-container {
   overflow-x: auto;
   margin-bottom: 1.5rem;

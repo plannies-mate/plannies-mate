@@ -24,14 +24,25 @@ class AuthoritiesGenerator
     locals
   end
 
+  def self.generate_delisted
+    authorities = Authority.delisted.sort_by do |a|
+      [a.delisted_on, a.state, a.name.downcase]
+    end
+    locals = { authorities: authorities }
+
+    locals[:output_file] =
+      render_to_file('authorities_delisted', 'authorities-delisted', locals)
+    log "Generated authorities delisted index page with #{authorities.size} authorities"
+    locals
+  end
+
   def self.generate_extra_councils
     councils_by_state = {}
     states = ExtraCouncil.states
     states.each_key do |state|
       councils_by_state[state] =
         ExtraCouncil.where(state: state)
-                    .sort_by { |c| c.name.downcase }
-                    .reject(&:authority)
+                    .sort_by { |c| [c.population_k ? -c.population_k : 0, c.name.downcase] }
     end
     pops = councils_by_state.values.map { |cs| cs.map(&:population_k) }.flatten.compact.sort
     # highlight the top 10%

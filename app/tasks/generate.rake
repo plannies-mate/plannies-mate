@@ -7,7 +7,8 @@ require_relative '../generators/scraper_generator'
 
 namespace :generate do
   desc 'Generate all reports'
-  task all: %i[singleton roundup:flag_updating content authorities authority_pages scrapers scraper_pages pull_requests roundup:flag_finished] do # coverage_history
+  task all: %i[singleton roundup:flag_updating content authorities authority_pages scrapers scraper_pages pull_requests
+               coverage_history roundup:flag_finished] do
     puts 'All reports generated successfully'
   end
 
@@ -20,6 +21,7 @@ namespace :generate do
   desc 'Generate authorities existing and new index page'
   task :authorities do
     AuthoritiesGenerator.generate_existing
+    AuthoritiesGenerator.generate_delisted
     AuthoritiesGenerator.generate_extra_councils
   end
 

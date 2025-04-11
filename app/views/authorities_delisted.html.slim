@@ -1,0 +1,41 @@
+main.wide-container
+  section.content-section
+    .section-header
+      h2
+        i.fa-solid.fa-building-circle-xmark
+        |  Delisted Authorities
+      p.subtitle Old Planning authorities that are no longer listed in Australia
+      a.button.float-right href="/authorities"
+        i.fa-solid.fa-building
+        |  View Active Authorities
+    .table-container
+      table.sortable.sticky-header.data-table
+        thead
+          tr
+            th Added On
+            th Delisted On
+            th Authority
+            th State
+            th.right Pop K
+            th Links
+        tbody
+          - authorities.each do |authority|
+            tr
+              td = authority.added_on&.strftime('%b %Y')
+              td = authority.delisted_on.strftime('%b %Y')
+              td = authority.name
+              td = authority.state
+              td.right #{number_with_delimiter((authority.population / 1000.0).round) if authority.population}
+              td
+                a href="#{authority.authorities_url}" target="_blank" title="Planning Alerts Details"
+                  img src="/assets/images/PA-16x16.png" alt="PA icon"
+                '
+                - if authority.scraper
+                  a href="#{authority.scraper.morph_url}" target="_blank" title="View scraper on morph.io"
+                    span.morph-icon
+                  '
+                  a href="#{authority.scraper.github_url}" target="_blank" title="View scraper on GitHub"
+                    i.fa-solid.fa-code
+    .section-footer
+      p Total: #{authorities.size} authorities, #{summarize_authorities authorities}
+

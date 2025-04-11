@@ -27,6 +27,19 @@ RSpec.describe AuthoritiesGenerator do
     end
   end
 
+  describe '.generate_delisted' do
+    it 'generates an authorities delisted index page' do
+      # Call the actual generator
+      result = described_class.generate_delisted
+
+      # Check the output file exists
+      expect(File.exist?(result[:output_file])).to be true
+
+      # Check the result contains expected data
+      expect(result).to include(:authorities)
+    end
+  end
+
   describe '.generate_extra_councils' do
     it 'generates extra councils index page' do
       # Call the actual generator

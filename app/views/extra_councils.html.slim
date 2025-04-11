@@ -4,7 +4,7 @@
     section.content-section
       .section-header
         h2
-          i.fas.fa-map-marked-alt
+          i.fa-solid.fa-map-marked-alt
           |  Extra #{state} Councils
         p.subtitle
           ' Extra councils we don't or didn't have scrapers for, sourced from
@@ -13,11 +13,16 @@
         p
           ' Note
           ul
-            li population is an Estimate from an AI - take it with a pinch or a kg of salt as needed ;) [Below 1K is listed as 1]
+            li
+              ' population is an Estimate from an AI - take it with a pinch or a kg of salt as needed ;)
+              ' [Below 1K is listed as 0]
             li Some of these may be covered by other data sources
             li
-              ' Focus first on the top 10% population across all states (>= #{significant_population_k} K) in
+              ' The top 10% most populated councils (>= #{significant_population_k} K) are in
               b bold
+            li
+              ' As scrapers are added and deployed for these councils they will show up in the "Authority"
+              ' column assuming the name is identical
 
       .table-container
         table.sortable.sticky-header.data-table
@@ -26,6 +31,7 @@
               th Name
               th.right Pop K
               th Matching Issues
+              th Authority
           tbody
             - councils.each do |council|
               tr
@@ -48,6 +54,12 @@
                       => issue.title
                       ' #
                       = issue.number
+                td
+                  - if council.authority
+                    a href=path_for(council.authority)
+                      = council.authority.name
+                    '
+                    = authority.delisted_on&.strftime('[Delisted %b %Y]')
 
         .section-footer
           p Total: #{councils.size} councils, Est pop #{number_with_delimiter councils.map(&:population_k).sum} K
