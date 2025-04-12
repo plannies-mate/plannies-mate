@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'json'
+
 # Model to track historical coverage statistics from PlanningAlerts
 #
 # == Schema Information
@@ -8,15 +10,10 @@
 #
 #  id                     :integer          not null, primary key
 #  authority_count        :integer          default(0), not null
+#  authority_stats        :json             not null
 #  broken_authority_count :integer          default(0), not null
 #  broken_population      :integer          default(0), not null
-#  fixed_count            :integer          default(0), not null
-#  fixed_population       :integer          default(0), not null
-#  pr_count               :integer          default(0), not null
-#  pr_population          :integer          default(0), not null
 #  recorded_on            :date             not null
-#  rejected_count         :integer          default(0), not null
-#  rejected_population    :integer          default(0), not null
 #  total_population       :integer          default(0), not null
 #  wayback_url            :string
 #  created_at             :datetime         not null
@@ -32,17 +29,15 @@ class CoverageHistory < ApplicationRecord
                           class_name: 'Authority',
                           join_table: 'broken_authority_histories'
 
+  # Serialize the JSON column
+  # serialize :authority_stats, coder: JSON
+  after_initialize :set_default_authority_stats, if: :new_record?
+
   validates :recorded_on, presence: true, uniqueness: true
   validates :authority_count, numericality: { greater_than_or_equal_to: 0 }
   validates :broken_authority_count, numericality: { greater_than_or_equal_to: 0 }
   validates :total_population, numericality: { greater_than_or_equal_to: 0 }
   validates :broken_population, numericality: { greater_than_or_equal_to: 0 }
-  validates :pr_count, numericality: { greater_than_or_equal_to: 0 }
-  validates :pr_population, numericality: { greater_than_or_equal_to: 0 }
-  validates :fixed_count, numericality: { greater_than_or_equal_to: 0 }
-  validates :fixed_population, numericality: { greater_than_or_equal_to: 0 }
-  validates :rejected_count, numericality: { greater_than_or_equal_to: 0 }
-  validates :rejected_population, numericality: { greater_than_or_equal_to: 0 }
 
   # Calculate percentage of authorities that are broken
   def broken_authority_percentage
@@ -64,39 +59,6 @@ class CoverageHistory < ApplicationRecord
 
     ((total_population - broken_population).to_f / total_population * 100).round(1)
   end
-
-  # Calculate PR coverage percentage (population that will be covered when PRs are accepted)
-  # def pr_impact_percentage
-  #   return 0 if total_population.zero?
-  #
-  #   (pr_population.to_f / total_population * 100).round(1)
-  # end
-
-  # Calculate percentage of broken authorities with PRs in progress
-  # def pr_authority_percentage
-  #   return 0 if broken_authority_count.zero?
-  #
-  #   (pr_count.to_f / broken_authority_count * 100).round(1)
-  # end
-
-  # Calculate fixed percentage (population covered by accepted PRs)
-  # def fixed_percentage
-  #   return 0 if total_population.zero?
-  #
-  #   (fixed_population.to_f / total_population * 100).round(1)
-  # end
-
-  # Calculate rejected percentage (population affected by rejected PRs)
-  # def rejected_percentage
-  #   return 0 if total_population.zero?
-  #
-  #   (rejected_population.to_f / total_population * 100).round(1)
-  # end
-
-  # Update PR impact metrics - delegates to service
-  # def self.update_pr_metrics
-  #   PrMetricsService.update_coverage_history_metrics
-  # end
 
   # Remove redundant records where three or more consecutive records have identical stats
   def self.optimize_storage
@@ -135,13 +97,13 @@ class CoverageHistory < ApplicationRecord
       rec1.broken_authority_count == rec2.broken_authority_count &&
       rec1.total_population == rec2.total_population &&
       rec1.broken_population == rec2.broken_population &&
-      rec1.pr_count == rec2.pr_count &&
-      rec1.pr_population == rec2.pr_population &&
-      rec1.fixed_count == rec2.fixed_count &&
-      rec1.fixed_population == rec2.fixed_population &&
-      rec1.rejected_count == rec2.rejected_count &&
-      rec1.rejected_population == rec2.rejected_population &&
       rec1.broken_authority_ids.sort == rec2.broken_authority_ids.sort
     # does NOT compare wayback_url!
+  end
+
+  private
+
+  def set_default_authority_stats
+    self.authority_stats ||= {}
   end
 end

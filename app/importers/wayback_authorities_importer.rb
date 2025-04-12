@@ -125,13 +125,6 @@ class WaybackAuthoritiesImporter
         puts "#{status}: #{broken_authority.inspect}"
         record.broken_authorities << auth if auth.persisted?
       end
-      # FIXME: Calculate
-      # fixed_count
-      # fixed_population
-      # pr_count
-      # pr_population
-      # rejected_count
-      # rejected_population
     end
     record
   end

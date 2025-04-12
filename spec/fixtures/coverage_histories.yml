@@ -4,15 +4,10 @@
 #
 #  id                     :integer          not null, primary key
 #  authority_count        :integer          default(0), not null
+#  authority_stats        :json             not null
 #  broken_authority_count :integer          default(0), not null
 #  broken_population      :integer          default(0), not null
-#  fixed_count            :integer          default(0), not null
-#  fixed_population       :integer          default(0), not null
-#  pr_count               :integer          default(0), not null
-#  pr_population          :integer          default(0), not null
 #  recorded_on            :date             not null
-#  rejected_count         :integer          default(0), not null
-#  rejected_population    :integer          default(0), not null
 #  total_population       :integer          default(0), not null
 #  wayback_url            :string
 #  created_at             :datetime         not null
@@ -32,12 +27,7 @@ recent:
   broken_authority_count: 32
   total_population: 23450000
   broken_population: 4560000
-  pr_count: 10
-  pr_population: 1500000
-  fixed_count: 5
-  fixed_population: 750000
-  rejected_count: 2
-  rejected_population: 250000
+  authority_stats: { }
   created_at: 2025-03-15 00:00:00
   updated_at: 2025-03-15 00:00:00
 
@@ -47,12 +37,7 @@ previous:
   broken_authority_count: 35
   total_population: 23450000
   broken_population: 5100000
-  pr_count: 8
-  pr_population: 1200000
-  fixed_count: 3
-  fixed_population: 500000
-  rejected_count: 2
-  rejected_population: 250000
+  authority_stats: { }
   created_at: 2025-03-08 00:00:00
   updated_at: 2025-03-08 00:00:00
   wayback_url: https://web.archive.org/web/20250328093946/https://www.planningalerts.org.au/authorities
@@ -64,12 +49,7 @@ older:
   broken_authority_count: 40
   total_population: 23200000
   broken_population: 6300000
-  pr_count: 6
-  pr_population: 900000
-  fixed_count: 1
-  fixed_population: 150000
-  rejected_count: 1
-  rejected_population: 100000
+  authority_stats: { }
   created_at: 2025-02-01 00:00:00
   updated_at: 2025-02-01 00:00:00
   wayback_url: https://web.archive.org/web/20250202115601/https://www.planningalerts.org.au/authorities
@@ -81,12 +61,7 @@ historical:
   broken_authority_count: 38
   total_population: 22900000
   broken_population: 5900000
-  pr_count: 0
-  pr_population: 0
-  fixed_count: 0
-  fixed_population: 0
-  rejected_count: 0
-  rejected_population: 0
+  authority_stats: { }
   created_at: 2024-03-15 00:00:00
   updated_at: 2024-03-15 00:00:00
   wayback_url: https://web.archive.org/web/20250316005813/https://www.planningalerts.org.au/authorities
@@ -98,12 +73,7 @@ identical1:
   broken_authority_count: 30
   total_population: 22500000
   broken_population: 4800000
-  pr_count: 0
-  pr_population: 0
-  fixed_count: 0
-  fixed_population: 0
-  rejected_count: 0
-  rejected_population: 0
+  authority_stats: { }
   created_at: 2024-01-01 00:00:00
   updated_at: 2024-01-01 00:00:00
   wayback_url: https://web.archive.org/web/20240101005813/https://www.planningalerts.org.au/authorities
@@ -114,12 +84,7 @@ identical2:
   broken_authority_count: 30
   total_population: 22500000
   broken_population: 4800000
-  pr_count: 0
-  pr_population: 0
-  fixed_count: 0
-  fixed_population: 0
-  rejected_count: 0
-  rejected_population: 0
+  authority_stats: { }
   created_at: 2024-01-02 00:00:00
   updated_at: 2024-01-02 00:00:00
   wayback_url: https://web.archive.org/web/20240102005813/https://www.planningalerts.org.au/authorities
@@ -130,12 +95,7 @@ identical3:
   broken_authority_count: 30
   total_population: 22500000
   broken_population: 4800000
-  pr_count: 0
-  pr_population: 0
-  fixed_count: 0
-  fixed_population: 0
-  rejected_count: 0
-  rejected_population: 0
+  authority_stats: { }
   created_at: 2024-01-03 00:00:00
   updated_at: 2024-01-03 00:00:00
   wayback_url: https://web.archive.org/web/20240103005813/https://www.planningalerts.org.au/authorities

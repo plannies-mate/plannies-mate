@@ -19,17 +19,7 @@ main.container
             h4 Working Authorities
             .stat-value #{(100 - recent.broken_authority_percentage).round(1)}%
             .stat-desc #{recent.authority_count - recent.broken_authority_count} of #{recent.authority_count} authorities
-          
-          .stat-item
-            h4 PRs in Progress
-            .stat-value #{recent.pr_count}
-            .stat-desc Covering #{number_with_delimiter(recent.pr_population)} people
-          
-          .stat-item
-            h4 Fixed by PRs
-            .stat-value #{recent.fixed_count}
-            .stat-desc Covering #{number_with_delimiter(recent.fixed_population)} people
-    
+
     .chart-container
       h3 Historical Coverage Trends
       canvas#coverageChart
@@ -50,10 +40,6 @@ main.container
             th Population
             th Broken Population
             th % Coverage
-            th PRs
-            th PR Impact
-            th Fixed
-            th Fixed Impact
         tbody
           - histories.sort_by(&:recorded_on).reverse.each do |history|
             tr
@@ -64,11 +50,7 @@ main.container
               td= number_with_delimiter(history.total_population)
               td= number_with_delimiter(history.broken_population)
               td= history.coverage_percentage
-              td= history.pr_count
-              td= number_with_delimiter(history.pr_population)
-              td= history.fixed_count
-              td= number_with_delimiter(history.fixed_population)
-  
+
   // JavaScript for Charts
   javascript:
     document.addEventListener('DOMContentLoaded', function() {

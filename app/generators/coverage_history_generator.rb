@@ -21,24 +21,17 @@ class CoverageHistoryGenerator
     chart_data = prepare_chart_data(histories)
     datasets = [
       {
-        label: 'PRs in Progress',
-        data: histories.map(&:pr_count).to_json,
+        label: 'Broken Population',
+        data: histories.map(&:broken_population).to_json,
         backgroundColor: 'rgba(54, 162, 235, 0.5)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
       },
       {
-        label: 'Fixed by PRs',
-        data: histories.map(&:fixed_count).to_json,
+        label: 'Total Population',
+        data: histories.map(&:total_population).to_json,
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
         borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Rejected PRs',
-        data: histories.map(&:rejected_count).to_json,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
       },
     ]
@@ -53,7 +46,7 @@ class CoverageHistoryGenerator
       labels: labels,
     }
 
-    locals[:output_file] = render_to_file('coverage_history', 'coverage_history', locals)
+    locals[:output_file] = render_to_file('coverage_history', 'coverage-history', locals)
     log "Generated coverage history page with #{histories.size} data points"
     locals
   end

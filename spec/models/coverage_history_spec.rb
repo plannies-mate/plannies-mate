@@ -6,15 +6,10 @@
 #
 #  id                     :integer          not null, primary key
 #  authority_count        :integer          default(0), not null
+#  authority_stats        :json             not null
 #  broken_authority_count :integer          default(0), not null
 #  broken_population      :integer          default(0), not null
-#  fixed_count            :integer          default(0), not null
-#  fixed_population       :integer          default(0), not null
-#  pr_count               :integer          default(0), not null
-#  pr_population          :integer          default(0), not null
 #  recorded_on            :date             not null
-#  rejected_count         :integer          default(0), not null
-#  rejected_population    :integer          default(0), not null
 #  total_population       :integer          default(0), not null
 #  wayback_url            :string
 #  created_at             :datetime         not null

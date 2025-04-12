@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_13_002902) do
   create_table "authorities", force: :cascade do |t|
     t.string "short_name", null: false
     t.string "state", limit: 3
@@ -67,14 +67,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.integer "broken_authority_count", default: 0, null: false
     t.integer "total_population", default: 0, null: false
     t.integer "broken_population", default: 0, null: false
-    t.integer "pr_count", default: 0, null: false
-    t.integer "pr_population", default: 0, null: false
-    t.integer "fixed_count", default: 0, null: false
-    t.integer "fixed_population", default: 0, null: false
-    t.integer "rejected_count", default: 0, null: false
-    t.integer "rejected_population", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "authority_stats", default: {}, null: false
     t.index ["recorded_on"], name: "index_coverage_histories_on_recorded_on", unique: true
     t.index ["wayback_url"], name: "index_coverage_histories_on_wayback_url", unique: true
   end
