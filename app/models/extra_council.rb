@@ -38,7 +38,9 @@ class ExtraCouncil
   end
 
   def issues
-    Issue.where('lower(title) LIKE ?', "%#{name.downcase}%")
+    result = Issue.where('lower(title) LIKE ?', "%#{name.downcase}%")
+    result = Issue.where('lower(title) LIKE ?', "%#{self.class.normalize_name name}%") if result.empty?
+    result
   end
 
   def authority
@@ -58,7 +60,7 @@ class ExtraCouncil
 
   def self.normalize_name(name)
     name.downcase
-        .gsub(/\b(city|shire|council|municipality)\b/, '')
+        .gsub(/\b(city|shire|council|municipal|of)\b/, ' ')
         .gsub(/\s+/, ' ')
         .strip
   end
