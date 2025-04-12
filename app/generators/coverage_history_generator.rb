@@ -6,7 +6,7 @@ require_relative '../helpers/application_helper'
 require_relative '../models/coverage_history'
 require_relative 'generator_base'
 
-# Generates `site_dir/coverage_history.html` with graph of authority coverage over time
+# Generates `site_dir/coverage-history.html` with graph of authority coverage over time
 class CoverageHistoryGenerator
   extend GeneratorBase
   extend ApplicationHelper

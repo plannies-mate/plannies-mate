@@ -26,7 +26,7 @@ html lang="en"
 
   body
     .updating-indicator title="No worries, Mate! We should be done in a few minutes!"
-      i.fas.fa-sync-alt.fa-spin
+      i.fa-solid.fa-sync-alt.fa-spin
       | Doing the Hard Yakka
 
     - unless defined?(no_menu) && no_menu
@@ -38,28 +38,28 @@ html lang="en"
           p.subtitle Dev My Scraper
           nav.main-nav
             a href="/"
-              i.fas.fa-home
+              i.fa-solid.fa-home
               |  Home
             / a href="/crikey-whats-that"
-            /   i.fas.fa-magnifying-glass-chart
+            /   i.fa-solid.fa-magnifying-glass-chart
             /   |  Crikey! What's That?
             a href="/authorities"
-              i.fas.fa-building
+              i.fa-solid.fa-building
               |  Authorities
-            / a href="/issues"
-            /   i.fa-regular.fa-circle-dot
-            /   |  Issues
+            a href="/coverage-history"
+              i.fa-regular.fa-chart-line
+              |  Coverage History
             a href="/extra-councils"
-              i.fas.fa-map-marked-alt
+              i.fa-solid.fa-map-marked-alt
               |  Extra Councils
             a href="/pull_requests"
-              i.fas.fa-code-pull-request
+              i.fa-solid.fa-code-pull-request
               |  Pull Requests
             a href="/scrapers"
               i.fa-solid.fa-code
               |  Scrapers
             a.logout-link href="/oauth2/sign_out"
-              i.fas.fa-right-from-bracket
+              i.fa-solid.fa-right-from-bracket
               |  Sign Out
 
     == yield
@@ -74,7 +74,7 @@ html lang="en"
           a.social-link href="https://www.linkedin.com/in/ianheggie/" title="Professional networking"
             i.fab.fa-linkedin
           a.social-link href="https://github.com/plannies-mate/plannies-mate" title="Plannies Mate source code"
-            i.fas.fa-code
+            i.fa-solid.fa-code
           a.social-link href="https://github.com/plannies-mate/plannies-deploy" title="Ansible deployment for Plannies Mate"
             img.ansible-icon src="/assets/images/Ansible-Community-Mark-Black.png" alt="Ansible"
         p
@@ -82,7 +82,7 @@ html lang="en"
           |  Made with
           '
           a.social-link href="https://www.australia.com/en" title="Come and say G'Day!"
-            i.fas.fa-heart
+            i.fa-solid.fa-heart
           '
           ' in Australia at
           - melbourne_time = Time.now.in_time_zone('Australia/Melbourne')
