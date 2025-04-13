@@ -23,7 +23,7 @@ RSpec.describe 'roundup.rake tasks' do
 
   describe 'roundup:all' do
     it 'depends on singleton, import:all and generate:all and outputs a message' do
-      app_helpers.roundup_requested = false
+      app_helpers.roundup_finished!
 
       # First verify the prerequisites
       task = Rake::Task['roundup:all'].dup
@@ -39,11 +39,11 @@ RSpec.describe 'roundup.rake tasks' do
 
   describe 'roundup:if_requested' do
     after do
-      app_helpers.roundup_requested = false
+      app_helpers.roundup_finsiehd!
     end
 
     it 'runs roundup:all when requested' do
-      app_helpers.roundup_requested = true
+      app_helpers.roundup_requested!
 
       # Expect roundup:all to be called
       roundup_all = Rake::Task['roundup:all']
@@ -56,7 +56,7 @@ RSpec.describe 'roundup.rake tasks' do
     end
 
     it 'does not run roundup:all when not requested' do
-      app_helpers.roundup_requested = false
+      app_helpers.roundup_finished!
 
       # Expect roundup:all not to be called
       roundup_all = Rake::Task['roundup:all']

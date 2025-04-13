@@ -19,7 +19,8 @@ RSpec.describe RoundupController do
 
   context 'Without roundup request' do
     before do
-      app_helpers.roundup_requested = false
+      app_helpers.roundup_finished!
+      expect(app_helpers.roundup_requested?).to eq(false)
     end
 
     it 'Updates the request status' do
@@ -27,13 +28,26 @@ RSpec.describe RoundupController do
       post '/'
 
       expect(last_response).to be_redirect
+      expect(app_helpers.roundup_requested?).to eq(true)
+    end
 
-      follow_redirect!
+    it 'Updates the request status and redirects to home when no referer' do
+      expect(app_helpers.roundup_requested?).to eq(false)
+      post '/'
 
-      expect(last_response).to be_ok
-      response = last_response.body
+      expect(last_response).to be_redirect
+      expect(last_response.location).to eq('http://127.0.0.1/')
+    end
 
-      expect(response).to include('Roundup HAS been requested')
+    it 'Updates the request status and redirects to referer when present' do
+      expect(app_helpers.roundup_requested?).to eq(false)
+
+      # Set referer header to simulate coming from the scrapers page
+      header 'REFERER', 'http://127.0.0.1/scrapers'
+      post '/'
+
+      expect(last_response).to be_redirect
+      expect(last_response.location).to eq('http://127.0.0.1/scrapers')
       expect(app_helpers.roundup_requested?).to eq(true)
     end
   end

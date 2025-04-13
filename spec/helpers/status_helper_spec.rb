@@ -52,7 +52,7 @@ RSpec.describe StatusHelper do
   describe '#roundup_requested=' do
     context 'when set to true' do
       it 'creates the request file with timestamp' do
-        class_with_helper.roundup_requested = true
+        class_with_helper.roundup_requested!
         expect(File.exist?(request_file)).to be true
         expect(File.read(request_file)).to match(/\d{4}-\d{2}-\d{2}/)
       end
@@ -64,7 +64,7 @@ RSpec.describe StatusHelper do
       end
 
       it 'removes the request file' do
-        class_with_helper.roundup_requested = false
+        class_with_helper.roundup_finished!
         expect(File.exist?(request_file)).to be false
       end
     end

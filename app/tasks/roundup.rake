@@ -16,26 +16,24 @@ namespace :roundup do
     end
   end
 
-  desc 'Set update status to UPDATING'
-  task :flag_updating do
-    css_dir = File.join(App.app_helpers.site_dir, 'assets', 'css')
-    FileUtils.mkdir_p(css_dir)
-    status_file = File.join(css_dir, 'update_status.css')
-
-    FileUtils.rm_f(status_file)
-    File.symlink('updating.css', status_file)
+  desc 'Set update status to UPDATE REQUESTED'
+  task :request_update do
+    App.app_helpers.roundup_requested!
 
     puts 'Update status set to UPDATING'
   end
 
-  desc 'Set update status to NOT UPDATING'
+  desc 'Set update status to UPDATING'
+  task :flag_updating do
+    App.app_helpers.roundup_updating!
+
+    puts 'Update status set to UPDATING'
+  end
+
+  desc 'Set update status to FINISHED UPDATING'
   task :flag_finished do
-    css_dir = File.join(App.app_helpers.site_dir, 'assets', 'css')
-    status_file = File.join(css_dir, 'update_status.css')
+    App.app_helpers.roundup_finished!
 
-    FileUtils.rm_f(status_file)
-    File.symlink('not_updating.css', status_file)
-
-    puts 'Update status set to NOT UPDATING'
+    puts 'Update status set to FINISHED UPDATING'
   end
 end

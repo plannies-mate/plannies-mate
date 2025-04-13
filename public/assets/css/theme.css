@@ -213,8 +213,7 @@ body {
     position: fixed;
     top: 10px;
     right: 10px;
-    /*display: none;*/
-    display: flex;
+    display: none;
     align-items: center;
     background-color: var(--primary-color, #00843D);
     color: white;
@@ -240,3 +239,5 @@ body {
         opacity: 0.8;
     }
 }
+
+
