@@ -25,9 +25,19 @@ html lang="en"
     meta name="theme-color" content="#00843D"
 
   body
-    .updating-indicator title="No worries, Mate! We should be done in a few minutes!"
-      i.fa-solid.fa-sync-alt.fa-spin
+    .updating-indicator#update-requested title="We'll get to it after smoko!"
+      i.fa-solid.fa-mug-hot
+      | We'll Update After Smoko
+
+    .updating-indicator#update-in-progress title="No worries, Mate! We should be done in a few minutes!"
+      i.fa-solid.fa-arrows-rotate.fa-spin
       | Doing the Hard Yakka
+
+    .updating-indicator#request-update
+      form.update-form action="/app/roundup" method="post"
+        / input type="hidden" name="redirect_to" value="#{request.path}"
+        button.update-request-button type="submit" title="Request update from Github Issues and pull request lists!"
+          i.fa-solid.fa-rotate-right
 
     - unless defined?(no_menu) && no_menu
       header.mini-hero

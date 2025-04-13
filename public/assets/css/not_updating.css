@@ -1,4 +1,4 @@
 /* CSS for when the site is not updating */
-.updating-indicator {
-  display: none;
+.updating-indicator#request-update {
+  display: flex;
 }

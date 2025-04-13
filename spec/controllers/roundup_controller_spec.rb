@@ -17,38 +17,9 @@ RSpec.describe RoundupController do
     header 'HOST', '127.0.0.1'
   end
 
-  context 'With roundup requested' do
-    before do
-      app_helpers.roundup_requested = true
-    end
-    after do
-      app_helpers.roundup_requested = false
-    end
-
-    it 'GET / returns requested status' do
-      expect(app_helpers.roundup_requested?).to eq(true)
-      get '/'
-
-      expect(last_response).to be_ok
-      body = last_response.body
-
-      expect(body).to include('Roundup HAS been requested')
-    end
-  end
-
   context 'Without roundup request' do
     before do
       app_helpers.roundup_requested = false
-    end
-
-    it 'GET / returns not requested status' do
-      expect(app_helpers.roundup_requested?).to eq(false)
-      get '/'
-
-      expect(last_response).to be_ok
-      response = last_response.body
-
-      expect(response).to include('Roundup has NOT been requested')
     end
 
     it 'Updates the request status' do

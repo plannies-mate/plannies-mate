@@ -1,32 +1,6 @@
 /* CSS for when the site is updating */
-.updating-indicator {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  align-items: center;
-  background-color: var(--primary-color, #00843D);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  animation: pulse 2s infinite;
+.updating-indicator#update-in-progress {
+    display: flex;
+    animation: pulse 2s infinite;
 }
 
-.updating-indicator i {
-  margin-right: 6px;
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.8;
-  }
-}
