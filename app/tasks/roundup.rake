@@ -1,26 +1,14 @@
 # frozen_string_literal: true
 
 namespace :roundup do
-  desc 'Roundup everything (import, generate)'
+  desc 'Roundup everything (daily)'
   task all: %i[singleton flag_updating import:all analyze:all generate:all flag_finished] do
     puts 'Finished roundup:all'
   end
 
-  desc 'Roundup if requested'
-  task if_requested: %i[singleton] do
-    if App.app_helpers.roundup_requested?
-      puts 'Running roundup:all task as requested'
-      Rake::Task['roundup:all'].invoke
-    else
-      puts 'No roundup requested'
-    end
-  end
-
-  desc 'Set update status to UPDATE REQUESTED'
-  task :request_update do
-    App.app_helpers.roundup_requested!
-
-    puts 'Update status set to UPDATING'
+  desc 'Roundup changes from github (every 15 minutes)'
+  task github: %i[singleton flag_updating import:github generate:github flag_finished] do
+    puts 'Finished roundup:github'
   end
 
   desc 'Set update status to UPDATING'

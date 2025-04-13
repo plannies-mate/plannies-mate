@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../spec_helper'
-require_relative '../../app/controllers/roundup_controller'
 
 # Load the rake files
 require 'rake'
@@ -37,45 +36,19 @@ RSpec.describe 'roundup.rake tasks' do
     end
   end
 
-  describe 'roundup:if_requested' do
-    after do
-      app_helpers.roundup_finsiehd!
-    end
-
-    it 'runs roundup:all when requested' do
-      app_helpers.roundup_requested!
-
-      # Expect roundup:all to be called
-      roundup_all = Rake::Task['roundup:all']
-      allow(roundup_all).to receive(:invoke)
-      expect(roundup_all).to receive(:invoke)
-
-      task = Rake::Task['roundup:if_requested']
-      task.reenable
-      expect { task.invoke }.to output(/Running roundup:all task as requested/).to_stdout
-    end
-
-    it 'does not run roundup:all when not requested' do
+  describe 'roundup:github' do
+    it 'depends on singleton, import:github and generate:github and outputs a message' do
       app_helpers.roundup_finished!
 
-      # Expect roundup:all not to be called
-      roundup_all = Rake::Task['roundup:all']
-      allow(roundup_all).to receive(:invoke)
-      expect(roundup_all).not_to receive(:invoke)
+      # First verify the prerequisites
+      task = Rake::Task['roundup:github'].dup
+      expected_prereqs = %w[flag_finished flag_updating generate:github import:github singleton]
+      expect(task.prerequisites).to match_array(expected_prereqs)
 
-      task = Rake::Task['roundup:if_requested']
-      task.reenable
-      expect { task.invoke }.to output(/No roundup requested/).to_stdout
-    end
+      # Clear prerequisites from the copy and run
+      task.instance_variable_set(:@prerequisites, [])
 
-    it 'depends on the singleton task' do
-      # Expect roundup:all not to be called
-      allow(Rake::Task['singleton']).to receive(:invoke)
-      expect(Rake::Task['singleton']).not_to receive(:invoke)
-
-      task = Rake::Task['roundup:if_requested']
-      task.reenable
-      task.invoke
+      expect { task.invoke }.to output(/Finished roundup:github/).to_stdout
     end
   end
 end

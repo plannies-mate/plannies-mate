@@ -60,9 +60,10 @@ class IssuesImporter
       types: @type_changed,
     }
     self.class.log "Updated #{@changed} of #{@count} issues and #{changed.inspect}.\n  " \
-                     "#{@has_authority} issues associated with authorities.\n  " \
-                     "Github rate limit remaining: #{@client.rate_limit.remaining}"
+                     "#{@has_authority} issues associated with authorities."
+    self.class.log "Github rate limit remaining: #{@client.rate_limit.remaining}"
     self.class.log "Issues not linked to authority:\n  #{@no_authority.join("\n  ")}"
+    changed
   end
 
   def import_user(gh_user)

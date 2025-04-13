@@ -11,23 +11,15 @@ class PullRequestGenerator
   extend GeneratorBase
   extend ApplicationHelper
 
-  def self.generate(pull_request_id = nil)
-    if pull_request_id
-      # Generate for a specific pull request
-      pull_request = PullRequest.find_by(id: pull_request_id)
-      return nil unless pull_request
-
-      generate_for_pull_request(pull_request)
-    else
-      # Generate for all pull requests
-      output_files = []
-      PullRequest.find_each do |pull_request|
-        result = generate_for_pull_request(pull_request)
-        output_files << result[:output_file] if result
-      end
-
-      { count: output_files.size, output_files: output_files }
+  def self.generate
+    # Generate for all pull requests
+    output_files = []
+    PullRequest.find_each do |pull_request|
+      result = generate_for_pull_request(pull_request)
+      output_files << result[:output_file] if result
     end
+
+    { count: output_files.size, output_files: output_files }
   end
 
   def self.generate_for_pull_request(pull_request)

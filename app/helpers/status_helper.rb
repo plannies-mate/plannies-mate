@@ -11,16 +11,8 @@ module StatusHelper
     File.join(site_dir, 'assets', 'css', 'update_status.css')
   end
 
-  def roundup_requested?
+  def roundup_updating?
     File.exist?(roundup_request_file)
-  end
-
-  def roundup_requested!
-    FileUtils.mkdir_p(File.dirname(roundup_request_file))
-    File.write(roundup_request_file, Time.now.to_s)
-    FileUtils.mkdir_p(File.dirname(update_status_file))
-    FileUtils.rm_f(update_status_file)
-    File.symlink('update_requested.css', update_status_file)
   end
 
   def roundup_updating!

@@ -36,6 +36,16 @@ class AuthoritiesGenerator
     locals
   end
 
+  def self.generate_orphaned
+    issues = Issue.open.orphaned.order(:title)
+    locals = { issues: issues }
+
+    locals[:output_file] =
+      render_to_file('orphaned_issues', 'orphaned-issues', locals)
+    log "Generated orphaned issues index page with #{issues.size} issues"
+    locals
+  end
+
   def self.generate_extra_councils
     councils_by_state = {}
     states = ExtraCouncil.states

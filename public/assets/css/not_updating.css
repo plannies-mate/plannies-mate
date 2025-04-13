@@ -1,21 +1,6 @@
 /* CSS for when the site is not updating */
-.updating-indicator#request-update {
-  background: transparent;
-  display: flex;
+.updating-indicator {
+  display: none;
 }
 
-.update-request-button {
-  background: transparent;
-  color: white;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 8px;
-  transition: transform 0.2s ease;
-}
-
-.update-request-button:hover {
-  transform: rotate(180deg);
-  transition: transform 0.5s ease;
-}
 

@@ -40,6 +40,19 @@ RSpec.describe AuthoritiesGenerator do
     end
   end
 
+  describe '.generate_orphaned' do
+    it 'generates an orphaned issues index page' do
+      # Call the actual generator
+      result = described_class.generate_orphaned
+
+      # Check the output file exists
+      expect(File.exist?(result[:output_file])).to be true
+
+      # Check the result contains expected data
+      expect(result).to include(:issues)
+    end
+  end
+
   describe '.generate_extra_councils' do
     it 'generates extra councils index page' do
       # Call the actual generator

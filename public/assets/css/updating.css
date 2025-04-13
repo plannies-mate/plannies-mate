@@ -1,7 +1,6 @@
 /* CSS for when the site is updating */
-.updating-indicator#update-in-progress {
+.updating-indicator {
     display: flex;
-    animation: pulse 2s infinite;
 }
 
 

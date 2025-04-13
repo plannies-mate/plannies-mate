@@ -30,7 +30,7 @@ RSpec.describe 'analyze rake tasks' do
 
     it 'correctly assigns broken scores to authorities and scrapers' do
       # Execute the rake task
-      Rake::Task['analyze:broken_scores'].invoke
+      Rake::Task['analyze:all'].invoke
 
       # Check that non-broken authorities have zero scores
       working_authorities = Authority.where(possibly_broken: false)

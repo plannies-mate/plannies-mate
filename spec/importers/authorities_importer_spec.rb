@@ -57,13 +57,13 @@ RSpec.describe AuthoritiesImporter do
       # Authority.order(:short_name).each do |authority|
       #   puts "#{authority.short_name} #{authority.name}#{authority.delisted_on ? ' DELISTED' : ''}"
       # end
-      puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
+      # puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
 
       puts '-' * 50, 'NON FORCED IMPORT'
       # Expect pages to all be the same
       @importer.import
 
-      puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
+      # puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
 
       expect(Authority.count).to eq(authority_count - 1)
       expect(Scraper.count).to eq(scraper_count - 1)
@@ -82,7 +82,7 @@ RSpec.describe AuthoritiesImporter do
       HttpCacheEntry.where.not(last_success_at: nil).update_all(last_success_at: 8.days.ago)
       @importer.import
 
-      puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
+      # puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
 
       expect(Authority.count).to eq(authority_count)
       # BadName is not deleted

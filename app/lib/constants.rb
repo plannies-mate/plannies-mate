@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../controllers/roundup_controller'
 require_relative '../controllers/develop_controller'
-require_relative '../controllers/webhooks_controller'
 
 # Application wide constants
 class Constants
@@ -16,8 +14,6 @@ class Constants
   ISSUES_REPO = 'issues'
 
   ROUTES = [
-    { path: '/app/roundup', controller: RoundupController },
-    { path: '/webhooks', controller: WebhooksController },
     { path: '/', controller: DevelopController },
   ].freeze
 end

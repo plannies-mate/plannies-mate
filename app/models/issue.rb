@@ -47,6 +47,7 @@ class Issue < ApplicationRecord
 
   scope :open, -> { where(closed_at: nil) }
   scope :closed, -> { where.not(closed_at: nil) }
+  scope :orphaned, -> { where(authority_id: nil) }
 
   def open?
     closed_at.nil?

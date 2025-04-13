@@ -1,5 +1,0 @@
-/* CSS for when an update has been requested but not yet started */
-.updating-indicator#update-requested {
-    display: flex;
-    animation: pulse 2s infinite;
-}

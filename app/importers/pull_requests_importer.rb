@@ -16,9 +16,8 @@ class PullRequestsImporter
   end
 
   # Import pull requests for the specified GitHub users
-  # @param since [Date] Only fetch PRs updated since this time
   # @return [Hash] Summary of the import
-  def import(since: nil)
+  def import
     @count = @updated = @errors = 0
     org = Constants::PRODUCTION_OWNER
     username = Constants::MY_GITHUB_NAME
@@ -54,6 +53,9 @@ class PullRequestsImporter
     end
 
     self.class.log "Imported #{@count} PRs, updated #{@updated}, encountered #{@errors} errors"
+
+    self.class.log "Github rate limit remaining: #{@client.rate_limit.remaining}"
+
     { imported: @count, updated: @updated, errors: @errors, removed: @removed }
   end
 

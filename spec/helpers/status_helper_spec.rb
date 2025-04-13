@@ -31,42 +31,40 @@ RSpec.describe StatusHelper do
     end
   end
 
-  describe '#roundup_requested?' do
+  describe '#roundup_updating?' do
     context 'when request file exists' do
       before do
         FileUtils.touch(request_file)
       end
 
       it 'returns true' do
-        expect(class_with_helper.roundup_requested?).to be true
+        expect(class_with_helper.roundup_updating?).to be true
       end
     end
 
     context 'when request file does not exist' do
       it 'returns false' do
-        expect(class_with_helper.roundup_requested?).to be false
+        expect(class_with_helper.roundup_updating?).to be false
       end
     end
   end
 
-  describe '#roundup_requested=' do
-    context 'when set to true' do
-      it 'creates the request file with timestamp' do
-        class_with_helper.roundup_requested!
-        expect(File.exist?(request_file)).to be true
-        expect(File.read(request_file)).to match(/\d{4}-\d{2}-\d{2}/)
-      end
+  describe '#roundup_updating!' do
+    it 'creates the request file with timestamp' do
+      class_with_helper.roundup_updating!
+      expect(File.exist?(request_file)).to be true
+      expect(File.read(request_file)).to match(/\d{4}-\d{2}-\d{2}/)
+    end
+  end
+
+  describe '#roundup_finished!' do
+    before do
+      FileUtils.touch(request_file)
     end
 
-    context 'when set to false' do
-      before do
-        FileUtils.touch(request_file)
-      end
-
-      it 'removes the request file' do
-        class_with_helper.roundup_finished!
-        expect(File.exist?(request_file)).to be false
-      end
+    it 'removes the request file' do
+      class_with_helper.roundup_finished!
+      expect(File.exist?(request_file)).to be false
     end
   end
 

@@ -6,9 +6,14 @@ require_relative '../importers/pull_requests_importer'
 
 namespace :import do
   desc 'Import all information from remote sites'
-  task all: %i[singleton authorities issues pull_requests] do
+  task all: %i[singleton authorities github] do
     earliest_history = CoverageHistory.minimum(:recorded_on)
     Rake::Task['import:coverage_history'].invoke if earliest_history.nil? || earliest_history > 2.days.ago
+    puts 'Finished'
+  end
+
+  desc 'Import from GitHub'
+  task github: %i[singleton issues pull_requests] do
     puts 'Finished'
   end
 

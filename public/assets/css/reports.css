@@ -35,6 +35,7 @@
 .float-right {
   float: right;
   margin-top: -2.5rem; /* Adjust this value to vertically align with the title */
+  margin-left: 1rem;
 }
 
 @media (max-width: 768px) {

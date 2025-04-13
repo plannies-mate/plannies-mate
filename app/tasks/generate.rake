@@ -7,8 +7,13 @@ require_relative '../generators/scraper_generator'
 
 namespace :generate do
   desc 'Generate all reports'
-  task all: %i[singleton roundup:flag_updating content authorities authority_pages scrapers scraper_pages pull_requests
-               coverage_history roundup:flag_finished] do
+  task all: %i[singleton roundup:flag_updating content coverage_history github roundup:flag_finished] do
+    puts 'All reports generated successfully'
+  end
+
+  desc 'Generate reports that are affected by github import'
+  task github: %i[singleton roundup:flag_updating authorities authority_pages scrapers scraper_pages pull_requests
+                  roundup:flag_finished] do
     puts 'All reports generated successfully'
   end
 
@@ -22,6 +27,7 @@ namespace :generate do
   task :authorities do
     AuthoritiesGenerator.generate_existing
     AuthoritiesGenerator.generate_delisted
+    AuthoritiesGenerator.generate_orphaned
     AuthoritiesGenerator.generate_extra_councils
   end
 
@@ -50,15 +56,10 @@ namespace :generate do
   task pull_requests: :singleton do
     puts 'Generating static pages for pull requests...'
 
-    # Generate index page
     index_result = PullRequestsGenerator.generate
 
     if index_result
       puts "Generated pull requests index page with #{index_result[:pull_requests].size} pull requests"
-
-      # Generate individual pages
-      detail_result = PullRequestGenerator.generate
-      puts "Generated #{detail_result[:count]} individual pull request pages"
     else
       puts 'No pull requests found to generate pages'
     end

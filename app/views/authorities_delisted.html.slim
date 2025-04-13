@@ -3,11 +3,15 @@ main.wide-container
     .section-header
       h2
         i.fa-solid.fa-building-circle-xmark
-        |  Delisted Authorities
+        |<  Delisted Authorities
       p.subtitle Old Planning authorities that are no longer listed in Australia
       a.button.float-right href="/authorities"
         i.fa-solid.fa-building
-        |  View Active Authorities
+        |<  Active Authorities
+      '
+      a.button.float-right href="/orphaned-issues"
+        i.fa-solid.fa-link-slash
+        |<  Orphaned Issues
     .table-container
       table.sortable.sticky-header.data-table
         thead

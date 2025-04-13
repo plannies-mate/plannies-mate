@@ -1,0 +1,55 @@
+main.wide-container
+  section.content-section
+    .section-header
+      h2
+        i.fa-solid.fa-link-slash
+        |<  Orphaned Issues
+      p.subtitle Active Issues that we where not able to link to an issue
+      a.button.float-right href="/authorities"
+        i.fa-solid.fa-building
+        |<  Active Authorities
+      '
+      a.button.float-right href="/authorities-delisted"
+        i.fa-solid.fa-building-circle-xmark
+        |<  Delisted Authorities
+
+    .table-container
+      table.sortable.sticky-header.data-table
+        thead
+          tr
+            th Issue
+            th Title
+            th Pull requests
+            th Scraper
+            th Links
+        tbody
+          - issues.each do |issue|
+            tr
+              td
+                span.nowrap
+                  a href="#{issue.html_url}" title="#{issue.title} - Issue ##{issue.to_param} on GitHub" target="_blank"
+                    i.fa-regular.fa-circle-dot
+                    =< issue.to_param
+              td = issue.title
+              td
+                span.nowrap
+                  - issue.pull_requests.each do |pr|
+                    '
+                    a href="#{pr.html_url}" target="_blank" title="View Pull Request on GitHub"
+                      i.fas.fa-code-pull-request
+                      '
+                      = pr.number
+              td
+                - if issue.scraper
+                  a href="#{path_for issue.scraper}" title="Scraper Info"
+                    = issue.scraper.name
+              td
+                - if issue.scraper
+                  a href="#{issue.scraper.morph_url}" target="_blank" title="View scraper on morph.io"
+                    span.morph-icon
+                  '
+                  a href="#{issue.scraper.github_url}" target="_blank" title="View scraper on GitHub"
+                    i.fa-solid.fa-code
+    .section-footer
+      p Total: #{issues.size} issues
+
