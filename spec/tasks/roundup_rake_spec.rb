@@ -27,7 +27,7 @@ RSpec.describe 'roundup.rake tasks' do
 
       # First verify the prerequisites
       task = Rake::Task['roundup:all'].dup
-      expected_prereqs = %w[analyze:broken_scores flag_finished flag_updating generate:all import:all singleton]
+      expected_prereqs = %w[analyze:all flag_finished flag_updating generate:all import:all singleton]
       expect(task.prerequisites).to match_array(expected_prereqs)
 
       # Clear prerequisites from the copy and run

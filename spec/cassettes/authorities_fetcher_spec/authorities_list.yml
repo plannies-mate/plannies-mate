@@ -27,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 10 Apr 2025 18:51:11 GMT
+      - Sun, 13 Apr 2025 07:12:31 GMT
       Content-Type:
       - text/plain
       Content-Length:
@@ -66,7 +66,7 @@ http_interactions:
         Disallow: /geocode_queries
 
 
-  recorded_at: Thu, 10 Apr 2025 18:51:11 GMT
+  recorded_at: Sun, 13 Apr 2025 07:12:31 GMT
 - request:
     method: get
     uri: https://www.planningalerts.org.au/authorities
@@ -94,7 +94,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 10 Apr 2025 18:51:11 GMT
+      - Sun, 13 Apr 2025 07:12:32 GMT
       Content-Type:
       - text/html; charset=utf-8
       Transfer-Encoding:
@@ -124,12 +124,12 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       Set-Cookie:
-      - _planningalerts_app_session=0d0GDFmyWpIrFPxzK0fuL%2BTN8QQh8UYZR%2Fpk6LQPDKja02Dwlwz7xU3FlrJngaWTIlfLwIOosbNJ2aLhQp5I1ostjMRsyKjEe%2FKU2MtaYy2rRleSWhokcL4MbZSP47Rzw0AFIOeSZExBhYxOh44zAT%2F29Bm2OwHUDlq3AbJSFX7o85NJi5rvTI6YEY8WB8ryA5%2FYYe3IxRvODNyJIyC5IdwGgWvgPb6h885BN1zwMhGdgOLGId2MVEh65w%3D%3D--Z%2BN41xiGTUOl6Rfu--bvK6FENRtRYiqOf7xq%2F2rA%3D%3D;
+      - _planningalerts_app_session=oUoNFOLCIvixWl9GnMFu56ImvfG6EZPnX52EfyvqokKhQb6L0RsYtUOS%2FyLIQojx5zZde9tCoqoCQPvSuxO2anxjO5fRYDlaK6K1y32iY184mqG8ZaAyejuNzz%2FtkQToM2mbetgGYLcW95aXtAo%2FdPzI%2B8AB9r6D5w%2B80j1cWlknJMqLM7iyBnEjy7vmqTsRNdnIqUeimZZZQMEt9%2BEFBIr6JOXX0qi1%2B6A6iZXJ2%2BfdEuOV1suLWwQr%2FQ%3D%3D--ttvbrSlECcaG1Wk6--1IMY3DNCUAGZgofQDQHY5Q%3D%3D;
         path=/; secure; httponly; samesite=lax
       X-Request-Id:
-      - 7b46306f-bba5-4ba4-ba5a-83a1c82b402c
+      - c77ce5d7-47bc-4c2d-88eb-cf1c4ad4a222
       X-Runtime:
-      - '0.323857'
+      - '0.510785'
       Strict-Transport-Security:
       - max-age=3600; includeSubDomains
     body:
@@ -1094,6 +1094,6 @@ http_interactions:
         \         <img alt=\"ACNC Registered Charity Tick\" src=\"https://www.planningalerts.org.au/assets/charity-tick-80979eb45dfd041a327fa3957ebb1d3de7caaaca1431f7732583d1742c928a12.svg\"
         width=\"100\" height=\"100\" />\n</a>      </div>\n    </div>\n\n</div>\n</footer>\n\n
         \ </body>\n</html>\n"
-  recorded_at: Thu, 10 Apr 2025 18:51:11 GMT
+  recorded_at: Sun, 13 Apr 2025 07:12:32 GMT
 recorded_with: VCR 6.3.1
 ...

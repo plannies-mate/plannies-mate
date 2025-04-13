@@ -4,32 +4,28 @@
 #
 # Table name: authorities
 #
-#  id                  :integer          not null, primary key
-#  added_on            :date             not null
-#  authority_label     :string
-#  broken_score        :integer
-#  delisted_on         :date
-#  last_import_log     :text
-#  last_received       :date
-#  median_per_week     :integer          default(0), not null
-#  month_count         :integer          default(0), not null
-#  name                :string           not null
-#  needs_generate      :boolean          default(TRUE), not null
-#  needs_import        :boolean          default(TRUE), not null
-#  population          :integer
-#  possibly_broken     :boolean          default(FALSE), not null
-#  query_error         :string
-#  query_owner         :string
-#  query_url           :string
-#  short_name          :string           not null
-#  state               :string(3)
-#  total_count         :integer          default(0), not null
-#  update_reason       :string
-#  update_requested_at :datetime
-#  week_count          :integer          default(0), not null
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  scraper_id          :integer
+#  id              :integer          not null, primary key
+#  added_on        :date             not null
+#  authority_label :string
+#  broken_score    :integer
+#  delisted_on     :date
+#  last_import_log :text
+#  last_received   :date
+#  median_per_week :integer          default(0), not null
+#  month_count     :integer          default(0), not null
+#  name            :string           not null
+#  population      :integer
+#  possibly_broken :boolean          default(FALSE), not null
+#  query_error     :string
+#  query_owner     :string
+#  query_url       :string
+#  short_name      :string           not null
+#  state           :string(3)
+#  total_count     :integer          default(0), not null
+#  week_count      :integer          default(0), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  scraper_id      :integer
 #
 # Indexes
 #

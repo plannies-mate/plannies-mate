@@ -2,8 +2,7 @@
 
 namespace :roundup do
   desc 'Roundup everything (import, generate)'
-  task all: %i[singleton flag_updating import:all analyze:broken_scores generate:all flag_finished] do
-    # also  pull_requests:update_status coverage_history:import_current
+  task all: %i[singleton flag_updating import:all analyze:all generate:all flag_finished] do
     puts 'Finished roundup:all'
   end
 

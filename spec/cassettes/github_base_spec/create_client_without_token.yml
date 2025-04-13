@@ -21,7 +21,7 @@ http_interactions:
       message: Unauthorized
     headers:
       Date:
-      - Thu, 10 Apr 2025 18:51:12 GMT
+      - Sun, 13 Apr 2025 07:04:27 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -58,15 +58,15 @@ http_interactions:
       X-Ratelimit-Remaining:
       - '59'
       X-Ratelimit-Reset:
-      - '1744314672'
+      - '1744531467'
       X-Ratelimit-Resource:
       - core
       X-Ratelimit-Used:
       - '1'
       X-Github-Request-Id:
-      - AA34:1142B:4EE0E:703E5:67F81320
+      - B5A6:1A2DA4:2857A1:385020:67FB61FB
     body:
       encoding: UTF-8
       string: '{"message":"Requires authentication","documentation_url":"https://docs.github.com/rest/users/users#get-the-authenticated-user","status":"401"}'
-  recorded_at: Thu, 10 Apr 2025 18:51:12 GMT
+  recorded_at: Sun, 13 Apr 2025 07:04:28 GMT
 recorded_with: VCR 6.3.1

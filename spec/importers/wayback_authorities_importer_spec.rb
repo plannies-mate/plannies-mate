@@ -22,14 +22,32 @@ RSpec.describe WaybackAuthoritiesImporter do
 
   describe '#import_historical_data', vcr: { cassette_name: cassette_name('import_historical') } do
     it 'imports historical data and creates coverage history records' do
-      # Use a small limit to avoid making too many requests in tests
+      Date.today
       expect do
+        # Use a small limit to avoid making too many requests in tests
         created = importer.import_historical_data(limit: 10)
         expect(created).to be >= 7
       end.to change(CoverageHistory, :count)
       last = CoverageHistory.last
-      expect(last.broken_authorities).not_to be_empty
-      expect(last.broken_authorities.size).to be >= 70
+
+      puts "DEBUG #{last.attributes.to_yaml}"
+      # recorded_on: 2024-09-16
+      # wayback_url: https://web.archive.org/web/20240916152258/https://www.planningalerts.org.au/authorities
+      # authority_count: 194
+      # broken_authority_count: 71
+      # total_population: 21894286
+      # broken_population: 5567335
+      # authority_stats: {}
+      # created_at: 2025-04-13 07:47:44.071384000 Z
+      # updated_at: 2025-04-13 07:47:44.071384000 Z
+      expect(last.authority_count).to be_between(150, 250)
+      expect(last.broken_authority_count).to be_between(30, 130)
+      expect(last.total_population).to be_between(20_000_000, 30_000_000)
+      expect(last.broken_population).to be_between(2_000_000, 10_000_000)
+      expect(last.authority_stats).to be_a Hash
+      expect(last.authority_stats).to eq({})
+      expect(last.recorded_on).to be_a(Date)
+      expect(last.wayback_url).to match(%r{https://web.archive.org/web/\d+/https://www.planningalerts.org.au/authorities})
     end
 
     it 'respects date ranges when importing', vcr: { cassette_name: cassette_name('import_historical_date_range') } do

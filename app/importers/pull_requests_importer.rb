@@ -21,17 +21,16 @@ class PullRequestsImporter
   def import(since: nil)
     @count = @updated = @errors = 0
     org = Constants::PRODUCTION_OWNER
-    since ||= 1.year.ago.to_date
     username = Constants::MY_GITHUB_NAME
 
-    self.class.log "Importing pull requests from #{username} for #{org} since #{since}"
+    self.class.log "Importing pull requests from #{username} for #{org}"
 
     # Track all PR IDs to detect deleted PRs - assume PRs more than a year old are rejected
     pr_ids = []
 
     begin
       # Fetch PRs by this user in the organization
-      query = "is:pr author:#{username} org:#{org} updated:>#{since.strftime('%Y-%m-%d')}"
+      query = "is:pr author:#{username} org:#{org}"
       search_results = @client.search_issues(query)
 
       self.class.log "Found #{search_results.items.size} PRs for user #{username}"
@@ -111,6 +110,9 @@ class PullRequestsImporter
     desc = 'issue for scraper>one authority'
     authority = if scraper.authorities.count == 1
                   scraper.authorities.first
+                elsif scraper.name.start_with?('multiple_')
+                  desc = 'issue for pull_request.head_branch_name==authority.short_name'
+                  Authority.find_by(short_name: pull_request.head_branch_name)
                 elsif !scraper.name.start_with?('multiple_')
                   desc = 'issue for scraper.name==authority.short_name'
                   Authority.find_by(short_name: scraper.name)

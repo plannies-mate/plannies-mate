@@ -123,7 +123,6 @@ class WaybackAuthoritiesImporter
                    'Linked Existing'
                  end
         puts "#{status}: #{broken_authority.inspect}"
-        record.broken_authorities << auth if auth.persisted?
       end
     end
     record

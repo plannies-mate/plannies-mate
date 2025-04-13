@@ -40,13 +40,6 @@ class CreateAuthorities < ActiveRecord::Migration[8.0]
       # A score impact of it being broken
       t.integer :broken_score, index: true, null: true
 
-      # requires import of details, stats pages and github details
-      t.boolean :needs_import, default: true, null: false
-      # generate after needs_import
-      t.boolean :needs_generate, default: true, null: false
-      t.datetime :update_requested_at
-      t.string :update_reason
-
       t.timestamps null: false
     end
   end

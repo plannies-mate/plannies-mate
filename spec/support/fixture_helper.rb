@@ -17,7 +17,6 @@ module FixtureHelper
     ['pull_requests', PullRequest], # references scraper
     ['branches', Branch], # Depends on scrapers,
     # Join tables with fixtures
-    ['broken_authority_histories', nil],
     ['issue_labels_issues', nil], # HABTM
     ['issue_assignees', nil], # HABTM
     ['pull_request_assignees', nil], # HABTM

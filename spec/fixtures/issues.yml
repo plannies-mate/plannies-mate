@@ -4,19 +4,15 @@
 #
 # Table name: issues
 #
-#  id                  :integer          not null, primary key
-#  closed_at           :datetime
-#  locked              :boolean          default(FALSE), not null
-#  needs_generate      :boolean          default(TRUE), not null
-#  needs_import        :boolean          default(TRUE), not null
-#  number              :integer          not null
-#  title               :string           not null
-#  update_reason       :string
-#  update_requested_at :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  authority_id        :integer
-#  scraper_id          :integer
+#  id           :integer          not null, primary key
+#  closed_at    :datetime
+#  locked       :boolean          default(FALSE), not null
+#  number       :integer          not null
+#  title        :string           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  authority_id :integer
+#  scraper_id   :integer
 #
 # Indexes
 #
@@ -36,10 +32,6 @@ issue_1:
   authority: burdekin
   scraper: burdekin
   locked: false
-  needs_import: true
-  needs_generate: true
-  update_reason: webhook
-  update_requested_at: 2025-03-15T15:45:00Z
   created_at: 2025-03-01T10:30:00Z
   updated_at: 2025-03-15T15:45:00Z
   closed_at: 2025-03-15T15:45:00Z
@@ -49,8 +41,6 @@ issue_2:
   title: Update baw_baw scraper to new website format
   scraper: baw_baw
   locked: false
-  needs_import: true
-  needs_generate: true
   created_at: 2025-03-10T09:15:00Z
   updated_at: 2025-03-18T14:20:00Z
   closed_at:

@@ -6,23 +6,18 @@
 #
 # Table name: pull_requests
 #
-#  id                  :integer          not null, primary key
-#  base_branch_name    :string           not null
-#  closed_at           :datetime
-#  head_branch_name    :string           not null
-#  locked              :boolean          default(FALSE), not null
-#  merged_at           :datetime
-#  needs_generate      :boolean          default(TRUE), not null
-#  needs_import        :boolean          default(TRUE), not null
-#  needs_review        :boolean          default(FALSE), not null
-#  number              :integer          not null
-#  title               :string           not null
-#  update_reason       :string
-#  update_requested_at :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  issue_id            :integer
-#  scraper_id          :integer          not null
+#  id               :integer          not null, primary key
+#  base_branch_name :string           not null
+#  closed_at        :datetime
+#  head_branch_name :string           not null
+#  locked           :boolean          default(FALSE), not null
+#  merged_at        :datetime
+#  number           :integer          not null
+#  title            :string           not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  issue_id         :integer
+#  scraper_id       :integer          not null
 #
 # Indexes
 #

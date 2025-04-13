@@ -7,6 +7,8 @@ require_relative '../importers/pull_requests_importer'
 namespace :import do
   desc 'Import all information from remote sites'
   task all: %i[singleton authorities issues pull_requests] do
+    earliest_history = CoverageHistory.minimum(:recorded_on)
+    Rake::Task['import:coverage_history'].invoke if earliest_history.nil? || earliest_history > 2.days.ago
     puts 'Finished'
   end
 
@@ -22,15 +24,12 @@ namespace :import do
     fetcher.import
   end
 
-  desc 'Import pull requests from GitHub (default since 2024-10-01)'
-  task :pull_requests, [:since_days] => :singleton do |_t, args|
-    days_ago = args[:since_days] ? args[:since_days].to_i : 30
-    since = Time.now - (days_ago * 24 * 60 * 60)
-
-    puts "Importing pull requests from GitHub updated in the last #{days_ago} days..."
+  desc 'Import pull requests from GitHub'
+  task pull_requests: :singleton do |_t, _args|
+    puts 'Importing pull requests from GitHub...'
 
     importer = PullRequestsImporter.new
-    result = importer.import(since: since)
+    result = importer.import
 
     puts 'Successfully imported pull requests from GitHub:'
     puts "  - Imported/Created: #{result[:imported]}"

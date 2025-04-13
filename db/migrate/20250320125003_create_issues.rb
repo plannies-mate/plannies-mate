@@ -10,13 +10,6 @@ class CreateIssues < ActiveRecord::Migration[8.0]
       t.boolean :locked, null: false, default: false
       t.datetime :closed_at
 
-      # Needs import of details from GitHub
-      t.boolean :needs_import, default: true, null: false
-      # generate after needs_import
-      t.boolean :needs_generate, default: true, null: false
-      t.datetime :update_requested_at
-      t.string :update_reason
-
       # Relations (optional)
       t.references :authority, foreign_key: true, null: true
       t.references :scraper, foreign_key: true, null: true

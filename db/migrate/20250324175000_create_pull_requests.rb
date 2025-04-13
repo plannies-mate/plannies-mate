@@ -15,15 +15,6 @@ class CreatePullRequests < ActiveRecord::Migration[8.0]
       t.string :base_branch_name, null: false
       t.datetime :closed_at
       t.datetime :merged_at
-      # if draft or I am one of the assignees (doesn't count when needs_review)
-      t.boolean :needs_review, null: false, default: false
-
-      # requires import of github details (because of webhook, manual request or nightly)
-      t.boolean :needs_import, default: true, null: false
-      # generate after needs_import
-      t.boolean :needs_generate, default: true, null: false
-      t.datetime :update_requested_at
-      t.string :update_reason
 
       # If we can work it out ...
       t.references :issue, null: true, foreign_key: true

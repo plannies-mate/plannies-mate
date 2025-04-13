@@ -36,6 +36,20 @@ class AuthoritiesImporter
         import_stats_and_details(authority, force: force)
       end
     end
+
+    authority_count = Authority.active.count
+    broken_count = Authority.active.broken.count
+    total_pop = Authority.active.sum(&:population)
+    broken_pop = Authority.active.broken.sum(&:population)
+
+    coverage_history = CoverageHistory.find_or_initialize_by(recorded_on: Date.today)
+    coverage_history.update!(
+      authority_count: authority_count,
+      broken_authority_count: broken_count,
+      total_population: total_pop,
+      broken_population: broken_pop
+    )
+
     puts "Updated #{@changed} of #{@count} authorities (#{@orphaned} orphaned)"
   end
 

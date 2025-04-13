@@ -4,7 +4,8 @@ main.container
       h2
         i.fa-solid.fa-chart-line
         |  Coverage History
-      p.subtitle Historical tracking of planning authority coverage
+      p.subtitle Historical tracking of
+        a href="https://www.planningalerts.org.au/authorities" planning authority coverage
     
     .coverage-summary
       .stats-card
@@ -41,7 +42,7 @@ main.container
             th Broken Population
             th % Coverage
         tbody
-          - histories.sort_by(&:recorded_on).reverse.each do |history|
+          - histories.each do |history|
             tr
               td= history.recorded_on.strftime('%Y-%m-%d')
               td= history.authority_count
@@ -56,7 +57,7 @@ main.container
     document.addEventListener('DOMContentLoaded', function() {
       // Coverage Chart
       const ctxCoverage = document.getElementById('coverageChart').getContext('2d');
-      const coverageData = [] ; // FIXME:  #{chart_data.to_json};
+      const coverageData = {{chart_data.to_json}};
       
       new Chart(ctxCoverage, {
         type: 'line',
@@ -91,8 +92,8 @@ main.container
       // Contribution Impact Chart
       const ctxContribution = document.getElementById('contributionChart').getContext('2d');
       const contributionData = {
-        labels: #{{labels.to_json}},
-        datasets: #{{datasets.to_json}},
+        labels: {{labels.to_json}},
+        datasets: {{datasets.to_json}},
       };
       
       new Chart(ctxContribution, {

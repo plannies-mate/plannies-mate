@@ -25,10 +25,6 @@ require 'json'
 #  index_coverage_histories_on_wayback_url  (wayback_url) UNIQUE
 #
 class CoverageHistory < ApplicationRecord
-  has_and_belongs_to_many :broken_authorities,
-                          class_name: 'Authority',
-                          join_table: 'broken_authority_histories'
-
   # Serialize the JSON column
   # serialize :authority_stats, coder: JSON
   after_initialize :set_default_authority_stats, if: :new_record?
@@ -97,7 +93,7 @@ class CoverageHistory < ApplicationRecord
       rec1.broken_authority_count == rec2.broken_authority_count &&
       rec1.total_population == rec2.total_population &&
       rec1.broken_population == rec2.broken_population &&
-      rec1.broken_authority_ids.sort == rec2.broken_authority_ids.sort
+      rec1.authority_stats == rec2.authority_stats
     # does NOT compare wayback_url!
   end
 

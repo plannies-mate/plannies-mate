@@ -2,19 +2,15 @@
 #
 # Table name: scrapers
 #
-#  id                  :integer          not null, primary key
-#  authorities_path    :string
-#  broken_score        :integer
-#  default_branch      :string           default("master"), not null
-#  delisted_on         :date
-#  name                :string           not null
-#  needs_generate      :boolean          default(TRUE), not null
-#  needs_import        :boolean          default(TRUE), not null
-#  scraper_path        :string
-#  update_reason       :string
-#  update_requested_at :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id               :integer          not null, primary key
+#  authorities_path :string
+#  broken_score     :integer
+#  default_branch   :string           default("master"), not null
+#  delisted_on      :date
+#  name             :string           not null
+#  scraper_path     :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #
@@ -30,11 +26,7 @@ act:
   created_at: 2025-03-30
   updated_at: 2025-03-30
   authorities_path: scraper.rb
-  needs_generate: true
-  needs_import: true
   scraper_path: scraper.rb
-  update_reason: webhook
-  update_requested_at: 2025-04-01 01:02:03
 
 'multiple_atdis':
   name: multiple_atdis

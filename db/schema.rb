@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_13_002902) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
   create_table "authorities", force: :cascade do |t|
     t.string "short_name", null: false
     t.string "state", limit: 3
@@ -31,10 +31,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_002902) do
     t.string "query_error"
     t.string "query_owner"
     t.integer "broken_score"
-    t.boolean "needs_import", default: true, null: false
-    t.boolean "needs_generate", default: true, null: false
-    t.datetime "update_requested_at"
-    t.string "update_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["broken_score"], name: "index_authorities_on_broken_score"
@@ -53,13 +49,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_002902) do
     t.index ["scraper_id"], name: "index_branches_on_scraper_id"
   end
 
-  create_table "broken_authority_histories", id: false, force: :cascade do |t|
-    t.integer "authority_id", null: false
-    t.integer "coverage_history_id", null: false
-    t.index ["authority_id", "coverage_history_id"], name: "idx_broken_authority_histories", unique: true
-    t.index ["coverage_history_id"], name: "index_broken_authority_histories_on_coverage_history_id"
-  end
-
   create_table "coverage_histories", force: :cascade do |t|
     t.date "recorded_on", null: false
     t.string "wayback_url"
@@ -67,9 +56,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_002902) do
     t.integer "broken_authority_count", default: 0, null: false
     t.integer "total_population", default: 0, null: false
     t.integer "broken_population", default: 0, null: false
+    t.json "authority_stats", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.json "authority_stats", default: {}, null: false
     t.index ["recorded_on"], name: "index_coverage_histories_on_recorded_on", unique: true
     t.index ["wayback_url"], name: "index_coverage_histories_on_wayback_url", unique: true
   end
@@ -114,10 +103,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_002902) do
     t.string "title", null: false
     t.boolean "locked", default: false, null: false
     t.datetime "closed_at"
-    t.boolean "needs_import", default: true, null: false
-    t.boolean "needs_generate", default: true, null: false
-    t.datetime "update_requested_at"
-    t.string "update_reason"
     t.integer "authority_id"
     t.integer "scraper_id"
     t.datetime "created_at", null: false
@@ -143,11 +128,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_002902) do
     t.string "base_branch_name", null: false
     t.datetime "closed_at"
     t.datetime "merged_at"
-    t.boolean "needs_review", default: false, null: false
-    t.boolean "needs_import", default: true, null: false
-    t.boolean "needs_generate", default: true, null: false
-    t.datetime "update_requested_at"
-    t.string "update_reason"
     t.integer "issue_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -163,10 +143,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_002902) do
     t.string "authorities_path"
     t.date "delisted_on"
     t.integer "broken_score"
-    t.boolean "needs_import", default: true, null: false
-    t.boolean "needs_generate", default: true, null: false
-    t.datetime "update_requested_at"
-    t.string "update_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["broken_score"], name: "index_scrapers_on_broken_score"
@@ -184,8 +160,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_002902) do
   add_foreign_key "authorities", "scrapers"
   add_foreign_key "branches", "pull_requests"
   add_foreign_key "branches", "scrapers"
-  add_foreign_key "broken_authority_histories", "authorities"
-  add_foreign_key "broken_authority_histories", "coverage_histories"
   add_foreign_key "issue_assignees", "issues"
   add_foreign_key "issue_assignees", "users"
   add_foreign_key "issue_labels_issues", "issue_labels"

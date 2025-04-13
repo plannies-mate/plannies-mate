@@ -4,19 +4,15 @@
 #
 # Table name: scrapers
 #
-#  id                  :integer          not null, primary key
-#  authorities_path    :string
-#  broken_score        :integer
-#  default_branch      :string           default("master"), not null
-#  delisted_on         :date
-#  name                :string           not null
-#  needs_generate      :boolean          default(TRUE), not null
-#  needs_import        :boolean          default(TRUE), not null
-#  scraper_path        :string
-#  update_reason       :string
-#  update_requested_at :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id               :integer          not null, primary key
+#  authorities_path :string
+#  broken_score     :integer
+#  default_branch   :string           default("master"), not null
+#  delisted_on      :date
+#  name             :string           not null
+#  scraper_path     :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #

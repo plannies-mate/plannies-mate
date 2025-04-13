@@ -8,7 +8,7 @@ RSpec.describe PullRequestsImporter do
 
   describe '#import', vcr: { cassette_name: 'pull_requests_importer/import' } do
     before do
-      @result = importer.import(since: Date.parse('2025-01-01'))
+      @result = importer.import
     end
 
     it 'imports pull requests for MY_USER_NAME' do
@@ -23,11 +23,11 @@ RSpec.describe PullRequestsImporter do
 
       # Assert that at least one PR in `prs` has a non-nil issue
       prs_have_issues = prs.any? { |pr| pr.issue.present? }
-      puts "DEBUG prs: #{prs.map(&:attributes).to_yaml}" unless prs_have_issues
+      # puts "DEBUG prs: #{prs.map(&:attributes).to_yaml}" unless prs_have_issues
       # title: Added Burwood Council (ex civica)
       # title: Fix many broken authorities, add debugging tools and reports, update to heroku-18
       #     platform, and much more ... [Rejected Ben Hur]
-      puts "DEBUG ISSUES: #{Issue.pluck(:title).to_yaml}" unless prs_have_issues
+      # puts "DEBUG ISSUES: #{Issue.pluck(:title).to_yaml}" unless prs_have_issues
       expect(prs_have_issues).to be true
     end
   end
@@ -37,8 +37,8 @@ RSpec.describe PullRequestsImporter do
     # let(:authority) { FixtureHelper.find(Authority, :brimbank) || raise('Missing brimbank fixture!') }
     # let(:pull_request) { PullRequest.new(scraper: scraper, number: 987654) }
 
-    it 'Finds scraper.name => Authority.short_name, Authority.name => Issue.title' do
-    end
+    # it 'Finds scraper.name => Authority.short_name, Authority.name => Issue.title' do
+    # end
 
     # authority = Authority.find_by(short_name: scraper.name)
     #     issue = Issue.find_by(title: authority.name) if authority
