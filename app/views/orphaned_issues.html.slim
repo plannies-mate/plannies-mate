@@ -20,6 +20,8 @@ main.wide-container
             th Issue
             th Title
             th Pull requests
+            th Assignees
+            th Labels
             th Scraper
             th Links
         tbody
@@ -39,6 +41,19 @@ main.wide-container
                       i.fas.fa-code-pull-request
                       '
                       = pr.number
+              td
+                - issue.assignees.each do |user|
+                  a href="#{user.issues_url}" target="_blank"
+                    - if user.avatar_url&.present?
+                      img.user-avatar src="#{user.avatar_url}&s=40" title="View GitHub Issues assigned to: #{user.login}"
+                    - else
+                      = user.login
+              td
+                - issue.labels.sort_by { |l| l.name }.each do |label|
+                  span.issue-label class=css_class_for_label(label, nil) style="background-color: ##{label.color};" title="View GitHub Issues with this label; #{label.description}"
+                    a href="#{label.issues_url}" target="_blank" class="#{css_class_for_label_link(label, nil)}"
+                      = label.name
+                  '
               td
                 - if issue.scraper
                   a href="#{path_for issue.scraper}" title="Scraper Info"

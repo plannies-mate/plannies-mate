@@ -51,7 +51,7 @@ module ViewHelper
   end
 
   def css_class_for_label(label, authority)
-    if label.name == 'probably fixed' && authority.month_count.zero?
+    if label.name == 'probably fixed' && authority&.month_count&.zero?
       'issue-label-strikethrough '
     else
       ''
@@ -64,7 +64,7 @@ module ViewHelper
   end
 
   def css_class_for_label_link(label, authority)
-    if label.name == 'probably fixed' && authority.month_count.zero?
+    if label.name == 'probably fixed' && authority&.month_count&.zero?
       ''
     else
       ''

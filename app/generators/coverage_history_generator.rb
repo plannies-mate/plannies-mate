@@ -17,33 +17,11 @@ class CoverageHistoryGenerator
 
     return nil if histories.empty?
 
-    # Prepare chart data
-    chart_data = prepare_chart_data(histories)
-    datasets = [
-      {
-        label: 'Broken Population',
-        data: histories.map(&:broken_population).to_json,
-        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Total Population',
-        data: histories.map(&:total_population).to_json,
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      },
-    ]
-
-    labels = histories.map { |h| h.recorded_on.strftime('%Y-%m-%d') }
-    # Render the template with the data
     locals = {
       histories: histories,
-      chart_data: chart_data,
+      percentage_data: percentage_coverage_data(histories),
       recent: histories.last,
-      datasets: datasets,
-      labels: labels,
+      authorities_data: authorities_coverage_data(histories),
     }
 
     locals[:output_file] = render_to_file('coverage_history', 'coverage-history', locals)
@@ -51,26 +29,65 @@ class CoverageHistoryGenerator
     locals
   end
 
-  def self.prepare_chart_data(histories)
+  def self.percentage_coverage_data(histories)
     # Format data for chart.js
     {
       labels: histories.map { |h| h.recorded_on.strftime('%Y-%m-%d') },
       datasets: [
         {
-          label: 'Working Authorities %',
-          data: histories.map { |h| (100 - h.broken_authority_percentage).round(1) },
+          label: 'Broken %Population',
+          data: histories.map(&:broken_population_percentage),
+          borderColor: '#FFCD00', # Australian gold
+          backgroundColor: 'rgba(255, 205, 0, 0.1)',
+          fill: true,
+        },
+        {
+          label: 'Coverage %Population',
+          data: histories.map(&:coverage_percentage),
           borderColor: '#00843D', # Australian green
           backgroundColor: 'rgba(0, 132, 61, 0.1)',
           fill: true,
         },
         {
-          label: 'Population Coverage %',
-          data: histories.map(&:coverage_percentage),
-          borderColor: '#FFCD00', # Australian gold
-          backgroundColor: 'rgba(255, 205, 0, 0.1)',
-          fill: true,
+          label: 'Broken+Coverage %Population',
+          data: histories.map(&:total_population_percentage),
+          borderColor: '#003D84',
+          backgroundColor: 'rgba(0, 61, 132, 0.1)',
+          # fill: true,
         },
       ],
-    }.to_json
+    }
+  end
+
+  def self.authorities_coverage_data(histories)
+    # Format data for chart.js
+    {
+      labels: histories.map { |h| h.recorded_on.strftime('%Y-%m-%d') },
+      datasets: [
+        {
+          label: 'Broken Authorities',
+          data: histories.map(&:broken_authority_count),
+          borderColor: '#FFCD00', # Australian gold
+          backgroundColor: 'rgba(255, 205, 0, 0.1)',
+          # borderWidth: 1,
+          fill: true,
+        },
+        {
+          label: 'Working Authorities',
+          data: histories.map(&:working_count),
+          borderColor: '#00843D', # Australian green
+          backgroundColor: 'rgba(0, 132, 61, 0.1)',
+          # borderWidth: 1,
+          fill: true,
+        },
+        {
+          label: 'Total Authorities',
+          data: histories.map(&:authority_count),
+          borderColor: '#003D84',
+          backgroundColor: 'rgba(0, 61, 132, 0.1)',
+          # borderWidth: 1,
+        },
+      ],
+    }
   end
 end

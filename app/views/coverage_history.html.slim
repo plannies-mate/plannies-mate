@@ -6,7 +6,7 @@ main.container
         |  Coverage History
       p.subtitle Historical tracking of
         a href="https://www.planningalerts.org.au/authorities" planning authority coverage
-    
+
     .coverage-summary
       .stats-card
         h3 Current Coverage (#{recent.recorded_on.strftime('%d %b %Y')})
@@ -15,20 +15,20 @@ main.container
             h4 Population Coverage
             .stat-value #{recent.coverage_percentage}%
             .stat-desc #{number_with_delimiter(recent.total_population - recent.broken_population)} of #{number_with_delimiter(recent.total_population)} people covered
-          
+
           .stat-item
             h4 Working Authorities
             .stat-value #{(100 - recent.broken_authority_percentage).round(1)}%
             .stat-desc #{recent.authority_count - recent.broken_authority_count} of #{recent.authority_count} authorities
 
-    .chart-container
-      h3 Historical Coverage Trends
-      canvas#coverageChart
-      
-    .chart-container
-      h3 Contribution Impact
-      canvas#contributionChart
-      
+    .chart-container style="height: 500px; margin-bottom: 4rem;"
+      h3 Percentage of Australian Population at 2021 Census
+      canvas#percentageChart
+
+    .chart-container style="height: 500px; margin-bottom: 4rem;"
+      h3 Authority Status Trends
+      canvas#authorityChart
+
     .historical-table
       h3 Historical Data
       table.sortable.sticky-header.data-table
@@ -52,78 +52,79 @@ main.container
               td= number_with_delimiter(history.broken_population)
               td= history.coverage_percentage
 
+  div#data-container data-percentage=percentage_data.to_json data-authority=authorities_data.to_json
   // JavaScript for Charts
   javascript:
-    document.addEventListener('DOMContentLoaded', function() {
-      // Coverage Chart
-      const ctxCoverage = document.getElementById('coverageChart').getContext('2d');
-      const coverageData = {{chart_data.to_json}};
-      
-      new Chart(ctxCoverage, {
-        type: 'line',
-        data: coverageData,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            title: {
-              display: true,
-              text: 'Historical Coverage Over Time'
-            },
-            tooltip: {
-              mode: 'index',
-              intersect: false
-            }
-          },
-          scales: {
-            y: {
-              min: 0,
-              max: 100,
-              ticks: {
-                callback: function(value) {
-                  return value + '%';
-                }
+      document.addEventListener('DOMContentLoaded', function () {
+          // Coverage Chart
+          const ctxPercentage = document.getElementById('percentageChart').getContext('2d');
+          const dataContainer = document.getElementById('data-container');
+          const percentageData = JSON.parse(dataContainer.getAttribute('data-percentage'));
+
+          new Chart(ctxPercentage, {
+              type: 'line',
+              data: percentageData,
+              options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                      title: {
+                          display: true,
+                          text: 'Historical Coverage Over Time'
+                      },
+                      tooltip: {
+                          mode: 'index',
+                          intersect: false
+                      }
+                  },
+                  scales: {
+                      y: {
+                          min: 0,
+                          max: 100,
+                          ticks: {
+                              callback: function (value) {
+                                  return value + '%';
+                              }
+                          }
+                      }
+                  }
               }
-            }
-          }
-        }
-      });
-      
-      // Contribution Impact Chart
-      const ctxContribution = document.getElementById('contributionChart').getContext('2d');
-      const contributionData = {
-        labels: {{labels.to_json}},
-        datasets: {{datasets.to_json}},
-      };
-      
-      new Chart(ctxContribution, {
-        type: 'bar',
-        data: contributionData,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            title: {
-              display: true,
-              text: 'PR Contributions Over Time'
-            },
-            tooltip: {
-              mode: 'index',
-              intersect: false
-            }
-          },
-          scales: {
-            x: {
-              stacked: true
-            },
-            y: {
-              stacked: true,
-              title: {
-                display: true,
-                text: 'Number of Authorities'
+          });
+
+          // Contribution Impact Chart
+          const ctxAuthority = document.getElementById('authorityChart').getContext('2d');
+          const authorityData = JSON.parse(dataContainer.getAttribute('data-authority'));
+
+          new Chart(ctxAuthority, {
+              type: 'line',
+              data: authorityData,
+              options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                      title: {
+                          display: true,
+                          text: 'Working vs Broken Authorities over time'
+                      },
+                      tooltip: {
+                          mode: 'index',
+                          intersect: false
+                      }
+                  },
+                  scales: {
+                      x: {
+                          // stacked: true,
+                      },
+                      y: {
+                          min: 0,
+                          max: 260,
+                          // stacked: true,
+                          title: {
+                              display: true,
+                              text: 'Number of Authorities'
+                          }
+                      }
+                  }
               }
-            }
-          }
-        }
+          });
       });
-    });

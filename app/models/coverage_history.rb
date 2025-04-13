@@ -35,6 +35,8 @@ class CoverageHistory < ApplicationRecord
   validates :total_population, numericality: { greater_than_or_equal_to: 0 }
   validates :broken_population, numericality: { greater_than_or_equal_to: 0 }
 
+  AUSTRALIAN_POPULATION_2021_CENSUS = 25_422_788
+
   # Calculate percentage of authorities that are broken
   def broken_authority_percentage
     return 0 if authority_count.zero?
@@ -42,18 +44,26 @@ class CoverageHistory < ApplicationRecord
     (broken_authority_count.to_f / authority_count * 100).round(1)
   end
 
+  def total_population_percentage
+    (total_population.to_f / AUSTRALIAN_POPULATION_2021_CENSUS * 100.0).round(1)
+  end
+
   # Calculate percentage of population affected by broken authorities
   def broken_population_percentage
-    return 0 if total_population.zero?
-
-    (broken_population.to_f / total_population * 100).round(1)
+    (broken_population.to_f / AUSTRALIAN_POPULATION_2021_CENSUS * 100.0).round(1)
   end
 
   # Calculate coverage percentage (population covered by working authorities)
   def coverage_percentage
-    return 0 if total_population.zero?
+    ((total_population - broken_population).to_f / AUSTRALIAN_POPULATION_2021_CENSUS * 100.0).round(1)
+  end
 
-    ((total_population - broken_population).to_f / total_population * 100).round(1)
+  def working_population
+    total_population - broken_population
+  end
+
+  def working_count
+    authority_count - broken_authority_count
   end
 
   # Remove redundant records where three or more consecutive records have identical stats
