@@ -90,7 +90,8 @@ class PullRequestsImporter
     detailed_pr = @client.pull_request(scraper.github_repo_name, number)
     attributes[:base_branch_name] = detailed_pr.base.ref
     attributes[:head_branch_name] = detailed_pr.head.ref
-
+    attributes[:base_sha] = detailed_pr.base.sha
+    attributes[:head_sha] = detailed_pr.head.sha
     # Update the record
     if is_new
       pull_request.assign_attributes(attributes)

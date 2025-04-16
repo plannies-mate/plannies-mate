@@ -219,7 +219,7 @@ RSpec.describe 'Fixtures' do
           nil_exists = model.exists?(column.name => nil)
           non_nil_exists = model.where.not(column.name => nil).exists?
 
-          message = "#{model.name}.#{column.name} should have examples of both nil and non-nil values"
+          message = "#{model.name}.#{column.name} should have examples of both nil and non-nil values in the #{model.count} records"
 
           # Dynamically pending or pass based on data
           # if !nil_exists || !non_nil_exists

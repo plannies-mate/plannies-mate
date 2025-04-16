@@ -11,12 +11,12 @@ class CreateAuthorityTestResults < ActiveRecord::Migration[8.0]
       # The authority label as it appears in the data (can differ from authority.short_name)
       t.string :authority_label
       
-      # Status for this authority (successful/failed/interrupted)
-      t.string :status, null: false
+      # see error_message for distinction between failed and interrupted
+      t.boolean :failed, default: false, null: false
       # Number of records found for this authority
       t.integer :record_count, default: 0
-      # Specific error for this authority
-      t.text :error_message
+      # Specific error for this authority (truncated to 250 chars)
+      t.string :error_message
 
       t.timestamps null: false
       

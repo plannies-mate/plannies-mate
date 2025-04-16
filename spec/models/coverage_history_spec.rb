@@ -47,16 +47,16 @@ RSpec.describe CoverageHistory do
   end
 
   describe 'percentage calculations' do
-    it 'calculates broken authority percentage using fixture data' do
+    it 'calculates broken authority percentage using census data' do
       history = FixtureHelper.find(CoverageHistory, :recent)
       expected = (history.broken_authority_count.to_f / history.authority_count * 100).round(1)
 
       expect(history.broken_authority_percentage).to eq(expected)
     end
 
-    it 'calculates broken population percentage using fixture data' do
+    it 'calculates broken population percentage using census data' do
       history = FixtureHelper.find(CoverageHistory, :recent)
-      expected = (history.broken_population.to_f / history.total_population * 100).round(1)
+      expected = (history.broken_population.to_f / CoverageHistory::AUSTRALIAN_POPULATION_2021_CENSUS * 100).round(1)
 
       expect(history.broken_population_percentage).to eq(expected)
     end
@@ -64,7 +64,7 @@ RSpec.describe CoverageHistory do
     it 'calculates coverage percentage using fixture data' do
       history = FixtureHelper.find(CoverageHistory, :recent)
       expected = ((history.total_population - history.broken_population).to_f /
-        history.total_population * 100).round(1)
+        CoverageHistory::AUSTRALIAN_POPULATION_2021_CENSUS * 100).round(1)
 
       expect(history.coverage_percentage).to eq(expected)
     end

@@ -9,10 +9,8 @@ class CreateTestResults < ActiveRecord::Migration[8.0]
       t.references :scraper, null: false, foreign_key: true
       # Git commit SHA first listed in History
       t.string :commit_sha, null: false
-      # Is a new test running
-      t.boolean :running, null: false, default: false
-      # Status of last COMPLETE run (passed/failed/none)
-      t.string :status, null: false
+      # one or more authorities failed
+      t.boolean :failed, default: false, null: false
       # When the test was last run (approx, eg based on "about 15 hours ago")
       t.datetime :run_at, null: false
       # How long the test took (in minutes)

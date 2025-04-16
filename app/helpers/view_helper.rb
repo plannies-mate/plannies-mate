@@ -81,4 +81,12 @@ module ViewHelper
       authority.month_count > authority.week_count &&
       issue.labels.none? { |lab| lab.name == 'probably fixed' }
   end
+
+  def colour_for_authority_test_result(authority_test)
+    if authority_test.failed
+      'red'
+    else
+      'green'
+    end
+  end
 end

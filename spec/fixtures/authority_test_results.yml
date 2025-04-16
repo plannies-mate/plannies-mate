@@ -1,0 +1,94 @@
+# == Schema Information
+#
+# Table name: authority_test_results
+#
+#  id              :integer          not null, primary key
+#  authority_label :string
+#  error_message   :string
+#  failed          :boolean          default(FALSE), not null
+#  record_count    :integer          default(0)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  authority_id    :integer          not null
+#  test_result_id  :integer          not null
+#
+# Indexes
+#
+#  idx_authority_test_results                      (test_result_id,authority_id) UNIQUE
+#  index_authority_test_results_on_authority_id    (authority_id)
+#  index_authority_test_results_on_test_result_id  (test_result_id)
+#
+# Foreign Keys
+#
+#  authority_id    (authority_id => authorities.id)
+#  test_result_id  (test_result_id => test_results.id)
+#
+
+---
+# Authority results for multiple_atdis success test
+armidale_result:
+  test_result: test_multiple_atdis_success
+  authority: armidale
+  authority_label: "armidale"
+  failed: false
+  record_count: 8
+  created_at: 2025-04-13 10:15:30
+  updated_at: 2025-04-13 10:15:30
+
+bathurst_result:
+  test_result: test_multiple_atdis_success
+  authority: bathurst
+  authority_label: "bathurst"
+  failed: false
+  record_count: 12
+  created_at: 2025-04-13 10:15:30
+  updated_at: 2025-04-13 10:15:30
+
+broken_result:
+  test_result: test_multiple_atdis_success
+  authority: burwood
+  authority_label: "burwood"
+  failed: true
+  record_count: 0
+  error_message: "Error: Connection timeout"
+  created_at: 2025-04-13 10:15:30
+  updated_at: 2025-04-13 10:15:30
+
+# Authority results for multiple_atdis failed test
+multiple_failed_result:
+  test_result: test_multiple_atdis_fail
+  authority: armidale
+  authority_label: "armidale"
+  failed: true
+  error_message: "Error: Invalid response"
+  record_count: 0
+  created_at: 2025-04-09 14:22:45
+  updated_at: 2025-04-09 14:22:45
+
+# Results for multiple_technology_one test
+ryde_result:
+  test_result: test_multiple_technology_one
+  authority: ryde
+  authority_label: "city_of_ryde"
+  failed: false
+  record_count: 15
+  created_at: 2025-04-14 09:30:15
+  updated_at: 2025-04-14 09:30:15
+
+blacktown_result:
+  test_result: test_multiple_technology_one
+  authority: blacktown
+  authority_label: "blacktown"
+  failed: false
+  record_count: 23
+  created_at: 2025-04-14 09:30:15
+  updated_at: 2025-04-14 09:30:15
+
+act_result:
+  test_result: test_act
+  authority: act
+  authority_label:
+  failed: false
+  record_count:
+  created_at: 2025-04-14 09:30:15
+  updated_at: 2025-04-14 09:30:15

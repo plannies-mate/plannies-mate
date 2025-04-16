@@ -39,7 +39,6 @@ class PullRequest < ApplicationRecord
                           class_name: 'User'
   belongs_to :issue, optional: true
   belongs_to :scraper, required: true
-  has_one :branch, dependent: :nullify
 
   # Validations
   validates :base_branch_name,

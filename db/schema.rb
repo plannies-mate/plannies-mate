@@ -42,25 +42,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_142200) do
     t.integer "test_result_id", null: false
     t.integer "authority_id", null: false
     t.string "authority_label"
-    t.string "status", null: false
+    t.boolean "failed", default: false, null: false
     t.integer "record_count", default: 0
-    t.text "error_message"
+    t.string "error_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["authority_id"], name: "index_authority_test_results_on_authority_id"
     t.index ["test_result_id", "authority_id"], name: "idx_authority_test_results", unique: true
     t.index ["test_result_id"], name: "index_authority_test_results_on_test_result_id"
-  end
-
-  create_table "branches", force: :cascade do |t|
-    t.integer "scraper_id", null: false
-    t.string "name", null: false
-    t.integer "pull_request_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["pull_request_id"], name: "index_branches_on_pull_request_id"
-    t.index ["scraper_id", "name"], name: "idx_scraper_branches", unique: true
-    t.index ["scraper_id"], name: "index_branches_on_scraper_id"
   end
 
   create_table "coverage_histories", force: :cascade do |t|
@@ -140,13 +129,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_142200) do
     t.boolean "locked", default: false, null: false
     t.string "head_branch_name", null: false
     t.string "base_branch_name", null: false
+    t.string "head_sha", null: false
+    t.string "base_sha", null: false
     t.datetime "closed_at"
     t.datetime "merged_at"
     t.integer "issue_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "head_sha", null: false
-    t.string "base_sha", null: false
     t.index ["head_sha"], name: "index_pull_requests_on_head_sha"
     t.index ["issue_id"], name: "index_pull_requests_on_issue_id"
     t.index ["scraper_id", "number"], name: "index_pull_requests_on_scraper_id_and_number", unique: true
@@ -170,8 +159,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_142200) do
     t.string "name", null: false
     t.integer "scraper_id", null: false
     t.string "commit_sha", null: false
-    t.boolean "running", default: false, null: false
-    t.string "status", null: false
+    t.boolean "failed", default: false, null: false
     t.datetime "run_at", null: false
     t.integer "duration"
     t.integer "records_added", default: 0, null: false
@@ -194,8 +182,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_142200) do
   add_foreign_key "authorities", "scrapers"
   add_foreign_key "authority_test_results", "authorities"
   add_foreign_key "authority_test_results", "test_results"
-  add_foreign_key "branches", "pull_requests"
-  add_foreign_key "branches", "scrapers"
   add_foreign_key "issue_assignees", "issues"
   add_foreign_key "issue_assignees", "users"
   add_foreign_key "issue_labels_issues", "issue_labels"

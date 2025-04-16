@@ -1,0 +1,78 @@
+# == Schema Information
+#
+# Table name: test_results
+#
+#  id              :integer          not null, primary key
+#  commit_sha      :string           not null
+#  duration        :integer
+#  failed          :boolean          default(FALSE), not null
+#  name            :string           not null
+#  records_added   :integer          default(0), not null
+#  records_removed :integer          default(0), not null
+#  run_at          :datetime         not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  scraper_id      :integer          not null
+#
+# Indexes
+#
+#  index_test_results_on_git_sha          ("git_sha")
+#  index_test_results_on_name_and_run_at  (name,run_at) UNIQUE
+#  index_test_results_on_scraper_id       (scraper_id)
+#
+# Foreign Keys
+#
+#  scraper_id  (scraper_id => scrapers.id)
+#
+
+---
+# Test results for multiple_atdis (head_sha matches pr18)
+test_multiple_atdis_success:
+  name: "ianheggie-oaf/multiple_atdis"
+  scraper: multiple_atdis
+  commit_sha: "sha100"
+  failed: false
+  run_at: 2025-04-13 10:15:30
+  duration: 420
+  records_added: 24
+  records_removed: 2
+  created_at: 2025-04-13 10:15:30
+  updated_at: 2025-04-13 10:15:30
+
+# Test results for multiple_atdis (no matching PR)
+test_multiple_atdis_fail:
+  name: "ianheggie-oaf/multiple_atdis"
+  scraper: multiple_atdis
+  commit_sha: "sha999"
+  failed: true
+  run_at: 2025-04-09 14:22:45
+  duration: 120
+  records_added: 0
+  records_removed: 0
+  created_at: 2025-04-09 14:22:45
+  updated_at: 2025-04-09 14:22:45
+
+# Test results for multiple_technology_one (matches pr22)
+test_multiple_technology_one:
+  name: "ianheggie-oaf/multiple_technology_one"
+  scraper: multiple_technology_one
+  commit_sha: "sha103"
+  failed: false
+  run_at: 2025-04-14 09:30:15
+  duration:
+  records_added: 38
+  records_removed: 0
+  created_at: 2025-04-14 09:30:15
+  updated_at: 2025-04-14 09:30:15
+
+test_act:
+  name: "ianheggie-oaf/act"
+  scraper: act
+  commit_sha: "sha173"
+  failed: false
+  run_at: 2025-04-14 09:30:15
+  duration:
+  records_added: 38
+  records_removed: 0
+  created_at: 2025-04-14 09:30:15
+  updated_at: 2025-04-14 09:30:15

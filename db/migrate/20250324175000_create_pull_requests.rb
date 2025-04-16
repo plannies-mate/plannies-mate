@@ -13,9 +13,10 @@ class CreatePullRequests < ActiveRecord::Migration[8.0]
       t.boolean :locked, null: false, default: false
       t.string :head_branch_name, null: false
       t.string :base_branch_name, null: false
+      t.string :head_sha, null: false, index: true
+      t.string :base_sha, null: false
       t.datetime :closed_at
       t.datetime :merged_at
-
       # If we can work it out ...
       t.references :issue, null: true, foreign_key: true
 

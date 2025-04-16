@@ -15,13 +15,15 @@ module FixtureHelper
     ['authorities', Authority], # Depends on scrapers,
     ['issues', Issue], # Depends on authority, scrapers and user
     ['pull_requests', PullRequest], # references scraper
-    ['branches', Branch], # Depends on scrapers,
+    ['test_results', TestResult],
+    ['authority_test_results', AuthorityTestResult],
     # Join tables with fixtures
     ['issue_labels_issues', nil], # HABTM
     ['issue_assignees', nil], # HABTM
     ['pull_request_assignees', nil], # HABTM
   ].freeze
-  ASSOCIATIONS = %w[authority branch coverage_history user issue_label issue pull_request scraper].freeze
+
+  ASSOCIATIONS = %w[authority coverage_history user issue_label issue pull_request scraper test_result].freeze
 
   def self.id_for(value)
     (value.to_s.hash.abs % 0x7FFFFFFE) + 1

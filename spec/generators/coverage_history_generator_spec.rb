@@ -21,8 +21,8 @@ RSpec.describe CoverageHistoryGenerator do
 
         expect(File.exist?(result[:output_file])).to be true
 
+        expect(result).to include(:authorities_data)
         expect(result).to include(:histories)
-        expect(result).to include(:chart_data)
         expect(result).to include(:recent)
       end
     end
