@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_16_142200) do
   create_table "authorities", force: :cascade do |t|
     t.string "short_name", null: false
     t.string "state", limit: 3
@@ -36,6 +36,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.index ["broken_score"], name: "index_authorities_on_broken_score"
     t.index ["scraper_id"], name: "index_authorities_on_scraper_id"
     t.index ["short_name"], name: "index_authorities_on_short_name", unique: true
+  end
+
+  create_table "authority_test_results", force: :cascade do |t|
+    t.integer "test_result_id", null: false
+    t.integer "authority_id", null: false
+    t.string "authority_label"
+    t.string "status", null: false
+    t.integer "record_count", default: 0
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["authority_id"], name: "index_authority_test_results_on_authority_id"
+    t.index ["test_result_id", "authority_id"], name: "idx_authority_test_results", unique: true
+    t.index ["test_result_id"], name: "index_authority_test_results_on_test_result_id"
   end
 
   create_table "branches", force: :cascade do |t|
@@ -131,6 +145,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.integer "issue_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "head_sha", null: false
+    t.string "base_sha", null: false
+    t.index ["head_sha"], name: "index_pull_requests_on_head_sha"
     t.index ["issue_id"], name: "index_pull_requests_on_issue_id"
     t.index ["scraper_id", "number"], name: "index_pull_requests_on_scraper_id_and_number", unique: true
     t.index ["scraper_id"], name: "index_pull_requests_on_scraper_id"
@@ -149,6 +166,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
     t.index ["name"], name: "index_scrapers_on_name", unique: true
   end
 
+  create_table "test_results", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "scraper_id", null: false
+    t.string "commit_sha", null: false
+    t.boolean "running", default: false, null: false
+    t.string "status", null: false
+    t.datetime "run_at", null: false
+    t.integer "duration"
+    t.integer "records_added", default: 0, null: false
+    t.integer "records_removed", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "\"git_sha\"", name: "index_test_results_on_git_sha"
+    t.index ["name", "run_at"], name: "index_test_results_on_name_and_run_at", unique: true
+    t.index ["scraper_id"], name: "index_test_results_on_scraper_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "login", null: false
     t.string "avatar_url"
@@ -158,6 +192,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
   end
 
   add_foreign_key "authorities", "scrapers"
+  add_foreign_key "authority_test_results", "authorities"
+  add_foreign_key "authority_test_results", "test_results"
   add_foreign_key "branches", "pull_requests"
   add_foreign_key "branches", "scrapers"
   add_foreign_key "issue_assignees", "issues"
@@ -170,4 +206,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_011742) do
   add_foreign_key "pull_request_assignees", "users"
   add_foreign_key "pull_requests", "issues"
   add_foreign_key "pull_requests", "scrapers"
+  add_foreign_key "test_results", "scrapers"
 end

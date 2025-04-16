@@ -6,8 +6,10 @@
 #
 #  id               :integer          not null, primary key
 #  base_branch_name :string           not null
+#  base_sha         :string           not null
 #  closed_at        :datetime
 #  head_branch_name :string           not null
+#  head_sha         :string           not null
 #  locked           :boolean          default(FALSE), not null
 #  merged_at        :datetime
 #  number           :integer          not null
@@ -19,6 +21,7 @@
 #
 # Indexes
 #
+#  index_pull_requests_on_head_sha               (head_sha)
 #  index_pull_requests_on_issue_id               (issue_id)
 #  index_pull_requests_on_scraper_id             (scraper_id)
 #  index_pull_requests_on_scraper_id_and_number  (scraper_id,number) UNIQUE
