@@ -7,7 +7,7 @@ require_relative '../helpers/application_helper'
 require_relative '../helpers/html_helper'
 require_relative 'scraper_base'
 
-# Class to scrape authority list from PlanningAlerts website
+# Class to scrape test results list from morph.io
 class TestResultsFetcher
   extend ApplicationHelper
   extend HtmlHelper
@@ -19,7 +19,7 @@ class TestResultsFetcher
     @agent = agent || self.class.create_agent
   end
 
-  # Return the list of all authorities from main planning alerts page
+  # Return the list of all test results from morph.io
   #
   # @example:
   #   [
@@ -29,7 +29,7 @@ class TestResultsFetcher
   #       'errored' => false,
   #       'description' => 'Test All civica pull requests',
   #       'full_name' => 'multiple_civica-prs',
-  #        'running' => false,
+  #       'running' => false,
   #     },
   #     ...
   #   ]
@@ -49,26 +49,24 @@ class TestResultsFetcher
 
   def parse_test_results(page)
     test_results = []
-    rows = page.search('div.scraper-block')
+    scraper_blocks = page.search('div.scraper-block')
 
-    rows.each do |row|
+    scraper_blocks.each do |block|
       record = {}
-      cells = row.search('td')
-      next if cells.empty? || cells.length < 3
 
-      cells[1]
-      test_result_link = row.at('a')
-      next unless test_result_link
+      lang_element = block.at('small.scraper-lang')
+      record['lang'] = lang_element&.text&.strip
+      record['auto_run'] = !block.at('i.fa-clock-o').nil?
+      record['errored'] = !block.at('span.label-danger').nil?
+      record['running'] = !block.at('div.running-indicator').nil?
+      full_name_element = block.at('strong.full_name')
+      record['full_name'] = full_name_element&.text&.strip
+      description_div = block.search('div')&.last
+      record['description'] = description_div&.text&.strip
 
-      state = self.class.extract_text(cells[0])
-      record['state'] = state if STATES.include?(state)
-      record['name'] = self.class.extract_text(test_result_link)
-      record['short_name'] = self.class.last_url_segment test_result_link['href']
-      record['possibly_broken'] = self.class.extract_text(row).downcase.include?('possibly broken')
-      record['population'] = self.class.extract_number(cells[2]&.text)
-      test_results << record
+      test_results << record if record['full_name'].to_s != ''
     end
 
-    authorities
+    test_results
   end
 end
