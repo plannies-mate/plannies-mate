@@ -1,0 +1,232 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://morph.io/robots.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - morph.io
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.20.2
+      Date:
+      - Fri, 18 Apr 2025 16:14:56 GMT
+      Content-Type:
+      - text/plain
+      Content-Length:
+      - '254'
+      Last-Modified:
+      - Sun, 16 Oct 2022 06:29:58 GMT
+      Connection:
+      - keep-alive
+      Etag:
+      - '"634ba4e6-fe"'
+      Accept-Ranges:
+      - bytes
+    body:
+      encoding: UTF-8
+      string: |-
+        # See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
+        #
+        # To ban all spiders from the entire site uncomment the next two lines:
+        # User-agent: *
+        # Disallow: /
+
+        Sitemap: https://morph.io/sitemaps/sitemap.xml.gz
+  recorded_at: Fri, 18 Apr 2025 16:14:57 GMT
+- request:
+    method: get
+    uri: https://morph.io/ianheggie-oaf/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - morph.io
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - d7aca8c4-e5af-4617-b230-29d884b8177b
+      X-Download-Options:
+      - noopen
+      Etag:
+      - W/"832f6ce245c7cf59a14f2dbfc27e441a"
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Runtime:
+      - '0.025861'
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Fri, 18 Apr 2025 16:14:57 GMT
+      Set-Cookie:
+      - _morph_session=NXBNZklaVGQzeGdJRFFDVDhwR1JWcFFqWG9uQ2kvb25Vbm4veDlPWHBVa2Y5VDZuYVBwVEM5YXo2YVozZW5yZGQ5Wm1ORGNnRjJNYnBTVmNxMVBkdnIxcnl5L0ZaME9nL09EYjFlZ1JvNTVXekJSUkd2RjVISGFZZUF0MG5LYk1iSFkzcnJFZXNXd1lGUDFWMStOVWpCNFhtL2V3UmUwYVc2RC9oMVRqZEtKcG0rRjJ2dHlQbmZOWkZuc0lKVm5VbUJmYmZ0SXFOZ0lQMXBYWEpxbWROS2g5TEdlM1ViUm9heEZIMmp3ZkVyST0tLUdFSjBrT0ZjNVI1WGRrckNEbWs2d3c9PQ%3D%3D--dfac1c6cccece3a2fbd0af764a3971cd50a18740;
+        path=/; HttpOnly
+      X-Powered-By:
+      - Phusion Passenger(R) 6.0.15
+      Server:
+      - nginx/1.20.2 + Phusion Passenger(R) 6.0.15
+      Content-Encoding:
+      - gzip
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+  recorded_at: Fri, 18 Apr 2025 16:14:57 GMT
+- request:
+    method: get
+    uri: https://morph.io/robots.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - morph.io
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.20.2
+      Date:
+      - Fri, 18 Apr 2025 16:14:57 GMT
+      Content-Type:
+      - text/plain
+      Content-Length:
+      - '254'
+      Last-Modified:
+      - Sun, 16 Oct 2022 06:29:58 GMT
+      Connection:
+      - keep-alive
+      Etag:
+      - '"634ba4e6-fe"'
+      Accept-Ranges:
+      - bytes
+    body:
+      encoding: UTF-8
+      string: |-
+        # See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
+        #
+        # To ban all spiders from the entire site uncomment the next two lines:
+        # User-agent: *
+        # Disallow: /
+
+        Sitemap: https://morph.io/sitemaps/sitemap.xml.gz
+  recorded_at: Fri, 18 Apr 2025 16:14:57 GMT
+- request:
+    method: get
+    uri: https://morph.io/ianheggie-oaf/clarence/data.json?key=<MORPH_API_KEY>&query=SELECT%20authority_label,%20count(*)%20AS%20count%20FROM%20data%20WHERE%20date_scraped%20%3E=%20date(%27now%27,%27-7%20days%27)%20GROUP%20BY%201
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - morph.io
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 400 Bad Request
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - fd585a07-8465-4e3f-b035-89723af174ab
+      X-Runtime:
+      - '0.011044'
+      Date:
+      - Fri, 18 Apr 2025 16:14:58 GMT
+      Set-Cookie:
+      - _morph_session=ZTZmNVRuUjFmbkJ3cjE0am9HR1hIN0lUZWNtUXNLTitzVm1tTzhIN3hDVU9vS2FRd0ZHRUpBOEdKSzZZRGYrSEpTeGUxaHhwNEg5OFE1bTNoNGRlZXM2WXlsTVhFYmZlYmo3R3hQSmdNbFA5SHJMczZTYXA1S3NLWk9zUnBSSFZkZ0hRTWYxMjB4b3J2WFIxNnlwWXVyc3dGYVRTN1dKdnRrMEFabHVDbFlnZzVnWDEzakduS3JRekJOR3hzaDZJQURINUo1Y0RGM0JhSE1EelpYb3lBWmx5YlF0Yno3M1ZiWWdaeHBBUkpRNWlIUEF3MmlVZDdGRlZNY2xUSy8wV0NWQVBjemc2bkZIN2dSalN0TmxZYVZLM2dDeTZac2E4NmlHbFk0WG15T1BiL2k1SmdRVUZ1ZG5CYXlQc0VSc3hqWlFlZ1lSNzBZNkg1QWY5MFFzSU1EQm1Dbk1VSjRRS3pjMFpMTkFwSW9Nc1Q4TjRmcFNYUjFJRC9HWmZhYW1PLS1GMXN6ZFk1L2U0NkhHa1AwMklBTVlRPT0%3D--479708bbbb77aa9ac94bdabf4f8a5ad87b2dea0f;
+        path=/; HttpOnly
+      X-Powered-By:
+      - Phusion Passenger(R) 6.0.15
+      Server:
+      - nginx/1.20.2 + Phusion Passenger(R) 6.0.15
+    body:
+      encoding: UTF-8
+      string: '{"error":"no such column: authority_label"}'
+  recorded_at: Fri, 18 Apr 2025 16:14:58 GMT
+recorded_with: VCR 6.3.1

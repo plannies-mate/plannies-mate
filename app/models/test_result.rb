@@ -48,21 +48,9 @@ class TestResult < ApplicationRecord
     PullRequest.where(head_sha: commit_sha)
   end
 
-  # Determine overall status for display
-  # def status_summary
-  #   successful = authority_test_results.where(failed: false).count
-  #   total = authority_test_results.count
-  #
-  #   if total.zero?
-  #     'Unknown'
-  #   elsif successful.zero?
-  #     'Bad'
-  #   elsif successful == total
-  #     'Good'
-  #   else
-  #     "#{successful}/#{total}"
-  #   end
-  # end
+  def html_url
+    "#{Constants::MORPH_URL}/#{Constants::MY_GITHUB_NAME}/#{name}"
+  end
 
   # Calculate test duration in human-readable format
   def duration_text

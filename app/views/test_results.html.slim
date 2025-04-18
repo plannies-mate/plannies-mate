@@ -1,0 +1,57 @@
+main.wide-container
+  section.content-section
+    .section-header
+      h2
+        i.fa-solid.fa-code-pull-request
+        |  My Test Results
+      p.subtitle
+        a> href="https://morph.io/ianheggie-oaf" Morph.io test runs
+        ' for repos owned by #{Constants::MY_GITHUB_NAME}
+
+    .table-container
+      table.sortable.sticky-header.data-table
+        thead
+          tr
+            th Name
+            th Scraper
+            th Failed?
+            th.right Authorities
+            th Commit Sha
+            th duration
+            th.right Added
+            th.right Removed
+            th Last Run At
+            th Links
+
+        tbody
+          - test_results.each do |test_result|
+            tr
+              td = test_result.name
+              td
+                a href="#{path_for test_result.scraper}" title="Scraper Information"
+                  == add_word_breaks CGI::escape_html(test_result.scraper.name)
+              td = test_result.failed?
+              td.right = test_result.authorities.count
+              td
+                a href="#{Constants::GITHUB_URL}/#{Constants::MY_GITHUB_NAME}/#{test_result.scraper.name}/commit/#{test_result.commit_sha}"
+                = test_result.commit_sha.last(8)
+              td = test_result.duration
+              td.right = test_result.records_added
+              td.right = test_result.records_removed
+              td = format_date(test_result.run_at)
+              td
+                a href="#{test_result.html_url}" target="_blank" title="View Pull Request on GitHub"
+                  i.fa-solid.fa-code-pull-request
+                '
+                - if test_result.scraper
+                  a href="#{test_result.scraper.morph_url}" target="_blank" title="View scraper on morph.io"
+                    span.morph-icon
+                  '
+                  a href="#{test_result.scraper.github_url}" target="_blank" title="View scraper on GitHub"
+                    i.fa-solid.fa-code
+              / td.right
+              /   a.button href="/app/test_results/#{test_result.id}" Edit
+
+    .section-footer
+      p Total: #{test_results.size} pull requests
+      / , #{test_results.count { |test_result| test_result.authorities.empty? }} with no authorities assigned

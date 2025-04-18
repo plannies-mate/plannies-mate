@@ -36,11 +36,12 @@ rules apply.
 
 - Write code that is immediately understandable
 - Prioritize clarity over cleverness
-- Comments explain "why", code explains "how"
+- Comments explain "why" (only needed when it is not obvious), code explains "how" (try and make code more readable
+  first)
 - Keep functions short and focused (under 20 lines)
 - Keep files focused on a single clear responsibility (under 200 lines)
-- Choose readable variable names over terse ones
-- Write code optimized for developer efficiency and understanding, follow Knuth's recommendation:
+- Choose readable meaningful variable names over terse ones
+- Write code optimized for developer efficiency whilst avoiding excessive run times, follow Knuth's recommendation:
     - In Donald Knuth's paper "Structured Programming With Go To Statements", he wrote:
       "Programmers waste enormous amounts of time thinking about, or worrying about,
       the speed of noncritical parts of their programs, and these attempts at efficiency actually
@@ -74,8 +75,7 @@ Language specific guidelines:
 - Explicitly state why a change or alternative solution is necessary
 - Focus primarily on completing the requested task.
     - If uncertain, ask clarifying questions first before proceeding
-    - When you have suggestions beyond the scope of the request,
-      present them as succinct bullet points alongside your implementation.
+    - Present suggestions (beyond the scope of the request) as succinct bullet points immediately in your response
       This allows me to decide whether to:
         - Interrupt the current work to discuss your suggestion
         - Note it for later consideration
@@ -142,6 +142,58 @@ Language specific guidelines:
 - Propose simplifications when possible
 - Identify potential issues early
 - Be explicit about implementation trade-offs
+
+## My Preferences
+
+## Development style
+
+* Progressive enhancement - Start with the simplest solution that works, then improve incrementally as needed rather
+  than trying to build the perfect solution upfront (goes with "You don't really know what you will discover or learn in
+  the future")
+* Dependency management - Be thoughtful about which external libraries you include; each adds maintenance burden
+    * explicitly document via Gemfile for ruby or requirements.txt for python
+* I use Automated formatting/linting - Rubocop (for Ruby) or Black/Flake8 (for Python) to enforce consistency with less
+  effort
+
+### Error Handling Preferences
+
+* Exception-based: Use exceptions for truly exceptional conditions, with custom exception classes
+* Return values + logging: Return nil/false for expected failures, log details
+* Early returns: Check conditions at start of methods and return early
+* Defensive programming: Validate inputs we rely on, assume everything can fail
+* Contextual errors: Include context in error messages (what was being processed)
+
+### Testing Philosophy
+
+* lightweight BDD approach appropriate for a personal project: Focus on behavior specifications first, with a cycle of
+    * expect something to happen,
+    * write enough implementation to see what we actually get back and likely side issues
+    * update our understanding and adjust expected behaviour as appropriate
+
+* Test reality not mock-ups of how we expect the world works - use VCR to cache real examples, and Webmock to test when
+  the outside world misbehaves
+
+### Documentation Style
+
+* Minimal docs: Self-documenting code with docs only for complex logic
+* Example-driven: Include usage examples in docs ONLY when its not clear
+* Inline comments: Focus on inline comments over formal method docs
+* Intent documentation: Document the "why" not the "what"
+* Architecture docs: Separate high-level architecture documents into docs/IMPLEMENTATION-*.md when it applies to
+  multiple files
+
+### Naming Conventions
+
+* Concise but clear: Shorter names that are still descriptive
+* Domain-specific language: Names that mirror the business domain
+* Contextual naming: Names that reflect the context they're used in
+* Action-based: Verb-first for methods that change state (e.g., calculate_total)
+* Queries should be nouns (eg "address") or a question when it returns a boolean (eg "valid?)
+* Consistency over conventions: Team consistency trumps external conventions
+
+### Performance Considerations
+
+* Optimize for readability and maintainability first: Performance concerns secondary to clarity
 
 Remember: The AI's role is to implement the specified requirements accurately and simply, not to enhance them without
 discussion.

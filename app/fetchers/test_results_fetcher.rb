@@ -17,6 +17,8 @@ class TestResultsFetcher
 
   def initialize(agent = nil)
     @agent = agent || self.class.create_agent
+    @details_fetcher = TestResultDetailsFetcher.new(@agent)
+    @details_cache = {}
   end
 
   # Return the list of all test results from morph.io
@@ -41,7 +43,8 @@ class TestResultsFetcher
     return nil if page.nil?
 
     test_results = parse_test_results(page)
-    self.class.log "Fetched #{test_results.size} test_results"
+
+    self.class.log "Fetched #{test_results.size} valid test results"
     test_results
   end
 
@@ -64,7 +67,7 @@ class TestResultsFetcher
       description_div = block.search('div')&.last
       record['description'] = description_div&.text&.strip
 
-      test_results << record if record['full_name'].to_s != ''
+      test_results << record unless ['', 'selfie-scraper'].include?(record['full_name'].to_s)
     end
 
     test_results

@@ -14,15 +14,12 @@ class PullRequestsGenerator
   def self.generate
     # Get all pull requests ordered by creation date (newest first)
     pull_requests = PullRequest.order(created_at: :desc).to_a
-    
-    return nil if pull_requests.empty?
-    
-    # Prepare data for the template
+
     locals = {
       pull_requests: pull_requests,
-      title: 'Pull Requests'
+      title: 'Pull Requests',
     }
-    
+
     locals[:output_file] = render_to_file('pull_requests', 'pull_requests', locals)
     log "Generated pull requests page with #{pull_requests.size} pull requests"
     locals

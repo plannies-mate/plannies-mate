@@ -34,12 +34,13 @@ module ScraperBase
     # @param url [String] URL to fetch
     # @param agent [Mechanize] Mechanize Agent
     # @param force [Boolean, :historical] Force page to be retrieved (:historical does not save cache info)
+    # @param cache_key [String, nil] Optional key for cache
     # @return [Mechanize::Page, nil] The page if modified, nil if not modified
-    def fetch_page_with_cache(url, agent: nil, force: false)
+    def fetch_page_with_cache(url, agent: nil, force: false, cache_key: nil)
       agent ||= create_agent
 
       # Get the cache entry for this URL
-      cache_entry = HttpCacheEntry.for_url(url)
+      cache_entry = HttpCacheEntry.for_url(cache_key || url)
 
       # Don't use cached data if forced or the entry is stale
       headers = {}

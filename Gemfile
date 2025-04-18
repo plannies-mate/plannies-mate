@@ -34,7 +34,7 @@ group :development, :test do
   gem 'annotaterb', '4.7.1' # versions 4.8 through 4.14 have a bug with yml files
   gem 'rack-test', '~> 2.2'
   gem 'rspec', '~> 3.13'
-  gem 'rubocop', '~> 1.74'
+  gem 'rubocop', '~> 1.74', require: false
   gem 'simplecov', '~> 0.22.0'
   gem 'simplecov-console', '~> 0.9.3'
   gem 'vcr', '~> 6.3'

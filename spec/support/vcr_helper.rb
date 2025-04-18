@@ -16,6 +16,9 @@ VCR.configure do |config|
   config.filter_sensitive_data('<GITHUB_TOKEN>') do |interaction|
     Regexp.last_match(1) if interaction.request.headers['Authorization']&.first =~ /^token\s+(.+)/
   end
+  config.filter_sensitive_data('<MORPH_API_KEY>') do |interaction|
+    CGI.unescape(Regexp.last_match(1)) if interaction.request.uri.match(/key=([^&]+)/)
+  end
 
   # Set default recording mode - one of :once, :new_episodes, :none, :all
   vcr_mode = ENV.fetch('VCR_MODE', nil) =~ /rec/i ? :all : :once
