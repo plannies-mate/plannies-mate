@@ -12,7 +12,7 @@ RSpec.describe TestResultDetailsFetcher do
       let(:test_name) do
         index_fetcher = TestResultsFetcher.new
         list = index_fetcher.fetch
-        result = list&.find { |item| item['full_name']&.start_with?('multiple_') }&.dig('full_name')
+        result = list&.find { |item| item['name']&.start_with?('multiple_') }&.dig('name')
         puts "Using test_name: #{result}"
         result
       end
@@ -28,14 +28,12 @@ RSpec.describe TestResultDetailsFetcher do
                                    'failed_authorities',
                                    'has_authority_label',
                                    'interrupted_authorities',
-                                   'name',
-                                   'revision',
+                                   'commit_sha',
                                    'run_at',
                                    'run_time',
                                    'successful_authorities',
                                    'tables')
 
-        expect(details['name']).to eq(test_name)
         expect(details['failed']).to be_in([true, false])
 
         # Check for tables
@@ -58,7 +56,7 @@ RSpec.describe TestResultDetailsFetcher do
       let(:test_name) do
         index_fetcher = TestResultsFetcher.new
         list = index_fetcher.fetch
-        result = list&.find { |item| !item['full_name']&.start_with?('multiple_') }&.dig('full_name')
+        result = list&.find { |item| !item['name']&.start_with?('multiple_') }&.dig('name')
         puts "Using test_name: #{result}"
         result
       end
@@ -67,9 +65,9 @@ RSpec.describe TestResultDetailsFetcher do
         details = fetcher.fetch(test_name)
         expect(details).to be_a(Hash)
 
-        expect(details).to include('failed', 'has_authority_label', 'name', 'revision', 'run_at', 'run_time', 'tables')
+        expect(details).to include('failed', 'has_authority_label', 'commit_sha', 'run_at', 'run_time',
+                                   'tables')
 
-        expect(details['name']).to eq(test_name)
         expect(details['tables']).to include('data')
         expect(details['tables']).not_to include('scrape_summary')
         expect(details['has_authority_label']).to be false

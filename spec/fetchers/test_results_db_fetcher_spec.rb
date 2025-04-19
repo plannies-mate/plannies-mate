@@ -13,10 +13,10 @@ RSpec.describe TestResultsDbFetcher do
         details_fetcher = TestResultDetailsFetcher.new
         list = index_fetcher.fetch
         result = list&.find do |item|
-          item['full_name']&.start_with?('multiple_') &&
-            (details = details_fetcher.fetch(item['full_name'])) &&
+          item['name']&.start_with?('multiple_') &&
+            (details = details_fetcher.fetch(item['name'])) &&
             details['tables']&.include?('scrape_summary')
-        end&.dig('full_name')
+        end&.dig('name')
         puts "Using test_name: #{result}"
         result
       end
@@ -47,8 +47,8 @@ RSpec.describe TestResultsDbFetcher do
         index_fetcher = TestResultsFetcher.new
         list = index_fetcher.fetch
         result = list&.find do |item|
-          !item['full_name']&.start_with?('multiple_')
-        end&.dig('full_name')
+          !item['name']&.start_with?('multiple_')
+        end&.dig('name')
         puts "Using test_name: #{result}"
         result
       end
@@ -65,8 +65,8 @@ RSpec.describe TestResultsDbFetcher do
         index_fetcher = TestResultsFetcher.new
         list = index_fetcher.fetch
         list&.find do |item|
-          !item['full_name']&.start_with?('multiple_')
-        end&.dig('full_name')
+          !item['name']&.start_with?('multiple_')
+        end&.dig('name')
       end
 
       it 'returns a count' do

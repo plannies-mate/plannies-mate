@@ -18,8 +18,6 @@ main.wide-container
             th.right Authorities
             th Commit Sha
             th duration
-            th.right Added
-            th.right Removed
             th Last Run At
             th Links
 
@@ -36,8 +34,6 @@ main.wide-container
                 a href="#{Constants::GITHUB_URL}/#{Constants::MY_GITHUB_NAME}/#{test_result.scraper.name}/commit/#{test_result.commit_sha}"
                 = test_result.commit_sha.last(8)
               td = test_result.duration
-              td.right = test_result.records_added
-              td.right = test_result.records_removed
               td = format_date(test_result.run_at)
               td
                 a href="#{test_result.html_url}" target="_blank" title="View Pull Request on GitHub"

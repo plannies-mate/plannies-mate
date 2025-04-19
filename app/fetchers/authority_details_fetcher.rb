@@ -17,7 +17,6 @@ class AuthorityDetailsFetcher
 
   def initialize(agent = nil)
     @agent = agent || self.class.create_agent
-    @fetched = []
   end
 
   # Returns find for an authority
@@ -31,7 +30,6 @@ class AuthorityDetailsFetcher
   #     "import_time": "0 s"
   #   }
   def fetch(short_name, agent: nil)
-    @fetched << short_name
     raise(ArgumentError, 'Must supply short_name') if short_name.blank?
 
     url = "#{BASE_URL}#{short_name}/under_the_hood"
@@ -64,7 +62,7 @@ class AuthorityDetailsFetcher
       unless pre_text.empty?
         details['last_import_log'] = pre_text
 
-        # Additionally extract some useful data from the log
+        # Additionally, extract some useful data from the log
         if (match = pre_text.match(/(\d+) applications found/))
           details['total_count'] = match[1].to_i
         end

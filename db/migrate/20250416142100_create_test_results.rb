@@ -11,13 +11,10 @@ class CreateTestResults < ActiveRecord::Migration[8.0]
       t.string :commit_sha, null: false
       # one or more authorities failed
       t.boolean :failed, default: false, null: false
-      # When the test was last run (approx, eg based on "about 15 hours ago")
+      # When the test was last run
       t.datetime :run_at, null: false
-      # How long the test took (in minutes)
+      # How long the test took (in minutes, 1-2 significant digits)
       t.integer :duration
-      # Number of records added/removed
-      t.integer :records_added, null: false, default: 0
-      t.integer :records_removed, null: false, default: 0
 
       t.timestamps null: false
       

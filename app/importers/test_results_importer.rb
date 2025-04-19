@@ -14,60 +14,77 @@ class TestResultsImporter
   def import
     @count = @changed = @orphaned = 0
     list = @list_fetcher.fetch
-    TestResult.pluck(:commit_sha)
+    # TestResult.pluck(:commit_sha)
     list.each do |entry|
-      name = entry['full_name']
+      name = entry['name']
       next if name.blank?
 
       test_result = TestResult.find_or_initialize_by(name: name)
-      test_result.delisted_on = nil
+      extra_details = @details_fetcher.fetch(name)
+      if extra_details.nil?
+        test_result.destroy
+        next
+      end
+
+      if extra_details['has_authority_label']
+        counts = @db_fetcher.fetch_authority_label_count(name)
+        extra_details['counts'] = counts
+        extra_details['successful_authorities'] = counts.keys.join(',') unless extra_details['successful_authorities']
+      else
+        extra_details['count'] = @db_fetcher.fetch_count(name)
+      end
+
+      entry.merge!(extra_details)
+
       test_result.assign_relevant_attributes(entry)
-      import_stats_and_details(test_result)
-      orphaned_ids - [test_result.id]
-    end
-    orphaned_ids.each do |id|
-      TestResult.find(id).update!(delisted_on: Date.today)
-    end
-    @orphaned = orphaned_ids.count
+      unless test_result.scraper
+        puts "Unable to match scraper to test_results for #{name} - ignored!"
+        next
+      end
 
-    test_result_count = TestResult.active.count
-    broken_count = TestResult.active.broken.count
-    total_pop = TestResult.active.sum(&:population)
-    broken_pop = TestResult.active.broken.sum(&:population)
-
-    coverage_history = CoverageHistory.find_or_initialize_by(recorded_on: Date.today)
-    coverage_history.update!(
-      test_result_count: test_result_count,
-      broken_test_result_count: broken_count,
-      total_population: total_pop,
-      broken_population: broken_pop
-    )
+      import_authority_test_results(test_result, entry)
+      test_result.save!
+    end
 
     puts "Updated #{@changed} of #{@count} testResults (#{@orphaned} orphaned)"
   end
 
   private
 
-  def import_stats_and_details(test_result, force: false)
-    @count += 1
-    name = test_result.name
-    details = @details_fetcher.fetch(name, force: force)
-    if details
-      test_result.assign_relevant_attributes details
+  def import_authority_test_results(test_result, entry)
+    missing_good = entry['successful_authorities'].split(',')
+    missing_bad = (entry['failed_authorities']&.split(',') || []) + (entry['interrupted_authorities']&.split(',') || [])
+    orphaned_atr_ids = test_result.authority_test_results.pluck(:id)
+    single = test_result.scraper.authorities.count == 1
+    test_result.scraper.authorities.each do |authority|
+      atr = test_result.authority_test_results.find_or_initialize_by(authority_id: authority.id)
+      orphaned_atr_ids.delete(atr.id)
+      atr.authority_label = authority.short_name
+      atr.failed = if missing_good.delete(atr.authority_label)
+                     false
+                   elsif missing_bad.delete(atr.authority_label)
+                     true
+                   elsif single
+                     !entry['count']&.positive
+                   else
+                     puts "WARNING: Failed to match test result(#{test_result.name}).authority_label" \
+                            "(#{atr.authority_label}) in remaining good(#{missing_good.inspect}) or " \
+                            "bad(#{missing_bad.inspect}) lists!"
+                     false
+                   end
 
-      scraper_name = details['scraper_name']
-      this_scraper = Scraper.find_by(name: scraper_name)
-      if this_scraper.nil?
-        this_scraper = Scraper.create!(name: scraper_name)
-        puts "Created newly found scraper: #{scraper_name}"
-      end
-      test_result.scraper = this_scraper
+      # TODO: update atr.error_message from latest scrape_log entry
+      atr.record_count = if single
+                           entry['count']
+                         else
+                           entry['counts'][atr.authority_label]
+                         end
     end
-    stats = @db_fetcher.fetch(name, force: force)
-    test_result.assign_relevant_attributes stats
-    return unless test_result.changed?
-
-    @changed += 1
-    test_result.save!
+    if orphaned_atr_ids.any?
+      puts "NOTE: Removed #{orphaned_atr_ids.size} orphaned AuthorityTestRecord records (not tested?)"
+      AuthorityTestResult.where(id: orphaned_atr_ids).delete_all
+    end
+    puts "WARNING: Unable to match successful_authorities: #{missing_good.inspect}" if missing_good.any?
+    puts "WARNING: Unable to match failed/interrupted_authorities: #{missing_bad.inspect}" if missing_bad.any?
   end
 end

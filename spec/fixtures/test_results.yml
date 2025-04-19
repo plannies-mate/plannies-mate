@@ -2,17 +2,15 @@
 #
 # Table name: test_results
 #
-#  id              :integer          not null, primary key
-#  commit_sha      :string           not null
-#  duration        :integer
-#  failed          :boolean          default(FALSE), not null
-#  name            :string           not null
-#  records_added   :integer          default(0), not null
-#  records_removed :integer          default(0), not null
-#  run_at          :datetime         not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  scraper_id      :integer          not null
+#  id         :integer          not null, primary key
+#  commit_sha :string           not null
+#  duration   :integer
+#  failed     :boolean          default(FALSE), not null
+#  name       :string           not null
+#  run_at     :datetime         not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  scraper_id :integer          not null
 #
 # Indexes
 #
@@ -34,8 +32,6 @@ test_multiple_atdis_success:
   failed: false
   run_at: 2025-04-13 10:15:30
   duration: 420
-  records_added: 24
-  records_removed: 2
   created_at: 2025-04-13 10:15:30
   updated_at: 2025-04-13 10:15:30
 
@@ -47,8 +43,6 @@ test_multiple_atdis_fail:
   failed: true
   run_at: 2025-04-09 14:22:45
   duration: 120
-  records_added: 0
-  records_removed: 0
   created_at: 2025-04-09 14:22:45
   updated_at: 2025-04-09 14:22:45
 
@@ -60,8 +54,6 @@ test_multiple_technology_one:
   failed: false
   run_at: 2025-04-14 09:30:15
   duration:
-  records_added: 38
-  records_removed: 0
   created_at: 2025-04-14 09:30:15
   updated_at: 2025-04-14 09:30:15
 
@@ -72,7 +64,5 @@ test_act:
   failed: false
   run_at: 2025-04-14 09:30:15
   duration:
-  records_added: 38
-  records_removed: 0
   created_at: 2025-04-14 09:30:15
   updated_at: 2025-04-14 09:30:15

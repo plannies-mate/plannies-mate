@@ -1,3 +1,5 @@
+Rake::Task['db:fixtures:load'].clear
+
 namespace :db do
   desc 'Database Stats'
   task :stats do
@@ -13,5 +15,14 @@ namespace :db do
       puts format('%-30s %8d %-30s', t, row[0], row[1].to_s)
     end
     puts '', "Status as of #{Time.new.utc}"
+  end
+
+  namespace :fixtures do
+    desc 'Load fixtures into the current environment\'s database'
+    task :load do
+      require_relative '../../spec/support/fixture_helper'
+      FixtureHelper.clear_database
+      FixtureHelper.load_fixtures
+    end
   end
 end

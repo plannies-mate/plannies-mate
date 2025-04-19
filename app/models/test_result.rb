@@ -8,17 +8,15 @@ require_relative 'application_record'
 #
 # Table name: test_results
 #
-#  id              :integer          not null, primary key
-#  commit_sha      :string           not null
-#  duration        :integer
-#  failed          :boolean          default(FALSE), not null
-#  name            :string           not null
-#  records_added   :integer          default(0), not null
-#  records_removed :integer          default(0), not null
-#  run_at          :datetime         not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  scraper_id      :integer          not null
+#  id         :integer          not null, primary key
+#  commit_sha :string           not null
+#  duration   :integer
+#  failed     :boolean          default(FALSE), not null
+#  name       :string           not null
+#  run_at     :datetime         not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  scraper_id :integer          not null
 #
 # Indexes
 #
@@ -43,33 +41,44 @@ class TestResult < ApplicationRecord
   scope :failed, -> { where(failed: true) }
   scope :recent, -> { order(run_at: :desc) }
 
+  before_validation :set_scraper
+
   # Find matching PRs by commit SHA
-  def matching_pull_requests
-    PullRequest.where(head_sha: commit_sha)
+  def pull_requests
+    PullRequest.where(scraper: scraper, head_sha: commit_sha)
   end
 
   def html_url
     "#{Constants::MORPH_URL}/#{Constants::MY_GITHUB_NAME}/#{name}"
   end
 
-  # Calculate test duration in human-readable format
-  def duration_text
-    return nil unless duration
+  IMPORT_KEYS = %w[commit_sha failed duration name run_at].freeze
 
-    hours = (duration / 3600).floor
-    minutes = ((duration % 3600) / 60).floor
-    seconds = (duration % 60).round
+  # Assign relevant attributes
+  def assign_relevant_attributes(attributes)
+    return unless attributes
 
-    if hours.positive?
-      format('%d:%02d:%02d', hours, minutes, seconds)
-    elsif minutes.positive?
-      format('%d:%02d', minutes, seconds)
-    else
-      format('%ds', seconds)
+    relevant_attributes = attributes.slice(*IMPORT_KEYS)
+    assign_attributes(relevant_attributes)
+
+    if attributes['run_time'].to_s.match(/(\d+) minute/)
+      assign_attributes duration: ::Regexp.last_match(1).to_i
+    elsif attributes['run_time'].to_s.match(/(\d+) hour/)
+      assign_attributes duration: ::Regexp.last_match(1).to_i * 60
     end
   end
 
-  def morph_url
-    "#{Constants::MORPH_URL}/#{name}"
+  def set_scraper
+    return unless name.present? && !scraper
+
+    Scraper.all.each do |s|
+      if name.start_with?(s.name)
+        assign_attributes scraper: s
+        break
+      end
+    end
+    return if scraper
+
+    puts "WARNING: Unable to match #{name.inspect} to scrapers: #{Scraper.all.map(&:name).inspect}"
   end
 end

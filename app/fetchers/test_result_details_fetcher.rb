@@ -17,13 +17,11 @@ class TestResultDetailsFetcher
 
   def initialize(agent = nil)
     @agent = agent || self.class.create_agent
-    @fetched = []
   end
 
   # Returns Details of a test result
   #
   # @param name [String] The name of the test result (repository) on morph.io
-  # @param force [Boolean] Whether to force refresh cache
   # @return [Hash<String, String>, nil] Array of unique authority names or nil if it hasn't changed
   #
   # @example:
@@ -31,20 +29,15 @@ class TestResultDetailsFetcher
   #     "name": "multiple_civica-prs",
   #     "failed": true,
   #     "run_at": "2025-04-17T05:29:59Z",
-  #     "revision": "9e37d08579df709b3ae6efc1c101c64bad6376e9",
+  #     "commit_sha": "9e37d08579df709b3ae6efc1c101c64bad6376e9",
   #     "run_time": "7 minutes",
-  #     "records_added": 414,
-  #     "records_removed": 379,
-  #     "console_output": "Scraping authorities: bunbury, burwood, camden, cairns...",
   #     "successful_authorities": ["bunbury", "camden", "cairns", "lane_cove", "vincent", "woollahra"],
   #     "failed_authorities": ["burwood", "dorset", "nambucca", "orange", "wanneroo", "whittlesea"],
   #     "interrupted_authorities": [],
   #     "tables": ["data", "scrape_log", "scrape_summary"],
-  #     "has_authority_label_column": true,
-  #     "required_fields_present": true
+  #     "has_authority_label": true,
   #   }
-  def fetch(name, force: false)
-    @fetched << name
+  def fetch(name)
     raise(ArgumentError, 'Must supply name') if name.blank?
 
     # Parse owner/repo format
@@ -59,11 +52,8 @@ class TestResultDetailsFetcher
 
     url = "#{BASE_URL}#{owner}/#{repo}"
 
-    page = self.class.fetch_page(url, agent: @agent, force: force)
-
-    return nil if page.nil?
-
-    details = parse_details(page, name)
+    page = self.class.fetch_page(url, agent: @agent)
+    details = parse_details(page)
 
     self.class.log "Fetched details for test result #{name}"
     details
@@ -72,8 +62,8 @@ class TestResultDetailsFetcher
   private
 
   # Return nil if test hasn't been run
-  def parse_details(page, name)
-    details = { 'name' => name }
+  def parse_details(page)
+    details = {}
 
     data_section = page.at('#data-table')
     # Not run OR not a data scraper
@@ -157,7 +147,7 @@ class TestResultDetailsFetcher
     rev_link = history_item.at('a[href*="commit"]')
     raise "Missing rev_link for first history entry on #{page.uri}" unless rev_link
 
-    details['revision'] = rev_link['href'].split('/').last
+    details['commit_sha'] = rev_link['href'].split('/').last
 
     run_time_div = history_item.at('.pull-right div:first-child')
     details['run_time'] = run_time_div.text.strip.sub(/run time\s*/, '') if run_time_div

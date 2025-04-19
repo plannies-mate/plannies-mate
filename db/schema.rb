@@ -162,8 +162,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_142200) do
     t.boolean "failed", default: false, null: false
     t.datetime "run_at", null: false
     t.integer "duration"
-    t.integer "records_added", default: 0, null: false
-    t.integer "records_removed", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index "\"git_sha\"", name: "index_test_results_on_git_sha"

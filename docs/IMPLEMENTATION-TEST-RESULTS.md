@@ -21,8 +21,6 @@ We'll need to add SHA fields to the existing PullRequest model and create two ne
         - `status` - Run status (passed/failed/running)
         - `run_at` - Timestamp when the test was run
         - `duration` - How long the test took
-        - `records_added` - Number of records added
-        - `records_removed` - Number of records removed
         - `error_message` - Overall error message (if any)
 
 3. **AuthorityTestResult model**:

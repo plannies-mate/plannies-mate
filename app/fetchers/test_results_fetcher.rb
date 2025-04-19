@@ -30,7 +30,7 @@ class TestResultsFetcher
   #       'auto_run' => true,
   #       'errored' => false,
   #       'description' => 'Test All civica pull requests',
-  #       'full_name' => 'multiple_civica-prs',
+  #       'name' => 'multiple_civica-prs',
   #       'running' => false,
   #     },
   #     ...
@@ -60,11 +60,11 @@ class TestResultsFetcher
       record['errored'] = !block.at('span.label-danger').nil?
       record['running'] = !block.at('div.running-indicator').nil?
       full_name_element = block.at('strong.full_name')
-      record['full_name'] = full_name_element&.text&.strip
+      record['name'] = full_name_element&.text&.strip
       description_div = block.search('div')&.last
       record['description'] = description_div&.text&.strip
 
-      test_results << record unless ['', 'selfie-scraper'].include?(record['full_name'].to_s)
+      test_results << record unless ['', 'selfie-scraper'].include?(record['name'].to_s)
     end
 
     test_results
