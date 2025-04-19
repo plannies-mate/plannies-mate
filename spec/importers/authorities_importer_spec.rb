@@ -27,7 +27,9 @@ RSpec.describe AuthoritiesImporter do
 
     it 'imports authorities and scrapers, adding whats missing, updating what has changed',
        vcr: { cassette_name: cassette_name('import_authorities_from_scratch_then_redo') } do
+      started = Time.now
       @importer.import
+      duration_first = Time.now - started
 
       authority_count = Authority.count
       expect(authority_count).to be > 100
@@ -59,28 +61,12 @@ RSpec.describe AuthoritiesImporter do
       # end
       # puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
 
-      puts '-' * 50, 'NON FORCED IMPORT'
-      # Expect pages to all be the same
-      @importer.import
-
-      # puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
-
-      expect(Authority.count).to eq(authority_count - 1)
-      expect(Scraper.count).to eq(scraper_count - 1)
-
-      scraper_names = Scraper.pluck(:name)
-      authority_names = Authority.pluck(:name)
-      expect(destroyed_scraper.name).not_to be_in(scraper_names)
-      expect(destroyed_authorities.first.name).not_to be_in(authority_names)
-      expect(updated_scraper_name).not_to be_in(scraper_names)
-      expect(updated_authority_name).not_to be_in(authority_names)
-      expect('BadName').to be_in(scraper_names)
-      expect('BadName').to be_in(authority_names)
-
-      puts '-' * 50, 'FORCING IMPORT'
+      puts '-' * 50, 'SECOND IMPORT'
       # Everything should be updated when last checked 8 days ago
       HttpCacheEntry.where.not(last_success_at: nil).update_all(last_success_at: 8.days.ago)
+      started = Time.now
       @importer.import
+      duration_second = Time.now - started
 
       # puts "Scraper: #{Scraper.pluck(:name).sort.to_yaml}"
 
@@ -96,6 +82,9 @@ RSpec.describe AuthoritiesImporter do
       expect(updated_authority_name).to be_in(authority_names)
       expect('BadName').to be_in(scraper_names)
       expect('BadName').not_to be_in(authority_names)
+      puts 'TIMES',
+           "First run: #{duration_first}",
+           "Second Time: #{duration_second}"
     end
   end
 end

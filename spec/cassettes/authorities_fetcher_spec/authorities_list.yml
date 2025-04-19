@@ -27,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sun, 13 Apr 2025 07:12:31 GMT
+      - Fri, 18 Apr 2025 22:50:16 GMT
       Content-Type:
       - text/plain
       Content-Length:
@@ -66,7 +66,7 @@ http_interactions:
         Disallow: /geocode_queries
 
 
-  recorded_at: Sun, 13 Apr 2025 07:12:31 GMT
+  recorded_at: Fri, 18 Apr 2025 22:50:16 GMT
 - request:
     method: get
     uri: https://www.planningalerts.org.au/authorities
@@ -94,7 +94,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sun, 13 Apr 2025 07:12:32 GMT
+      - Fri, 18 Apr 2025 22:50:17 GMT
       Content-Type:
       - text/html; charset=utf-8
       Transfer-Encoding:
@@ -120,16 +120,16 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"d6c74e254d93e7955d70f5503f817067"
+      - W/"0a46fed6dbc8e00cea672a47e8695bb8"
       Cache-Control:
       - max-age=0, private, must-revalidate
       Set-Cookie:
-      - _planningalerts_app_session=oUoNFOLCIvixWl9GnMFu56ImvfG6EZPnX52EfyvqokKhQb6L0RsYtUOS%2FyLIQojx5zZde9tCoqoCQPvSuxO2anxjO5fRYDlaK6K1y32iY184mqG8ZaAyejuNzz%2FtkQToM2mbetgGYLcW95aXtAo%2FdPzI%2B8AB9r6D5w%2B80j1cWlknJMqLM7iyBnEjy7vmqTsRNdnIqUeimZZZQMEt9%2BEFBIr6JOXX0qi1%2B6A6iZXJ2%2BfdEuOV1suLWwQr%2FQ%3D%3D--ttvbrSlECcaG1Wk6--1IMY3DNCUAGZgofQDQHY5Q%3D%3D;
+      - _planningalerts_app_session=YpI9X%2B5jgrYF8MZ3z48sSPzhVZ%2BPEOzBk2%2FE%2BKuBpL0NuIX8Z11z7rcKWfB4vHlAv9fYSNl0dLRbSbQA3moLh5mCJ%2BJVnuNcWc9l5l6iyTbZFyj8uBJfHrNtvgV7ypaKCigXBqnKnlSqsFx%2B2XE26EeHNzYupJ6BzyICqj7FsnLZ45css7tN4CHrytsKkXopdDu1R6Wl8J5mXgFZ6vKFdxF%2FQOdXw0wlO2k2gT3SDkqOILg0LWLud7SPng%3D%3D--166kN2JB6PnDqV5O--Dk8UPQGKVZuJ1gdkLeIiXw%3D%3D;
         path=/; secure; httponly; samesite=lax
       X-Request-Id:
-      - c77ce5d7-47bc-4c2d-88eb-cf1c4ad4a222
+      - 7fa17bb6-28de-49e7-8076-f007952af594
       X-Runtime:
-      - '0.510785'
+      - '0.451476'
       Strict-Transport-Security:
       - max-age=3600; includeSubDomains
     body:
@@ -500,10 +500,10 @@ http_interactions:
         City Council</a>\n  </td>\n  <td>\n    233446\n  </td>\n</tr>\n<tr>\n  <td>\n
         \   NSW\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
         focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/liverpool_plains\">Liverpool
-        Plains Shire Council</a>\n  </td>\n  <td>\n    7551\n  </td>\n</tr>\n<tr>\n
-        \ <td>\n    NSW\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
-        hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
-        underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/maitland\">Maitland
+        Plains Shire Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
+        broken</div>\n  </td>\n  <td>\n    7551\n  </td>\n</tr>\n<tr>\n  <td>\n    NSW\n
+        \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
+        focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/maitland\">Maitland
         City Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
         broken</div>\n  </td>\n  <td>\n    90226\n  </td>\n</tr>\n<tr>\n  <td>\n    NSW\n
         \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
@@ -942,17 +942,18 @@ http_interactions:
         broken</div>\n  </td>\n  <td>\n    62895\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
         \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
         focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/pyrenees\">Pyrenees
-        Shire Council</a>\n  </td>\n  <td>\n    7671\n  </td>\n</tr>\n<tr>\n  <td>\n
-        \   VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
+        Shire Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
+        broken</div>\n  </td>\n  <td>\n    7671\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
+        \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
         focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/rural_city_of_wangaratta\">Rural
         City of Wangaratta</a>\n  </td>\n  <td>\n    29808\n  </td>\n</tr>\n<tr>\n
         \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
         hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
         underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/south_gippsland_shire\">South
-        Gippsland Shire Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
-        broken</div>\n  </td>\n  <td>\n    30577\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
-        \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
-        focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/spear_victoria\">Streamlined
+        Gippsland Shire Council</a>\n  </td>\n  <td>\n    30577\n  </td>\n</tr>\n<tr>\n
+        \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
+        hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
+        underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/spear_victoria\">Streamlined
         Planning through Electronic Applications and Referrals</a>\n  </td>\n  <td>\n
         \   \n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n
         \   <a class=\"text-fuchsia hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow
@@ -969,8 +970,9 @@ http_interactions:
         \ <td>\n    VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia
         hover:text-fuchsia-darker focus:outline-none focus:bg-sun-yellow font-bold
         underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/warrnambool\">Warrnambool
-        City Council</a>\n  </td>\n  <td>\n    35406\n  </td>\n</tr>\n<tr>\n  <td>\n
-        \   VIC\n  </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
+        City Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
+        broken</div>\n  </td>\n  <td>\n    35406\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
+        \ </td>\n  <td class=\"pr-4\">\n    <a class=\"text-fuchsia hover:text-fuchsia-darker
         focus:outline-none focus:bg-sun-yellow font-bold underline mr-2\" href=\"https://www.planningalerts.org.au/authorities/west_wimmera\">West
         Wimmera Shire Council</a>\n      <div class=\"inline-block px-1 bg-yellow\">Possibly
         broken</div>\n  </td>\n  <td>\n    4006\n  </td>\n</tr>\n<tr>\n  <td>\n    VIC\n
@@ -1094,6 +1096,6 @@ http_interactions:
         \         <img alt=\"ACNC Registered Charity Tick\" src=\"https://www.planningalerts.org.au/assets/charity-tick-80979eb45dfd041a327fa3957ebb1d3de7caaaca1431f7732583d1742c928a12.svg\"
         width=\"100\" height=\"100\" />\n</a>      </div>\n    </div>\n\n</div>\n</footer>\n\n
         \ </body>\n</html>\n"
-  recorded_at: Sun, 13 Apr 2025 07:12:32 GMT
+  recorded_at: Fri, 18 Apr 2025 22:50:17 GMT
 recorded_with: VCR 6.3.1
 ...

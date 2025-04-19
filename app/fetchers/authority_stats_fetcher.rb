@@ -19,16 +19,13 @@ class AuthorityStatsFetcher
   end
 
   # Returns a hash of the details or nil
-  def fetch(short_name, agent: nil, force: false)
+  def fetch(short_name, agent: nil)
     @fetched << short_name
     raise(ArgumentError, 'Must supply short_name') if short_name.blank?
 
     url = "#{BASE_URL}#{short_name}"
 
-    page = self.class.fetch_page_with_cache(url, agent: agent, force: force)
-
-    return nil if page.nil?
-
+    page = self.class.fetch_page(url, agent: agent)
     stats = parse_stats(page, short_name)
 
     self.class.log "Fetched stats for #{short_name}"

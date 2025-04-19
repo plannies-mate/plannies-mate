@@ -35,13 +35,10 @@ class TestResultsFetcher
   #     },
   #     ...
   #   ]
-  def fetch(force: false, agent: nil, url: TEST_RESULTS_URL)
+  def fetch(agent: nil, url: TEST_RESULTS_URL)
     self.class.log "Fetching test_result data from #{url}"
 
-    page = self.class.fetch_page_with_cache(url, agent: agent, force: force)
-
-    return nil if page.nil?
-
+    page = self.class.fetch_page(url, agent: agent)
     test_results = parse_test_results(page)
 
     self.class.log "Fetched #{test_results.size} valid test results"

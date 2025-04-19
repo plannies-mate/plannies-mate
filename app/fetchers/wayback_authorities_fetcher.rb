@@ -67,7 +67,7 @@ class WaybackAuthoritiesFetcher
 
     begin
       # Use the authorities fetcher to process the page
-      authorities = @authorities_fetcher.fetch(url: url, force: true, agent: @agent)
+      authorities = @authorities_fetcher.fetch(url: url, agent: @agent)
 
       if authorities && !authorities.empty?
         broken = authorities.select { |a| a['possibly_broken'] }.count

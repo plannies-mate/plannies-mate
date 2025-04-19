@@ -27,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sun, 13 Apr 2025 07:12:31 GMT
+      - Fri, 18 Apr 2025 22:51:44 GMT
       Content-Type:
       - text/plain
       Content-Length:
@@ -66,7 +66,7 @@ http_interactions:
         Disallow: /geocode_queries
 
 
-  recorded_at: Sun, 13 Apr 2025 07:12:31 GMT
+  recorded_at: Fri, 18 Apr 2025 22:51:44 GMT
 - request:
     method: get
     uri: https://www.planningalerts.org.au/authorities/sydney/under_the_hood
@@ -94,7 +94,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sun, 13 Apr 2025 07:12:31 GMT
+      - Fri, 18 Apr 2025 22:51:44 GMT
       Content-Type:
       - text/html; charset=utf-8
       Transfer-Encoding:
@@ -120,16 +120,16 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"5abda7386fabd98e651609b653187828"
+      - W/"3fe149e05a3b9c58ec704338d51ceeff"
       Cache-Control:
       - max-age=0, private, must-revalidate
       Set-Cookie:
-      - _planningalerts_app_session=Mcs91o0sSxd92tyF4TnWF18TtoaHvaY3HYfvXV9Mul427LZn9owmOu3lWQ8Z9XtiP4IHFv6LgAY29BZD%2FEpRQGJ%2Bp6N9L6SMG%2BfYW9NwFfHm4DichMI6ajO1vfiM8KlJwl54IBdzd3njYyNuN%2FuynQdlRErHykqqgo%2FbfDdWl6Bq%2BgxzEire6yRYisY2waCiLlIXJWqeE4LfMGxqOiPep36dKLdxxznlyO268sPowt9VzhASzYzGap3t98NnpuDW21tx946lGoy%2BZjYfkkpuxEvlFih6XWw75PEi--VjOUGASbA2uUM%2BIw--fPFac%2FSRFcF0%2FKb3GSTYwA%3D%3D;
+      - _planningalerts_app_session=3FxnCQx8zNvkEGD5dn%2FErwjjElVVj3Yb%2BRI%2Ftu1FYAzIEw8EWGXMVuWqWcpJEExvPmYerlT3lz9m5%2FZPUM2tGlSTcAAh6Pn%2FwTkFHyymxo%2BHpSq8OS53u4vVlDZg1uGOImWEL8WSzVMdBJcmOpf1zSSJi882fzGWEVL6%2FAyiO8qhpcG%2BtzjPJD8vXFEUf8lw%2FVxR3Mpq1ubiyYiGiIhciCSMQ6RhZcGSfg6TNwAddq%2B0nDHfJ%2ByjjjzsT8jW2TLwoJPqnIqiXDZE0wY8sf83hRDLb%2BZN%2B9k7hjsP--r5in3JLlZWR3x8Zv--6OciR006pFQrGA8Lpox8Iw%3D%3D;
         path=/; secure; httponly; samesite=lax
       X-Request-Id:
-      - 2bf8b9b6-9d1c-4a61-92ef-54efd6560071
+      - 8a0af7fb-acd4-4bea-8834-f01145a64bd1
       X-Runtime:
-      - '0.021851'
+      - '0.027764'
       Strict-Transport-Security:
       - max-age=3600; includeSubDomains
     body:
@@ -285,9 +285,9 @@ http_interactions:
         and people are informed of new\n      applications via email alerts.\n    </li>\n
         \ </ol>\n</p>\n\n<section id=\"import\" class=\"py-12 mt-12\">\n  <h2 class=\"text-2xl
         font-bold text-navy font-display\">Most recent import logs</h2>\n\n  <pre
-        class=\"py-8 mt-12 overflow-x-scroll font-mono text-xl bg-light-grey text-navy\">97
-        applications found for City of Sydney, NSW with date from 2025-04-07\nTook
-        1 s to import applications from City of Sydney, NSW\nAuthority City of Sydney
+        class=\"py-8 mt-12 overflow-x-scroll font-mono text-xl bg-light-grey text-navy\">99
+        applications found for City of Sydney, NSW with date from 2025-04-12\nTook
+        6 s to import applications from City of Sydney, NSW\nAuthority City of Sydney
         is fixed but github issue is still open. So labelling.\n</pre>\n</section>\n\n<section
         class=\"py-12\">\n  <h2 class=\"text-2xl font-bold text-navy font-display\">What
         you can do next</h2>\n\n  <p class=\"mt-8 mb-4 text-xl text-navy\">\n    If
@@ -373,6 +373,6 @@ http_interactions:
         \         <img alt=\"ACNC Registered Charity Tick\" src=\"https://www.planningalerts.org.au/assets/charity-tick-80979eb45dfd041a327fa3957ebb1d3de7caaaca1431f7732583d1742c928a12.svg\"
         width=\"100\" height=\"100\" />\n</a>      </div>\n    </div>\n\n</div>\n</footer>\n\n
         \ </body>\n</html>\n"
-  recorded_at: Sun, 13 Apr 2025 07:12:31 GMT
+  recorded_at: Fri, 18 Apr 2025 22:51:44 GMT
 recorded_with: VCR 6.3.1
 ...

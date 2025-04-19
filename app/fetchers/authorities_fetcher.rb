@@ -34,13 +34,10 @@ class AuthoritiesFetcher
   #     },
   #     ...
   #   ]
-  def fetch(force: false, agent: nil, url: AUTHORITIES_URL)
+  def fetch(agent: nil, url: AUTHORITIES_URL)
     self.class.log "Fetching authority data from #{url}"
 
-    page = self.class.fetch_page_with_cache(url, agent: agent, force: force)
-
-    return nil if page.nil?
-
+    page = self.class.fetch_page(url, agent: agent)
     authorities = parse_authorities(page)
     self.class.log "Fetched #{authorities.size} authorities"
     authorities

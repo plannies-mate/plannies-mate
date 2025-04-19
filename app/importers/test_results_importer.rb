@@ -7,35 +7,28 @@ class TestResultsImporter
   def initialize
     @list_fetcher = TestResultsFetcher.new
     @details_fetcher = TestResultDetailsFetcher.new
-    @stats_fetcher = TestResultStatsFetcher.new
+    @db_fetcher = TestResultsDbFetcher.new
     @count = @changed = @orphaned = 0
   end
 
-  def import(force: false)
-    @count = @changed = 0
-    list = @list_fetcher.fetch(force: force)
-    orphaned_ids = TestResult.where(delisted_on: nil).pluck(:id)
-    if list
-      list.each do |entry|
-        short_name = entry['short_name']
-        next if short_name.blank?
+  def import
+    @count = @changed = @orphaned = 0
+    list = @list_fetcher.fetch
+    TestResult.pluck(:commit_sha)
+    list.each do |entry|
+      name = entry['full_name']
+      next if name.blank?
 
-        test_result = TestResult.find_or_initialize_by(short_name: short_name)
-        test_result.delisted_on = nil
-        test_result.assign_relevant_attributes(entry)
-        import_stats_and_details(test_result)
-        orphaned_ids -= [test_result.id]
-      end
-      orphaned_ids.each do |id|
-        TestResult.find(id).update!(delisted_on: Date.today)
-      end
-      @orphaned = orphaned_ids.count
-    else
-      puts 'TestResults list has not changed, checking details'
-      TestResult.active.each do |test_result|
-        import_stats_and_details(test_result, force: force)
-      end
+      test_result = TestResult.find_or_initialize_by(name: name)
+      test_result.delisted_on = nil
+      test_result.assign_relevant_attributes(entry)
+      import_stats_and_details(test_result)
+      orphaned_ids - [test_result.id]
     end
+    orphaned_ids.each do |id|
+      TestResult.find(id).update!(delisted_on: Date.today)
+    end
+    @orphaned = orphaned_ids.count
 
     test_result_count = TestResult.active.count
     broken_count = TestResult.active.broken.count
@@ -57,8 +50,8 @@ class TestResultsImporter
 
   def import_stats_and_details(test_result, force: false)
     @count += 1
-    short_name = test_result.short_name
-    details = @details_fetcher.fetch(short_name, force: force)
+    name = test_result.name
+    details = @details_fetcher.fetch(name, force: force)
     if details
       test_result.assign_relevant_attributes details
 
@@ -70,7 +63,7 @@ class TestResultsImporter
       end
       test_result.scraper = this_scraper
     end
-    stats = @stats_fetcher.fetch(short_name, force: force)
+    stats = @db_fetcher.fetch(name, force: force)
     test_result.assign_relevant_attributes stats
     return unless test_result.changed?
 

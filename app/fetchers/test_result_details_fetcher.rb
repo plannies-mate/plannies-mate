@@ -59,7 +59,7 @@ class TestResultDetailsFetcher
 
     url = "#{BASE_URL}#{owner}/#{repo}"
 
-    page = self.class.fetch_page_with_cache(url, agent: @agent, force: force)
+    page = self.class.fetch_page(url, agent: @agent, force: force)
 
     return nil if page.nil?
 

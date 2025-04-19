@@ -60,7 +60,7 @@ RSpec.describe TestResultsFetcher do
     it 'excludes scrapers without required fields',
        vcr: { cassette_name: cassette_name('test_results/exclude_invalid') } do
       # Force cache invalidation to ensure we check all scrapers
-      test_results = fetcher.fetch(force: true)
+      test_results = fetcher.fetch
 
       # Selfie scraper should be excluded as it lacks required fields
       selfie = test_results.find { |r| r['full_name'] == 'selfie-scraper' }

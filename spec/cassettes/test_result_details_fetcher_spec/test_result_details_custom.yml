@@ -1,0 +1,126 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://morph.io/robots.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - morph.io
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.20.2
+      Date:
+      - Fri, 18 Apr 2025 22:45:14 GMT
+      Content-Type:
+      - text/plain
+      Content-Length:
+      - '254'
+      Last-Modified:
+      - Sun, 16 Oct 2022 06:29:58 GMT
+      Connection:
+      - keep-alive
+      Etag:
+      - '"634ba4e6-fe"'
+      Accept-Ranges:
+      - bytes
+    body:
+      encoding: UTF-8
+      string: |-
+        # See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
+        #
+        # To ban all spiders from the entire site uncomment the next two lines:
+        # User-agent: *
+        # Disallow: /
+
+        Sitemap: https://morph.io/sitemaps/sitemap.xml.gz
+  recorded_at: Fri, 18 Apr 2025 22:45:14 GMT
+- request:
+    method: get
+    uri: https://morph.io/ianheggie-oaf/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Plannies-Mate/1.0
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - morph.io
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - 2aeda021-d62a-489b-a265-0e1c57dedd09
+      X-Download-Options:
+      - noopen
+      Etag:
+      - W/"1312070a0cff3b074761eefbeadc3f70"
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Runtime:
+      - '0.036055'
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Fri, 18 Apr 2025 22:45:14 GMT
+      Set-Cookie:
+      - _morph_session=UDNOM2hDbW45Q2FkQTQ0UVRXeTB1N1pmVEFucm5FRmljV1B1RGNLWmMzZlFzY0RlTi9rY1BwRGJYWnU5OU1rNkU3dVg4SnFQTVpoNmtLanVZR0Z1N3lJV2dnODdlcXh2Vnl4R212Nk8xTENGSjZXNStmTWJBcHFPK1NaVDNqQUdUbEFKUXdzODdDRWcrN1VYQ1RSWnk4OVJqbEdWN09BWTRtQlc5Ui9mVGRQbGowSnJ1S3h5Z2Q0aFM2MmpRaURtajZYdzdtMThoczJrd0d4cWxyc3JFampBalhMT1BhaGtjSWlCVUpsYnVaMD0tLUFDcGZBalpUYXVvQWpyS1BLTUpPY2c9PQ%3D%3D--38e52467a06eb3521ae3fca8732ee18c23b73be5;
+        path=/; HttpOnly
+      X-Powered-By:
+      - Phusion Passenger(R) 6.0.15
+      Server:
+      - nginx/1.20.2 + Phusion Passenger(R) 6.0.15
+      Content-Encoding:
+      - gzip
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+  recorded_at: Fri, 18 Apr 2025 22:45:14 GMT
+recorded_with: VCR 6.3.1

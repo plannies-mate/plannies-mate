@@ -29,7 +29,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 13 Apr 2025 07:12:44 GMT
+      - Fri, 18 Apr 2025 22:45:05 GMT
       Content-Type:
       - text/html
       Content-Length:
@@ -40,7 +40,7 @@ http_interactions:
       encoding: UTF-8
       string: "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404
         Not Found</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
-  recorded_at: Sun, 13 Apr 2025 07:12:45 GMT
+  recorded_at: Fri, 18 Apr 2025 22:45:05 GMT
 - request:
     method: get
     uri: http://web.archive.org/cdx/search/cdx?collapse=timestamp:8&from=20190301&output=json&url=https://www.planningalerts.org.au/authorities
@@ -70,7 +70,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 13 Apr 2025 07:12:50 GMT
+      - Fri, 18 Apr 2025 22:45:06 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -79,14 +79,14 @@ http_interactions:
       - keep-alive
       Server-Timing:
       - BYPASS
-      - TR;dur=0,Tw;dur=0,Tc;dur=1
-      - exclusion.robots;dur=0.056132, exclusion.robots.policy;dur=0.041423, esindex;dur=0.013393
+      - TR;dur=0,Tw;dur=0,Tc;dur=0
+      - exclusion.robots;dur=0.059955, exclusion.robots.policy;dur=0.044628, esindex;dur=0.011479
       X-App-Server:
-      - wwwb-app227
+      - wwwb-app208
       X-Ts:
       - '200'
       X-Tr:
-      - '5590'
+      - '613'
       X-Location:
       - cdx
       X-Rl:
@@ -165,5 +165,5 @@ http_interactions:
         ["au,org,planningalerts)/authorities","20250307172432","https://www.planningalerts.org.au/authorities","text/html","200","Y7MEHFJLNP2PO45JYSYMZHPJRGTHGTFI","12228"],
         ["au,org,planningalerts)/authorities","20250316005813","https://www.planningalerts.org.au/authorities","text/html","200","GGBHGVRULJW3DZWJXBAB6SLRB53SGS4W","11604"],
         ["au,org,planningalerts)/authorities","20250328093946","https://www.planningalerts.org.au/authorities","text/html","200","RLMUOHYIFO6TVPQBNQAJVPQI2IJSQRUD","12243"]]
-  recorded_at: Sun, 13 Apr 2025 07:12:50 GMT
+  recorded_at: Fri, 18 Apr 2025 22:45:06 GMT
 recorded_with: VCR 6.3.1

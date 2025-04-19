@@ -23,8 +23,7 @@ class TestResultsDbFetcher
   def fetch_authority_label_count(name)
     since_db = "date('now','-7 days')"
     query = "SELECT authority_label, count(*) AS count FROM data WHERE date_scraped >= #{since_db} GROUP BY 1"
-    cache_key = "test_results/#{name}/count-authority"
-    call_api(name, query: query, cache_key: cache_key)
+    call_api(name, query: query)
   end
 
   # Fetch record count from the data table from the last week
@@ -34,13 +33,12 @@ class TestResultsDbFetcher
   def fetch_count(name)
     since_db = "date('now','-7 days')"
     query = "SELECT \"all\" as authority_label, count(*) AS count FROM data WHERE date_scraped >= #{since_db}"
-    cache_key = "test_results/#{name}/count"
-    call_api(name, query: query, cache_key: cache_key)['all']
+    call_api(name, query: query)['all']
   end
 
   private
 
-  def call_api(name, query:, cache_key:)
+  def call_api(name, query:)
     raise ArgumentError, 'Requires a name' if name.blank?
 
     params = {
@@ -48,7 +46,7 @@ class TestResultsDbFetcher
       query: query,
     }
     url = "#{Constants::MORPH_URL}/#{Constants::MY_GITHUB_NAME}/#{name}/data.json?#{URI.encode_www_form(params)}"
-    page = self.class.fetch_page_with_cache(url, agent: @agent, force: true, cache_key: cache_key)
+    page = self.class.fetch_page(url, agent: @agent)
     return {} unless page
 
     result = {}

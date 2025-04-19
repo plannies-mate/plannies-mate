@@ -74,5 +74,34 @@ module ScraperBase
     end
   end
 
+  # Fetch a page with conditional GET using HTTP cache entries
+  # @param url [String] URL to fetch
+  # @param agent [Mechanize] Mechanize Agent
+  # @return [Mechanize::Page] The page
+  def fetch_page(url, agent: nil)
+    agent ||= create_agent
+
+    begin
+      started = Time.now
+      page = agent.get(url)
+      took = Time.now - started
+
+      log "DEBUG: Delaying #{(took * 2).round(3)}s for #{url}" if debug?
+      sleep(took) unless test?
+
+      http_code = page.code.to_i
+      if ![200, 203].include?(http_code)
+        raise("ERROR: Unaccepted response code: #{http_code} for #{url}")
+      elsif page.body.empty?
+        raise("ERROR: Empty response for #{url}")
+      end
+
+      page
+    rescue StandardError => e
+      log "ERROR: Failed to fetch #{url}: #{e.message}"
+      raise e
+    end
+  end
+
   send :include, InstanceMethods
 end

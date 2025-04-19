@@ -11,31 +11,24 @@ class AuthoritiesImporter
     @count = @changed = @orphaned = 0
   end
 
-  def import(force: false)
+  def import
     @count = @changed = 0
-    list = @list_fetcher.fetch(force: force)
+    list = @list_fetcher.fetch
     orphaned_ids = Authority.where(delisted_on: nil).pluck(:id)
-    if list
-      list.each do |entry|
-        short_name = entry['short_name']
-        next if short_name.blank?
+    list.each do |entry|
+      short_name = entry['short_name']
+      next if short_name.blank?
 
-        authority = Authority.find_or_initialize_by(short_name: short_name)
-        authority.delisted_on = nil
-        authority.assign_relevant_attributes(entry)
-        import_stats_and_details(authority)
-        orphaned_ids -= [authority.id]
-      end
-      orphaned_ids.each do |id|
-        Authority.find(id).update!(delisted_on: Date.today)
-      end
-      @orphaned = orphaned_ids.count
-    else
-      puts 'Authorities list has not changed, checking details'
-      Authority.active.each do |authority|
-        import_stats_and_details(authority, force: force)
-      end
+      authority = Authority.find_or_initialize_by(short_name: short_name)
+      authority.delisted_on = nil
+      authority.assign_relevant_attributes(entry)
+      import_stats_and_details(authority)
+      orphaned_ids -= [authority.id]
     end
+    orphaned_ids.each do |id|
+      Authority.find(id).update!(delisted_on: Date.today)
+    end
+    @orphaned = orphaned_ids.count
 
     authority_count = Authority.active.count
     broken_count = Authority.active.broken.count
@@ -55,10 +48,10 @@ class AuthoritiesImporter
 
   private
 
-  def import_stats_and_details(authority, force: false)
+  def import_stats_and_details(authority)
     @count += 1
     short_name = authority.short_name
-    details = @details_fetcher.fetch(short_name, force: force)
+    details = @details_fetcher.fetch(short_name)
     if details
       authority.assign_relevant_attributes details
 
@@ -70,7 +63,7 @@ class AuthoritiesImporter
       end
       authority.scraper = this_scraper
     end
-    stats = @stats_fetcher.fetch(short_name, force: force)
+    stats = @stats_fetcher.fetch(short_name)
     authority.assign_relevant_attributes stats
     return unless authority.changed?
 
